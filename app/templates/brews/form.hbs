@@ -1,0 +1,9 @@
+<form role="form">
+  <div class="form-group">
+    <label>Name </label>
+    {{input value=name class='brew-name form-control'}}
+  </div>
+
+  <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
+  <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
+</form>
