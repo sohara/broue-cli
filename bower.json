@@ -12,6 +12,6 @@
     "loader": "stefanpenner/loader.js#1.0.0",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.1",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.1",
-    "bootstrap-sass": "3.0.2"
+    "bootstrap-sass": "sohara/sass-bootstrap-defunct#057f2fedc9105d69fa33ef1d5b344b257dfbaaf5"
   }
 }
