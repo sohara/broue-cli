@@ -1,12 +1,12 @@
+import resolver from './helpers/resolver';
+import { setResolver } from 'ember-qunit';
+
+setResolver(resolver);
+
 document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
 
-Ember.testing = true;
-
-import resolver from './helpers/resolver';
-require('ember-qunit').setResolver(resolver);
-
 function exists(selector) {
-  return !!find(selector).length;
+  return !!window.find(selector).length;
 }
 
 function getAssertionMessage(actual, expected, message) {
