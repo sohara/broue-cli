@@ -1,5 +1,7 @@
+import Ember from 'ember';
+
 var Router = Ember.Router.extend({
-  location: ENV.locationType
+  location: BroueCliENV.locationType
 });
 
 Router.map(function() {
@@ -9,6 +11,7 @@ Router.map(function() {
     this.route('show', {path: ':brew_id'});
     this.route('edit', {path: ':brew_id/edit'});
   });
+  this.route('yeast');
 });
 
 export default Router;
