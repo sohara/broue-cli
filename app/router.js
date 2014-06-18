@@ -11,7 +11,6 @@ Router.map(function() {
     this.route('show', {path: ':brew_id'});
     this.route('edit', {path: ':brew_id/edit'});
   });
-  this.route('yeast');
 });
 
 export default Router;

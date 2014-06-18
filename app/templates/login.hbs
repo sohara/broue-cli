@@ -9,3 +9,10 @@
   </div>
   <button type="submit" class="btn btn-default">Login</button>
 </form>
+{{# if errorMessage}}
+<div class="alert alert-danger">
+  <p>
+    <strong>Login failed:</strong> <code>{{errorMessage}}</code>
+  </p>
+</div>
+{{/if}}
