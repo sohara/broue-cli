@@ -6,6 +6,15 @@ export default Ember.Controller.extend({
   errorMessage: null,
   previousTransition: null,
 
+  // Computed property setter and getter
+  currentUser: function(key, value) {
+    if (arguments.length > 1) {
+      localStorage.setItem('user', JSON.stringify(value));
+      return value;
+    }
+    return JSON.parse(localStorage.getItem('user') || "null");
+  }.property(),
+
   verify: function(transition) {
     if (!this.get('currentUser')) {
       this.set('previousTransition', transition);
