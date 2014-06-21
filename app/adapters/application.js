@@ -7,5 +7,5 @@ export default DS.ActiveModelAdapter.extend({
       'auth-token': currentUser.token,
       'auth-email': currentUser.email
     };
-  }.property("App.authToken", "App.authEmail")
+  }.property("login.currentUser")
 });
