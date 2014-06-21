@@ -1,5 +1,4 @@
 import startApp from '../helpers/start-app';
-//import Pretender from 'vendor/pretender/pretender';
 
 var App, server;
 
@@ -13,9 +12,7 @@ module('Integration - Authentication', {
   setup: function() {
     App = startApp();
 
-    Ember.run(function() {
-      localStorage.removeItem('user');
-    });
+    localStorage.removeItem('user');
 
     var toS = JSON.stringify;
     var headers = {"Content-Type":"application/json"};
