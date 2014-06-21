@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import startApp from '../helpers/start-app';
 
 var App, server;
@@ -6,7 +7,7 @@ var userJSON = {
   token: "aQXpLwsQivHhYZKZyaF2",
   email: "sohara@sohara.com",
   bio: "I like to brew. More than you."
-}
+};
 
 module('Integration - Authentication', {
   setup: function() {
