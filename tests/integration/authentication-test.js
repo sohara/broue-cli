@@ -30,14 +30,12 @@ module('Integration - Authentication', {
 
     server = new Pretender(function() {
       this.get('/brews', function(){
-        console.log(JSON.stringify({brews: brews}));
         return [200, headers, JSON.stringify({brews: brews})];
       });
       this.post('/users/sign_in', function(req) {
         var credentials = JSON.parse(req.requestBody);
         if (credentials.password !== 'password') {
-          console.log("In error branch");
-          return [401, headers, toS({message: "Your password was incorrect"})];
+          return [401, headers, toS({message: "Your email or password was incorrect."})];
         }
         return [200, headers, toS(userJSON)];
       });
@@ -77,4 +75,18 @@ test('Allows a logged in user to log out', function() {
     equal(find('h3:contains("Sign in")').length, 1);
   });
 });
-// test('Displays login error when logging in with bad credentials');
+
+test('Displays login error when logging in with bad credentials', function() {
+  expect(3);
+  visit('/').then(function() {
+    equal(find('h1').text(), 'Broue.io', "The Broue.io header is found");
+    fillIn("input#email", "jack@example.com");
+    fillIn("input#password", "notpassword");
+    click("button[type='submit']");
+
+    andThen(function() {
+      equal(currentURL(), "/login", "Remains on login page");
+      equal(find('p.alert-danger').text(), 'Your email or password was incorrect.', "Login error message displayed");
+    });
+  });
+});

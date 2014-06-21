@@ -42,7 +42,9 @@ export default Ember.Controller.extend({
           }
         });
       }.bind(this), function(xhr) {
-        this.set('errorMessage', xhr.responseJSON.message);
+        Ember.run(this, function() {
+          this.set('errorMessage', xhr.responseJSON.message);
+        });
       }.bind(this));
     }
   }
