@@ -3,9 +3,19 @@ import startApp from '../helpers/start-app';
 
 var App, server;
 
+var userJSON = {
+  token: "aQXpLwsQivHhYZKZyaF2",
+  email: "sohara@sohara.com",
+  bio: "I like to brew. More than you."
+}
+
 module('Integration - Authentication', {
   setup: function() {
     App = startApp();
+
+    Ember.run(function() {
+      localStorage.removeItem('user');
+    });
 
     var toS = JSON.stringify;
     var headers = {"Content-Type":"application/json"};
@@ -20,12 +30,6 @@ module('Integration - Authentication', {
         name: "Summer Saison"
       }
     ];
-
-    var userJSON = {
-      token: "aQXpLwsQivHhYZKZyaF2",
-      email: "sohara@sohara.com",
-      bio: "I like to brew. More than you."
-    }
 
     server = new Pretender(function() {
       this.get('/brews', function(){
@@ -62,3 +66,18 @@ test('Allows a guest to sign in', function() {
     });
   });
 });
+
+test('Allows a logged in user to log out', function() {
+  expect(1);
+  Ember.run(function() {
+    localStorage.setItem('user', JSON.stringify(userJSON));
+  });
+  visit('/');
+  andThen(function() {
+    click('a:contains("Logout")');
+  });
+  andThen(function() {
+    equal(find('h3:contains("Sign in")').length, 1);
+  });
+});
+// test('Displays login error when logging in with bad credentials');

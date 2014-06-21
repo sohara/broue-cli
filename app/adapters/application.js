@@ -2,9 +2,10 @@ import DS from 'ember-data';
 
 export default DS.ActiveModelAdapter.extend({
   headers: function() {
+    var currentUser = this.login.get('currentUser');
     return {
-      'auth-token': JSON.parse(localStorage.getItem('user')).token,
-      'auth-email': JSON.parse(localStorage.getItem('user')).email
+      'auth-token': currentUser.token,
+      'auth-email': currentUser.email
     };
   }.property("App.authToken", "App.authEmail")
 });
