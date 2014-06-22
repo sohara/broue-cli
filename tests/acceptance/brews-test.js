@@ -55,6 +55,12 @@ module('Acceptance: Brews', {
         brewObject.brew.id = 3;
         return [200, headers, toS(brewObject)];
       });
+      this.put('/brews/:id', function(req) {
+        var brewObject = JSON.parse(req.requestBody);
+        brewObject.brew.id = req.params.id;
+        var jsonBody = toS( brewObject);
+        return [200, headers, jsonBody];
+      });
     });
   },
   teardown: function() {
@@ -84,12 +90,33 @@ test('create a new brew', function() {
     // Need to trigger 'change' even manually in testing
     find('select.brew-style').trigger('change');
     equal(find('select.brew-style').val(), '18');
-  });
-  andThen(function() {
     click('button:contains("Save")');
   });
   andThen(function() {
     equal(currentPath(), 'brews.show');
     equal(find('h3:contains("Showing Brew: 3 - Super stuff ale")').length, 1);
+  });
+});
+
+test('edit an existing brew', function() {
+  expect(3);
+  visit('/brews');
+  andThen(function() {
+    click('a:contains("Awesome IPA")');
+  });
+  andThen(function() {
+    click('a:contains("Edit")');
+  });
+  andThen(function() {
+    fillIn("input.brew-name", "Even Awesomer IPA");
+    find('select.brew-style').val('18');
+    // Need to trigger 'change' even manually in testing
+    find('select.brew-style').trigger('change');
+    click('button:contains("Save")');
+  });
+  andThen(function() {
+    equal(currentPath(), 'brews.show');
+    equal(find('h3:contains("Showing Brew: 1 - Even Awesomer IPA")').length, 1);
+    equal(find('li:contains("Style: 6A - Cream Ale")').length, 1);
   });
 });

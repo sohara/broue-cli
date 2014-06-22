@@ -8,7 +8,7 @@
   {{#each}}
   <tr class='brew'>
     <td>{{link-to id 'brews.show' this}}</td>
-    <td>{{name}}</td>
+    <td>{{link-to name 'brews.show' this}}</td>
   </tr>
   {{/each}}
 </table>
