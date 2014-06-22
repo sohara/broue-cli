@@ -23,6 +23,19 @@ var brews = [
   }
 ];
 
+var styles = [
+  {
+    id: '1',
+    subcategory_id: "1A",
+    subcategory_name: "Lite American Lager"
+  },
+  {
+    id: '18',
+    subcategory_id: "6A",
+    subcategory_name: "Cream Ale"
+  }
+];
+
 module('Acceptance: Brews', {
   setup: function() {
     App = startApp();
@@ -32,6 +45,15 @@ module('Acceptance: Brews', {
       this.get('/brews', function(){
         var response =  [200, headers, toS({brews: brews})];
         return response;
+      });
+      this.get('/styles', function(){
+        var response =  [200, headers, toS({styles: styles})];
+        return response;
+      });
+      this.post('/brews', function(req) {
+        var brewObject = JSON.parse(req.requestBody);
+        brewObject.brew.id = 3;
+        return [200, headers, toS(brewObject)];
       });
     });
   },
@@ -47,5 +69,27 @@ test('visiting /brews', function() {
   andThen(function() {
     equal(currentPath(), 'brews.index');
     equal(find('td:contains("Awesome IPA")').length, 1);
+  });
+});
+
+test('create a new brew', function() {
+  expect(3);
+  visit('/brews');
+  andThen(function() {
+    click('a:contains("New brew")');
+  });
+  andThen(function() {
+    fillIn("input.brew-name", "Super stuff ale");
+    find('select.brew-style').val('18');
+    // Need to trigger 'change' even manually in testing
+    find('select.brew-style').trigger('change');
+    equal(find('select.brew-style').val(), '18');
+  });
+  andThen(function() {
+    click('button:contains("Save")');
+  });
+  andThen(function() {
+    equal(currentPath(), 'brews.show');
+    equal(find('h3:contains("Showing Brew: 3 - Super stuff ale")').length, 1);
   });
 });

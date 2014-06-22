@@ -4,6 +4,17 @@
     {{input value=name class='brew-name form-control'}}
   </div>
 
+  <div class="form-group">
+    <label>Style </label>
+    {{view Ember.Select viewName="select"
+                        content=styles
+                        optionLabelPath="content.fullName"
+                        optionValuePath="content.id"
+                        prompt="Pick a style:"
+                        selection=style
+                        class='form-control brew-style'}}
+  </div>
+
   <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
   <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
 </form>
