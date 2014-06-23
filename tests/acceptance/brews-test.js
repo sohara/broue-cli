@@ -15,11 +15,13 @@ var headers = {"Content-Type":"application/json"};
 var brews = [
   {
     id: 1,
-    name: "Awesome IPA"
+    name: "Awesome IPA",
+    created_at: "2012-09-12T11:59:04Z"
   },
   {
     id: 2,
-    name: "Summer Saison"
+    name: "Summer Saison",
+    created_at: "2014-06-23T21:56:31Z"
   }
 ];
 

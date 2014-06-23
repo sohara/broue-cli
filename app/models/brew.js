@@ -2,5 +2,6 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
-  style: DS.belongsTo('Style')
+  createdAt: DS.attr('date'),
+  style: DS.belongsTo('Style'),
 });
