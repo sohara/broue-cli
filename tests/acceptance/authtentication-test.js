@@ -51,7 +51,7 @@ module('Integration - Authentication', {
 test('Allows a guest to sign in', function() {
   expect(3);
   visit('/').then(function() {
-    equal(find('h1').text(), 'Broue.io', "The Broue.io header is found");
+    equal(find('h3').text(), 'Sign in', "The Sign in header is found");
     fillIn("input#email", "jack@example.com");
     fillIn("input#password", "password");
     click("button[type='submit']");
@@ -78,9 +78,8 @@ test('Allows a logged in user to log out', function() {
 });
 
 test('Displays login error when logging in with bad credentials', function() {
-  expect(3);
+  expect(2);
   visit('/').then(function() {
-    equal(find('h1').text(), 'Broue.io', "The Broue.io header is found");
     fillIn("input#email", "jack@example.com");
     fillIn("input#password", "notpassword");
     click("button[type='submit']");

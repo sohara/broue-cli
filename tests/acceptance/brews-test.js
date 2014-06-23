@@ -82,7 +82,7 @@ test('create a new brew', function() {
   expect(3);
   visit('/brews');
   andThen(function() {
-    click('a:contains("New brew")');
+    click('a:contains("New Brew")');
   });
   andThen(function() {
     fillIn("input.brew-name", "Super stuff ale");
