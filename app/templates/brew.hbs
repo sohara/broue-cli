@@ -1,0 +1,19 @@
+<div class="row">
+  <div class='col-md-8'>
+    <h2>{{name}} <small>{{style.subcategoryName}}</small></h2>
+  </div>
+  <div class='col-md-4 text-right'>
+    {{link-to 'Edit' 'brews.edit' this class="btn btn-primary"}} <button {{action 'destroyRecord' this}} class="btn btn-danger">Destroy</button>
+  </div>
+</div>
+
+<ul class="nav nav-tabs nav-justified">
+  {{#link-to 'brew.show' this tagName="li"}}
+    <a>Show</a>
+  {{/link-to}}
+  {{#link-to 'specs' this tagName="li"}}
+    <a>Specs</a>
+  {{/link-to}}
+</ul>
+
+{{outlet}}

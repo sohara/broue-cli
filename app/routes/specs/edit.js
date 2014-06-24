@@ -1,28 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  controllerName: 'brews/edit',
-
   model: function() {
-    return this.store.createRecord('brew');
+    return this.modelFor('brew');
   },
-
   deactivate: function() {
     var model = this.get('controller.model');
-    if (model.get('isNew')) {
-      model.deleteRecord();
-    }
+    model.rollback();
   },
-
   actions: {
     save: function(model) {
       var _this = this;
       model.save().then(function() {
-        _this.transitionTo('brew.show', model);
+        _this.transitionTo('specs.index', model);
       });
     },
-    cancel: function() {
-      this.transitionTo('brews.index');
+    cancel: function(model) {
+      this.transitionTo('specs.index', model);
     }
   }
 });

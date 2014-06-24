@@ -12,11 +12,11 @@ export default Ember.Route.extend({
     save: function(model) {
       var _this = this;
       model.save().then(function() {
-        _this.transitionTo('brews.show', model);
+        _this.transitionTo('brew.show', model);
       });
     },
     cancel: function(model) {
-      this.transitionTo('brews.show', model);
+      this.transitionTo('brew.show', model);
     }
   }
 });

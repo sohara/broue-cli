@@ -16,12 +16,26 @@ var brews = [
   {
     id: 1,
     name: "Awesome IPA",
-    created_at: "2012-09-12T11:59:04Z"
+    created_at: "2012-09-12T11:59:04Z",
+    batch_size: 120,
+    boil_loss: 10,
+    efficiency: 82,
+    grain_temp: 20,
+    target_mash_temp: 69,
+    water_grain_ratio: 3,
+    style_id: 1
   },
   {
     id: 2,
     name: "Summer Saison",
-    created_at: "2014-06-23T21:56:31Z"
+    created_at: "2014-06-23T21:56:31Z",
+    batch_size: 120,
+    boil_loss: 10,
+    efficiency: 82,
+    grain_temp: 20,
+    target_mash_temp: 69,
+    water_grain_ratio: 3,
+    style_id: 18
   }
 ];
 
@@ -95,8 +109,8 @@ test('create a new brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.show');
-    equal(find('h3:contains("Showing Brew: 3 - Super stuff ale")').length, 1);
+    equal(currentPath(), 'brews.brew.show');
+    equal(find('h2:contains("Super stuff ale")').length, 1);
   });
 });
 
@@ -117,8 +131,23 @@ test('edit an existing brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.show');
-    equal(find('h3:contains("Showing Brew: 1 - Even Awesomer IPA")').length, 1);
+    equal(currentPath(), 'brews.brew.show');
+    equal(find('h2:contains("Even Awesomer IPA")').length, 1);
     equal(find('li:contains("Style: 6A - Cream Ale")').length, 1);
   });
+});
+
+test('edit brew specs', function() {
+  visit('/brews/1');
+  andThen(function() { click('a:contains("Specs")'); });
+  andThen(function() { click('a.edit-specs:contains("Edit")'); });
+  andThen(function() {
+    fillIn('input.brew-batch-size', '29')
+    fillIn('input.brew-boil-loss', '6')
+    click('button:contains("Save")');
+    andThen(function() {
+      equal(currentPath(), 'brews.brew.specs.index');
+      equal(find('table tr:first td:last').text(), '29 litres');
+    });
+  })
 });
