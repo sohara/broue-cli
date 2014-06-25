@@ -10,7 +10,9 @@ Router.map(function() {
     this.resource('brew', { path: ":brew_id" }, function() {
       this.route('show', { path: "" } );
       this.resource('specs', function() {
-        // this.route('show', { path: "" });
+        this.route('edit', { path: "edit" });
+      });
+      this.resource('brew_day', function() {
         this.route('edit', { path: "edit" });
       });
     });
@@ -19,6 +21,7 @@ Router.map(function() {
   this.resource('login');
   this.route('specs/show');
   this.route('specs/edit');
+  this.route('brew_day/edit');
 });
 
 export default Router;

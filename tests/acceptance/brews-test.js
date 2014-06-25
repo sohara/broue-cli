@@ -142,12 +142,27 @@ test('edit brew specs', function() {
   andThen(function() { click('a:contains("Specs")'); });
   andThen(function() { click('a.edit-specs:contains("Edit")'); });
   andThen(function() {
-    fillIn('input.brew-batch-size', '29')
-    fillIn('input.brew-boil-loss', '6')
+    fillIn('.batch-size input', '29')
+    fillIn('.boil-loss input', '6')
     click('button:contains("Save")');
     andThen(function() {
       equal(currentPath(), 'brews.brew.specs.index');
       equal(find('table tr:first td:last').text(), '29 litres');
+    });
+  })
+});
+
+test('edit brew day records', function() {
+  visit('/brews/1');
+  andThen(function() { click('a:contains("Brew Day")'); });
+  andThen(function() { click('a.edit-specs:contains("Edit")'); });
+  andThen(function() {
+    fillIn('.brew-date input', '2014-06-25')
+    fillIn('.recorded-original-gravity input', '1.048')
+    click('button:contains("Save")');
+    andThen(function() {
+      equal(currentPath(), 'brews.brew.brew_day.index');
+      equal(find('table tr:first td:last').text(), '2014-06-25');
     });
   })
 });

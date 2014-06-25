@@ -1,0 +1,14 @@
+<form role="form" class="form-horizontal">
+  {{bs-text-field valueProperty=brewDate appendText="litres"}}
+
+  {{bs-text-field valueProperty=recordedOriginalGravity appendText="S.G."}}
+
+  {{bs-text-field valueProperty=recordedPostBoilVolume appendText="litres"}}
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
+      <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
+    </div>
+  </div>
+</form>

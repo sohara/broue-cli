@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['form-group'],
+  classNameBindings: ['valuePropertyDasherized'],
   inputElementId: null,
   appendText: null,
 
@@ -22,6 +23,15 @@ export default Ember.Component.extend({
 
   inputName: function() {
     return this.get('valuePropertyName') + "Input";
+  }.property('valuePropertyName'),
+
+  // For acceptance tests... apply a classname to make it easy to
+  // target input with a selector
+  valuePropertyDasherized: function() {
+    return this.get('valuePropertyName')
+      .decamelize()
+      .split("_")
+      .join("-");
   }.property('valuePropertyName'),
 
   didInsertElement: function() {
