@@ -1,0 +1,13 @@
+<label {{bind-attr for=inputElementId}} class="col-sm-2 control-label" >
+  {{labelText}}
+</label>
+<div class="col-sm-10">
+  {{#if appendText}}
+    <div class="input-group">
+      {{input value=valueProperty class='form-control' viewName=inputName}}
+      <span class="input-group-addon">{{appendText}}</span>
+    </div>
+  {{else}}
+    {{input value=value class='brew-batch-size form-control' viewName=inputName}}
+  {{/if}}
+</div>
