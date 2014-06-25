@@ -17,7 +17,7 @@
           <p class="alert alert-danger">{{errorMessage}}</p>
           {{/if}}
 
-          <button {{action "signIn"}} type="submit" class="btn btn-sm btn-default">Sign in</button>
+          <button {{action "signIn"}} {{bind-attr disabled="isProcessing"}} type="submit" class="btn btn-sm btn-default">Sign in</button>
         </form>
       </div>
     </div>

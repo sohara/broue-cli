@@ -4,6 +4,7 @@ export default Ember.Controller.extend({
   email: null,
   password: null,
   errorMessage: null,
+  isProcessing: false,
   previousTransition: null,
 
   // Computed property setter and getter
@@ -22,9 +23,18 @@ export default Ember.Controller.extend({
     }
   },
 
+  focusIn: function() {
+    debugger;
+  },
+
+  // Should set errorMessage to null as soon as user activates
+  // either of the fields?
   actions: {
     signIn: function() {
-      this.set('errorMessage', null);
+      this.setProperties({
+        errorMessage: null,
+        isProcessing: true
+      });
       $.ajax("/users/sign_in", {
         type: "POST",
         data: JSON.stringify(this.getProperties('email', 'password'))
@@ -32,7 +42,12 @@ export default Ember.Controller.extend({
         // Must wrap promise resolution in Ember.run for Ember testing
         // (doesn't like async stuff)
         Ember.run(this, function() {
-          this.set('currentUser', userJson);
+          this.setProperties({
+            currentUser: userJson,
+            isProcessing: false,
+            email: null,
+            password: null
+          });
 
           var previousTransition = this.get('previousTransition');
           if (previousTransition) {
@@ -43,9 +58,15 @@ export default Ember.Controller.extend({
         });
       }.bind(this), function(xhr) {
         Ember.run(this, function() {
-          this.set('errorMessage', xhr.responseJSON.message);
+          this.setProperties({
+            errorMessage: xhr.responseJSON.message,
+            isProcessing: false
+          });
         });
       }.bind(this));
+    },
+    resetErrorMessage: function() {
+      this.set('errorMessage', null);
     }
   }
 });
