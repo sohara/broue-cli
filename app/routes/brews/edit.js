@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  returnRoute: 'brew.show',
+
   model: function(params) {
     return this.store.find('brew', params.brew_id);
   },
@@ -12,11 +14,11 @@ export default Ember.Route.extend({
     save: function(model) {
       var _this = this;
       model.save().then(function() {
-        _this.transitionTo('brew.show', model);
+        _this.transitionTo(_this.get('returnRoute'), model);
       });
     },
     cancel: function(model) {
-      this.transitionTo('brew.show', model);
+      this.transitionTo(this.get('returnRoute'), model);
     }
   }
 });
