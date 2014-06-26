@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  returnRoute: 'brew.show',
+  returnRoute: 'recipe',
 
   model: function(params) {
     return this.store.find('brew', params.brew_id);

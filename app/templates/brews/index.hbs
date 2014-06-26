@@ -6,8 +6,8 @@
   </tr>
   {{#each}}
   <tr class='brew'>
-    <td>{{link-to id 'brew.show' this}}</td>
-    <td>{{link-to name 'brew.show' this}}</td>
+    <td>{{link-to id 'recipe' this}}</td>
+    <td>{{link-to name 'recipe' this}}</td>
     <td>{{formatted-date createdAt}}</td>
   </tr>
   {{/each}}

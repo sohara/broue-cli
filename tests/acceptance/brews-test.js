@@ -109,7 +109,7 @@ test('create a new brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.show');
+    equal(currentPath(), 'brews.brew.recipe');
     equal(find('h2:contains("Super stuff ale")').length, 1);
   });
 });
@@ -131,7 +131,7 @@ test('edit an existing brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.show');
+    equal(currentPath(), 'brews.brew.recipe');
     equal(find('h2:contains("Even Awesomer IPA")').length, 1);
     equal(find('li:contains("Style: 6A - Cream Ale")').length, 1);
   });

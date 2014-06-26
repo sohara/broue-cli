@@ -18,7 +18,7 @@ export default Ember.Route.extend({
     save: function(model) {
       var _this = this;
       model.save().then(function() {
-        _this.transitionTo('brew.show', model);
+        _this.transitionTo('recipe', model);
       });
     },
     cancel: function() {

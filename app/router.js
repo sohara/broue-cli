@@ -8,7 +8,9 @@ Router.map(function() {
   this.resource('brews', function() {
     this.route('new');
     this.resource('brew', { path: ":brew_id" }, function() {
-      this.route('show', { path: "" } );
+      // Make 'recipe' the default route for viewing a brew
+      // at '/brews/:brew_id
+      this.resource('recipe', { path: "" } );
       this.resource('specs', function() {
         this.route('edit', { path: "edit" });
       });
