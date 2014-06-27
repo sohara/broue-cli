@@ -25,6 +25,18 @@ export default Ember.ArrayController.extend({
     }, 0);
   }.property('unmashable.@each.extractUnits'),
 
+  totalExtractUnits: function() {
+    var sum = this.get('totalMashedExtractUnits') + this.get('totalUnmashedExtractUnits');
+    return Math.round(sum * 100) / 100;
+  }.property('totalMashedExtractUnits', 'totalUnmashedExtractUnits'),
+
+  totalWeight: function() {
+    var totalWeight = this.get('positive').reduce(function(accum, addition) {
+      return accum + parseInt(addition.get('weight'));
+    }, 0);
+    return totalWeight;
+  }.property('positive.@each.weight'),
+
   maltColorUnits: function() {
     return this.get('positive').reduce(function(accum, addition) {
       var weightLbs = addition.get('weight') * 0.0022046226;

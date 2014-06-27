@@ -15,5 +15,12 @@ export default Ember.ArrayController.extend({
       return accum + addition.get('ibus');
     }, 0);
     return Math.round(totalIBUs * 10) / 10;
-  }.property('positive.@each.ibus')
+  }.property('positive.@each.ibus'),
+
+  totalWeight: function() {
+    var totalWeight = this.get('positive').reduce(function(accum, addition) {
+      return accum + parseInt(addition.get('weight'));
+    }, 0);
+    return totalWeight;
+  }.property('positive.@each.weight')
 });

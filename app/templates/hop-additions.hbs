@@ -1,22 +1,39 @@
-<h2>Hop Additions</h2>
-
-<table class="table">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Weight</th>
-    <th>Boil Time</th>
-    <th>IBUs</th>
-    <th>Utilization</th>
-  </tr>
-  {{#each}}
-  <tr>
-    <td>{{id}}</td>
-    <td>{{name}}</td>
-    <td>{{weight}}</td>
-    <td>{{boilTime}}</td>
-    <td>{{ibus}}</td>
-    <td>{{utilization}}</td>
-  </tr>
-  {{/each}}
-</table>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 class="panel-title">Hop Additions</h2>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Variety</th>
+        <th>Form</th>
+        <th>Use</th>
+        <th>Weight</th>
+        <th>Boil Time</th>
+        <th>AA %</th>
+        <th>IBUs</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each}}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{form}}</td>
+        <td>{{use}}</td>
+        <td>{{weight}} g</td>
+        <td>{{boilTime}}</td>
+        <td>{{alphaAcids}}</td>
+        <td>{{ibus}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{totalWeight}}</td>
+        <td colspan="2"> </td>
+        <td>{{totalIBUs}} g</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

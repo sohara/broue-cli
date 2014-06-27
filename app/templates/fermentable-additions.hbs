@@ -1,22 +1,33 @@
-<h2>Fermentable Additions</h2>
+<br><br>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 class="panel-title">Fermentable Additions</h2>
+  </div>
 
-<table class="table">
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Weight</th>
-    <th>Fermentalbe Type</th>
-    <th>Mashable</th>
-    <th>Extract Units</th>
-  </tr>
-  {{#each}}
-  <tr>
-    <td>{{id}}</td>
-    <td>{{name}}</td>
-    <td>{{weight}}</td>
-    <td>{{fermentableType}}</td>
-    <td>{{mashable}}</td>
-    <td>{{extractUnits}}</td>
-  </tr>
-  {{/each}}
-</table>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>% Extract</th>
+        <th>Weight</th>
+      </tr>
+    </thead>
+    {{#each}}
+    <tbody>
+    <tr>
+      <td>{{name}}</td>
+      <td>{{color}}</td>
+      <td>{{percentExtract}}</td>
+      <td>{{weight}}</td>
+    </tr>
+    </tbody>
+    {{/each}}
+    <tfoot>
+      <tr>
+        <td colspan="3">Total</td>
+        <td>{{totalWeight}}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
