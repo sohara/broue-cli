@@ -1,19 +1,33 @@
-<ul>
-  <li class='brew-name'>Name: {{name}}</li>
-  <li class='brew-name'>Style: {{style.fullName}}</li>
-</ul>
-<h3>
-  Original Gravity: {{originalGravity}} <span class="unit">O.G.</span>
-</h3>
-<h3>
-  Pre-boil Gravity {{preBoilGravity}}
-</h3>
-<h3>
-  Color SRM {{colorSRM}}
-</h3>
-<h3>
-  IBUs: {{totalIBUs}}
-</h3>
+<div class="main">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box">
+        <div class="box-content slate-statboxes">
+          <div class="col-md-3 slate-statbox blue">
+            <i class="fa fa-flask slate-statbox-icon"></i>
+            <div class="slate-statbox-title">{{originalGravity}} <span class="text-muted small">S.G.</span></div>
+            <div class="slate-statbox-value">Original Gravity</div>
+          </div>
+          <div class="col-md-3 slate-statbox purple">
+            <i class="fa fa-flask slate-statbox-icon"></i>
+            <div class="slate-statbox-title">{{preBoilGravity}} <span class="text-muted small">S.G.</span></div>
+            <div class="slate-statbox-value">Preboil Gravity</div>
+          </div>
+          <div class="col-md-3 slate-statbox yellow">
+            <i class="fa fa-tachometer slate-statbox-icon"></i>
+            <div class="slate-statbox-title">{{colorSRM}} <span class="text-muted small">SRM</span></div>
+            <div class="slate-statbox-value">Color</div>
+          </div>
+          <div class="col-md-3 slate-statbox green">
+            <i class="fa fa-leaf slate-statbox-icon"></i>
+            <div class="slate-statbox-title">{{totalIBUs}} <span class="text-muted small">IBU</span></div>
+            <div class="slate-statbox-value">Bitterness</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {{render "fermentableAdditions"}}
 {{render "hopAdditions"}}
