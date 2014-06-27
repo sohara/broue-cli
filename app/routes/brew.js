@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  setupControllers: function(contoller, model) {
+  setupController: function(contoller, model) {
     this._super();
     this.controllerFor('fermentableAdditions').set('model', model.get('fermentableAdditions'));
+    this.controllerFor('hopAdditions').set('model', model.get('hopAdditions'));
   }
 });

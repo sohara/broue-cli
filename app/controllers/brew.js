@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['fermentableAdditions'],
+  needs: ['fermentableAdditions', 'hopAdditions'],
 
   fermentableAdditions: Ember.computed.alias('computed.fermentableAdditions'),
   totalMashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalMashedExtractUnits'),
   totalUnmashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalUnmashedExtractUnits'),
   maltColorUnits: Ember.computed.alias('controllers.fermentableAdditions.maltColorUnits'),
+  totalIBUs: Ember.computed.alias('controllers.hopAdditions.totalIBUs'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
@@ -40,5 +41,10 @@ export default Ember.ObjectController.extend({
     var maltColorUnits = this.get("maltColorUnits");
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
     return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100
-  }.property("maltColorUnits", "batchSize")
+  }.property("maltColorUnits", "batchSize"),
+
+  gravityFactor: function() {
+    var preBoilGravity = this.get("preBoilGravity");
+    return (1.65 * (Math.pow(0.000125, preBoilGravity - 1)));
+  }.property("preBoilGravity")
 });
