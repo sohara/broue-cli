@@ -1,0 +1,30 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2 class="panel-title">Yeast Additions</h2>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Name</th>
+        <th>Supplier</th>
+        <th>Form</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each}}
+      <tr>
+        <td>{{productId}}</td>
+        <td>{{name}}</td>
+        <td>{{supplier}}</td>
+        <td>{{form}}</td>
+        <td>{{amount}} {{unit}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="5"></td></tr>
+    </tfoot>
+  </table>
+</div>
