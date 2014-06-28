@@ -1,33 +1,13 @@
-<div class="main">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="box">
-        <div class="box-content slate-statboxes">
-          <div class="col-md-3 slate-statbox blue">
-            <i class="fa fa-flask slate-statbox-icon"></i>
-            <div class="slate-statbox-title">{{originalGravity}} <span class="text-muted small">S.G.</span></div>
-            <div class="slate-statbox-value">Original Gravity</div>
-          </div>
-          <div class="col-md-3 slate-statbox purple">
-            <i class="fa fa-flask slate-statbox-icon"></i>
-            <div class="slate-statbox-title">{{preBoilGravity}} <span class="text-muted small">S.G.</span></div>
-            <div class="slate-statbox-value">Preboil Gravity</div>
-          </div>
-          <div class="col-md-3 slate-statbox yellow">
-            <i class="fa fa-tachometer slate-statbox-icon"></i>
-            <div class="slate-statbox-title">{{colorSRM}} <span class="text-muted small">SRM</span></div>
-            <div class="slate-statbox-value">Color</div>
-          </div>
-          <div class="col-md-3 slate-statbox green">
-            <i class="fa fa-leaf slate-statbox-icon"></i>
-            <div class="slate-statbox-title">{{totalIBUs}} <span class="text-muted small">IBU</span></div>
-            <div class="slate-statbox-value">Bitterness</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{{#statbox-group}}
+  {{statbox-item property=originalGravity unitOfMesure="S.G."
+    propertyDescription="Original Gravity" colorClass="blue"}}
+  {{statbox-item property=preBoilGravity unitOfMesure="S.G."
+    propertyDescription="Preboil Gravity" colorClass="purple"}}
+  {{statbox-item property=colorSRM unitOfMesure="SRM" iconClass="fa-tint"
+    propertyDescription="Color" colorClass="yellow"}}
+  {{statbox-item property=totalIBUs unitOfMesure="IBU" iconClass="fa-leaf"
+    propertyDescription="Bitterness" colorClass="green"}}
+{{/statbox-group}}
 
 {{render "fermentableAdditions"}}
 {{render "hopAdditions"}}
