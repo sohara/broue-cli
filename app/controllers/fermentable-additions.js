@@ -37,6 +37,14 @@ export default Ember.ArrayController.extend({
     return totalWeight;
   }.property('positive.@each.weight'),
 
+
+  totalMashedAdditionsWeight: function() {
+    var totalWeight = this.get('mashable').reduce(function(accum, addition) {
+      return accum + parseInt(addition.get('weight'));
+    }, 0);
+    return totalWeight;
+  }.property('mashable.@each.weight'),
+
   maltColorUnits: function() {
     return this.get('positive').reduce(function(accum, addition) {
       var weightLbs = addition.get('weight') * 0.0022046226;

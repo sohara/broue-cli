@@ -14,5 +14,6 @@ export default DS.Model.extend({
   createdAt: DS.attr('date'),
   style: DS.belongsTo('Style'),
   fermentableAdditions: DS.hasMany('FermentableAddition', { async: true }),
-  hopAdditions: DS.hasMany('HopAddition', { async: true })
+  hopAdditions: DS.hasMany('HopAddition', { async: true }),
+  yeastAdditions: DS.hasMany('YeastAddition', { async: true })
 });

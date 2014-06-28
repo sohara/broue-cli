@@ -8,6 +8,7 @@ export default Ember.ObjectController.extend({
   totalUnmashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalUnmashedExtractUnits'),
   maltColorUnits: Ember.computed.alias('controllers.fermentableAdditions.maltColorUnits'),
   totalIBUs: Ember.computed.alias('controllers.hopAdditions.totalIBUs'),
+  totalMashedAdditionsWeight: Ember.computed.alias('controllers.fermentableAdditions.totalMashedAdditionsWeight'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
@@ -46,5 +47,19 @@ export default Ember.ObjectController.extend({
   gravityFactor: function() {
     var preBoilGravity = this.get("preBoilGravity");
     return (1.65 * (Math.pow(0.000125, preBoilGravity - 1)));
-  }.property("preBoilGravity")
+  }.property("preBoilGravity"),
+
+  strikeWaterVolume: function() {
+    var totalMashedAdditionsWeight = this.get('totalMashedAdditionsWeight');
+    var waterGrainRatio = this.get('waterGrainRatio');
+    return (totalMashedAdditionsWeight * waterGrainRatio) / 1000;
+  }.property("totalMashedAdditionsWeight", "waterGrainRatio"),
+
+  strikeWaterTemp: function() {
+    var waterGrainRatio = parseFloat(this.get('waterGrainRatio'));
+    var grainTemp = parseFloat(this.get('grainTemp'));
+    var targetMashTemp = parseFloat(this.get('targetMashTemp'));
+    var strikeTemp = ((0.2 / (waterGrainRatio / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
+    return Math.round(strikeTemp * 100) / 100;
+  }.property("waterGrainRatio", "targetMashTemp", "grainTemp")
 });
