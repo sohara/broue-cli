@@ -9,6 +9,7 @@ export default Ember.ObjectController.extend({
   maltColorUnits: Ember.computed.alias('controllers.fermentableAdditions.maltColorUnits'),
   totalIBUs: Ember.computed.alias('controllers.hopAdditions.totalIBUs'),
   totalMashedAdditionsWeight: Ember.computed.alias('controllers.fermentableAdditions.totalMashedAdditionsWeight'),
+  totalExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalExtractUnits'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
@@ -61,5 +62,44 @@ export default Ember.ObjectController.extend({
     var targetMashTemp = parseFloat(this.get('targetMashTemp'));
     var strikeTemp = ((0.2 / (waterGrainRatio / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
     return Math.round(strikeTemp * 100) / 100;
-  }.property("waterGrainRatio", "targetMashTemp", "grainTemp")
+  }.property("waterGrainRatio", "targetMashTemp", "grainTemp"),
+
+  recordedEfficiency: function() {
+    var recordedOriginalGravity = this.get('recordedOriginalGravity');
+    if (typeof(recordedOriginalGravity) != "undefined") {
+      var totalExtractUnits = this.get('totalExtractUnits');
+      var batchSize = this.get("batchSize");
+      var recordedPostBoilVolume = this.get("recordedPostBoilVolume");
+      var volume = recordedPostBoilVolume > 0 ? recordedPostBoilVolume : batchSize;
+      var maximumOG = ((totalExtractUnits * 0.3865) / volume);
+      var efficiency = ((recordedOriginalGravity - 1) / maximumOG) * 100;
+      return efficiency.toFixed(1);
+    }
+    else {
+      return "N/A";
+    }
+  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSize", "recordedPostBoilVolume"),
+
+  apparentAttenuation: function() {
+    var recordedOriginalGravity = this.get('recordedOriginalGravity');
+    var recordedFinalGravity = this.get('recordedFinalGravity');
+    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+      var aa = (recordedOriginalGravity - recordedFinalGravity) / (recordedOriginalGravity - 1);
+      return (aa * 100).toFixed(1);
+    } else {
+      return "N/A";
+    }
+  }.property("recordedOriginalGravity", "recordedFinalGravity"),
+
+
+  alcoholByVolume: function() {
+    var recordedOriginalGravity = this.get('recordedOriginalGravity');
+    var recordedFinalGravity = this.get('recordedFinalGravity')
+    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+      var abv = ((1.05 * (recordedOriginalGravity - recordedFinalGravity) / recordedFinalGravity) / 0.79);
+      return (abv * 100).toFixed(1);
+    } else {
+      return "N/A";
+    }
+  }.property("recordedOriginalGravity", "recordedFinalGravity").cacheable()
 });

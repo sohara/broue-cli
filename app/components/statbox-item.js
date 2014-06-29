@@ -5,5 +5,5 @@ export default Ember.Component.extend({
   classNameBindings: ['colorClass', 'gridClass'],
 
   gridClass: 'col-md-3',
-  iconClass: 'fa-flask'
+  faIcon: 'fa-flask'
 });

@@ -10,6 +10,7 @@ export default DS.Model.extend({
   targetMashTemp: DS.attr('number'),
   waterGrainRatio: DS.attr('number'),
   recordedOriginalGravity: DS.attr('number'),
+  recordedFinalGravity: DS.attr('number'),
   recordedPostBoilVolume: DS.attr('number'),
   createdAt: DS.attr('date'),
   style: DS.belongsTo('Style'),

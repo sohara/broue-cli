@@ -1,3 +1,7 @@
-<i {{bind-attr class=":fa :slate-statbox-icon iconClass"}}></i>
+{{#if glyphIcon}}
+<span {{bind-attr class=":glyphicon :slate-statbox-icon glyphIcon"}}></span>
+{{else}}
+<i {{bind-attr class=":fa :slate-statbox-icon faIcon"}}></i>
+{{/if}}
 <div class="slate-statbox-title">{{property}} <span class="text-muted small">{{unitOfMesure}}</span></div>
 <div class="slate-statbox-value">{{propertyDescription}}</div>
