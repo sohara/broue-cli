@@ -77,6 +77,11 @@ module('Acceptance: Brews', {
         var jsonBody = toS( brewObject);
         return [200, headers, jsonBody];
       });
+      this.get('/brews/:id', function(req) {
+        var brewObject = brews.findBy('id', parseInt(req.params.id));
+        var jsonBody = toS( { brew: brewObject } );
+        return [200, headers, jsonBody];
+      });
     });
   },
   teardown: function() {
@@ -133,7 +138,7 @@ test('edit an existing brew', function() {
   andThen(function() {
     equal(currentPath(), 'brews.brew.recipe');
     equal(find('h2:contains("Even Awesomer IPA")').length, 1);
-    equal(find('li:contains("Style: 6A - Cream Ale")').length, 1);
+    equal(find('h2:contains("Cream Ale")').length, 1);
   });
 });
 
