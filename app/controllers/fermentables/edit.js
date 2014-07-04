@@ -6,4 +6,5 @@ export default Ember.ObjectController.extend({
   fermentables: function() {
     return this.get('controllers.fermentables');
   }.property('controllers.fermentables')
+
 });

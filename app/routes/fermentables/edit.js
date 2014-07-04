@@ -31,7 +31,6 @@ export default Ember.Route.extend({
           parentView: 'application',
           outlet: 'modal'
         });
-// _this.send('goToBrew');
       });
     },
     closeModal: function() {

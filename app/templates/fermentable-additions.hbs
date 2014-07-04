@@ -21,7 +21,11 @@
       <td>{{color}}</td>
       <td>{{percentExtract}}</td>
       <td>{{grams-to-kilos weight}} kg</td>
-      <td>{{link-to 'Edit' 'fermentables.edit' this}}</td>
+      <td>
+        {{#link-to 'fermentables.edit' this class='btn btn-default' title='Edit' data-toggle="tooltip"}}
+            <span class="glyphicon glyphicon-edit"></span>
+          {{/link-to}}
+      </td>
     </tr>
     </tbody>
     {{/each}}

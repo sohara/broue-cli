@@ -1,69 +1,55 @@
-<div class="modal fade">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Edit Fermentable</h4>
-      </div>
-      <div class="modal-body row">
-        <div class="col-md-8">
-          <form role="form" class="form-horizontal">
-            <div class="form-group">
-              <label class="col-md-2 control-label">
-                Fermentable
-              </label>
-              <div class="col-md-10">
-                <div class="input-group">
-                  {{view Ember.Select
-                  content=fermentables
-                  optionLabelPath="content.description"
-                  optionValuePath="content.id"
-                  selection=fermentable.content
-                  prompt="Please select a fermentable"
-                  class='form-control'}}
-                </div>
-              </div>
-            </div>
-            {{bs-text-field valueProperty=weight appendText="g"}}
-          </form>
+{{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
+<div class="col-md-8">
+  <form role="form" class="form-horizontal">
+    <div class="form-group">
+      <label class="col-md-2 control-label">
+        Fermentable
+      </label>
+      <div class="col-md-10">
+        <div class="input-group">
+          {{view Ember.Select
+          content=fermentables
+          optionLabelPath="content.description"
+          optionValuePath="content.id"
+          selection=fermentable.content
+          prompt="Please select a fermentable"
+          class='form-control'}}
         </div>
-        <div class="col-md-4">
-          <div class="well">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th colspan=2">
-                    Fermentable Details
-                  </th>
-                </tr>
-              </thead>
+      </div>
+    </div>
+    {{bs-text-field valueProperty=weight appendText="g"}}
+  </form>
+</div>
+<div class="col-md-4">
+  <div class="well">
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan=2">
+            Fermentable Details
+          </th>
+        </tr>
+      </thead>
 
-              <tbody>
-                <tr>
-                  <td>Name:</td>
-                  <td>{{fermentable.name}}</td>
-                </tr>
-                <tr>
-                  <td>Supplier:</td>
-                  <td>{{fermentable.supplier}}</td>
-                </tr>
-                <tr>
-                  <td>Yield:</td>
-                  <td>{{fermentable.totalYield}} %</td>
-                </tr>
-                <tr>
-                  <td>Color:</td>
-                  <td>{{fermentable.color}} °L</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
-        <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save Changes</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+      <tbody>
+        <tr>
+          <td>Name:</td>
+          <td>{{fermentable.name}}</td>
+        </tr>
+        <tr>
+          <td>Supplier:</td>
+          <td>{{fermentable.supplier}}</td>
+        </tr>
+        <tr>
+          <td>Yield:</td>
+          <td>{{fermentable.totalYield}} %</td>
+        </tr>
+        <tr>
+          <td>Color:</td>
+          <td>{{fermentable.color}} °L</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{{/modal-dialog}}
