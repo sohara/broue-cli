@@ -18,10 +18,11 @@ export default Ember.Component.extend({
 
   actions: {
     cancel: function() {
+      console.log("In component cancel");
       this.sendAction('cancel');
     },
     save: function(param) {
       this.sendAction('save', param);
-    }
+    },
   }
 });

@@ -12,7 +12,10 @@ Router.map(function() {
       // at '/brews/:brew_id
       this.resource('recipe', { path: "" }, function() {
         this.resource('fermentables', function() {
-          this.route('edit', { path: ':fermentable_id/edit' });
+          this.route('edit', { path: ':resource_id/edit' });
+        });
+        this.resource('hops', function() {
+          this.route('edit', { path: ':resource_id/edit' });
         });
       });
       this.resource('specs', function() {

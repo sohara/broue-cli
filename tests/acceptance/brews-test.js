@@ -226,7 +226,7 @@ test("edit a brew's fermentable additions", function() {
   visit('/brews/1');
   andThen(function() {
     equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
-    click('tr:contains("Superior Pale Ale") a:contains("Edit")') ;
+    click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
   });
   andThen(function() {
     fillIn('div:contains("Weight") input', "22000");

@@ -11,7 +11,7 @@
         <th>Weight</th>
         <th>Boil Time</th>
         <th>AA %</th>
-        <th>IBUs</th>
+        <th colspan="2">IBUs</th>
       </tr>
     </thead>
     <tbody>
@@ -24,6 +24,11 @@
         <td>{{boilTime}}</td>
         <td>{{alphaAcids}}</td>
         <td>{{ibus}}</td>
+        <td>
+          {{#link-to 'hops.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              <span class="glyphicon glyphicon-edit"></span>
+            {{/link-to}}
+        </td>
       </tr>
       {{/each}}
     </tbody>
