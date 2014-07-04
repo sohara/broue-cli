@@ -24,7 +24,8 @@ var brews = [
     target_mash_temp: 69,
     water_grain_ratio: 3,
     style_id: 1,
-    fermentable_addition_ids: [139]
+    fermentable_addition_ids: [139],
+    hop_addition_ids: [202]
   },
   {
     id: 2,
@@ -62,6 +63,26 @@ var fermentables = [
   }
 ];
 
+var hop_additions = [
+  {
+    alpha_acids: 15.1,
+    boil_time: 62,
+    brew_id: 1,
+    form: "Pellet",
+    hop_id: 45,
+    id: 202,
+    use: "First Wort",
+    weight: 100
+  }
+];
+
+var hops = [
+  {
+    alpha_acids: 16,
+    id: 45,
+    name: "Warrior"
+  }
+];
 
 var styles = [
   {
@@ -84,7 +105,12 @@ module('Acceptance: Brews', {
     server = new Pretender(function() {
 
       this.get('/brews', function(){
-        var response =  [200, headers, toS({brews: brews, fermentable_additions: fermentable_additions, fermentables: fermentables, styles: styles})];
+        var response =  [200, headers, toS({brews: brews,
+          fermentable_additions: fermentable_additions,
+          fermentables: fermentables,
+          hop_additions: hop_additions,
+          hops: hops,
+          styles: styles})];
         return response;
       });
       this.get('/styles', function(){
@@ -104,13 +130,25 @@ module('Acceptance: Brews', {
       });
       this.get('/brews/:id', function(req) {
         var brewObject = brews.findBy('id', parseInt(req.params.id));
-        var jsonBody = toS( { brew: brewObject, fermentable_additions: fermentable_additions, fermentables: fermentables, styles: styles} );
+        var jsonBody = toS( { brew: brewObject,
+          fermentable_additions: fermentable_additions,
+          fermentables: fermentables,
+          hop_additions: hop_additions,
+          hops: hops,
+          styles: styles} );
         return [200, headers, jsonBody];
       });
       this.put('/fermentable_additions/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.fermentable_addition.id = req.params.id;
         bodyObject.fermentables = fermentables;
+        var jsonBody = toS( bodyObject );
+        return [200, headers, body];
+      });
+      this.put('/hop_additions/:id', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.hop_addition.id = req.params.id;
+        bodyObject.hops = hops;
         var jsonBody = toS( bodyObject );
         return [200, headers, body];
       });
@@ -234,5 +272,21 @@ test("edit a brew's fermentable additions", function() {
   });
   andThen(function() {
     equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1);
+  });
+});
+
+test("edit a brew's hop additions", function() {
+  visit('/brews/1');
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
+    click('tr:contains("Warrior") a[title="Edit"]') ;
+  });
+  andThen(function() {
+    fillIn('div.weight input', "125");
+    fillIn('div.alpha-acids input', "16.2");
+    click('button:contains("Save Changes")');
+  });
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Bitterness") div:contains("41")').length, 1);
   });
 });
