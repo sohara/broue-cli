@@ -10,7 +10,11 @@ Router.map(function() {
     this.resource('brew', { path: ":brew_id" }, function() {
       // Make 'recipe' the default route for viewing a brew
       // at '/brews/:brew_id
-      this.resource('recipe', { path: "" } );
+      this.resource('recipe', { path: "" }, function() {
+        this.resource('fermentables', function() {
+          this.route('edit', { path: ':fermentable_id/edit' });
+        });
+      });
       this.resource('specs', function() {
         this.route('edit', { path: "edit" });
       });

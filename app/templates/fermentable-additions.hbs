@@ -11,6 +11,7 @@
         <th>Color</th>
         <th>% Extract</th>
         <th>Weight</th>
+        <th> </th>
       </tr>
     </thead>
     {{#each}}
@@ -20,13 +21,14 @@
       <td>{{color}}</td>
       <td>{{percentExtract}}</td>
       <td>{{grams-to-kilos weight}} kg</td>
+      <td>{{link-to 'Edit' 'fermentables.edit' this}}</td>
     </tr>
     </tbody>
     {{/each}}
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td>{{grams-to-kilos totalWeight}} kg</td>
+        <td colspan="2">{{grams-to-kilos totalWeight}} kg</td>
       </tr>
     </tfoot>
   </table>

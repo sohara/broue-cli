@@ -23,7 +23,8 @@ var brews = [
     grain_temp: 20,
     target_mash_temp: 69,
     water_grain_ratio: 3,
-    style_id: 1
+    style_id: 1,
+    fermentable_addition_ids: [139]
   },
   {
     id: 2,
@@ -38,6 +39,29 @@ var brews = [
     style_id: 18
   }
 ];
+
+var fermentable_additions = [
+  {
+    brew_id: 1,
+    fermentable_id: 45,
+    id: 139,
+    weight: 23000
+  }
+];
+
+var fermentables = [
+  {
+    coarse_fine_difference: 1,
+    color: 2.7,
+    fermentable_type: "Grain",
+    id: 45,
+    moisture: 4.1,
+    name: "Superior Pale Ale",
+    supplier: "Canada Malting",
+    total_yield: 80
+  }
+];
+
 
 var styles = [
   {
@@ -58,8 +82,9 @@ module('Acceptance: Brews', {
     localStorage.setItem('user', toS(userJSON));
 
     server = new Pretender(function() {
+
       this.get('/brews', function(){
-        var response =  [200, headers, toS({brews: brews})];
+        var response =  [200, headers, toS({brews: brews, fermentable_additions: fermentable_additions, fermentables: fermentables, styles: styles})];
         return response;
       });
       this.get('/styles', function(){
@@ -79,10 +104,35 @@ module('Acceptance: Brews', {
       });
       this.get('/brews/:id', function(req) {
         var brewObject = brews.findBy('id', parseInt(req.params.id));
-        var jsonBody = toS( { brew: brewObject } );
+        var jsonBody = toS( { brew: brewObject, fermentable_additions: fermentable_additions, fermentables: fermentables, styles: styles} );
+        return [200, headers, jsonBody];
+      });
+      this.put('/fermentable_additions/:id', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.fermentable_addition.id = req.params.id;
+        bodyObject.fermentables = fermentables;
+        var jsonBody = toS( bodyObject );
+        return [200, headers, body];
+      });
+      // this.get('fermentables', function(req) {
+      //   var response =  [200, headers, toS({fermentables: fermentables})];
+      //   return response;
+      // });
+      this.put('/fermentables/:id', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.fermentable_addition.id = req.params.id;
+        var jsonBody = toS( bodyObject );
         return [200, headers, jsonBody];
       });
     });
+    server.unhandledRequest = function(verb, path, request){
+      verb; // HTTP verb
+      path; // path requested
+      request; // xhr object
+
+      // default behavior
+      throw new Error("Pretender intercepted "+verb+" "+path+" but no handler was defined for this type of request")
+    };
   },
   teardown: function() {
     Ember.run(App, 'destroy');
@@ -114,7 +164,7 @@ test('create a new brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.recipe');
+    equal(currentPath(), 'brews.brew.recipe.index');
     equal(find('h2:contains("Super stuff ale")').length, 1);
   });
 });
@@ -136,7 +186,7 @@ test('edit an existing brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.recipe');
+    equal(currentPath(), 'brews.brew.recipe.index');
     equal(find('h2:contains("Even Awesomer IPA")').length, 1);
     equal(find('h2:contains("Cream Ale")').length, 1);
   });
@@ -170,4 +220,19 @@ test('edit brew day records', function() {
       equal(find('table tr:first td:last').text(), '2014-06-25');
     });
   })
+});
+
+test("edit a brew's fermentable additions", function() {
+  visit('/brews/1');
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
+    click('tr:contains("Superior Pale Ale") a:contains("Edit")') ;
+  });
+  andThen(function() {
+    fillIn('div:contains("Weight") input', "22000");
+    click('button:contains("Save Changes")');
+  });
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1);
+  });
 });
