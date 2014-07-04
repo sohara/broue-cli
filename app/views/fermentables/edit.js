@@ -5,7 +5,7 @@ export default Ember.View.extend({
   didInsertElement: function() {
     var $modal = this.$('.modal').modal();
 
-    $modal.on('hidden.bs.modal', function (e) {
+    $modal.on('hidden.bs.modal', function () {
       this.get('controller').send('closeModal');
     }.bind(this));
   },
@@ -13,6 +13,6 @@ export default Ember.View.extend({
   willDestroyElement: function() {
     this.$('.modal').modal('hide');
     // FML jquery :'(
-    $('.modal-backdrop').remove();
+    Ember.$('.modal-backdrop').remove();
   }
 });

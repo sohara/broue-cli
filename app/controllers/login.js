@@ -23,10 +23,6 @@ export default Ember.Controller.extend({
     }
   },
 
-  focusIn: function() {
-    debugger;
-  },
-
   // Should set errorMessage to null as soon as user activates
   // either of the fields?
   actions: {
@@ -35,7 +31,7 @@ export default Ember.Controller.extend({
         errorMessage: null,
         isProcessing: true
       });
-      $.ajax("/users/sign_in", {
+      Ember.$.ajax("/users/sign_in", {
         type: "POST",
         data: JSON.stringify(this.getProperties('email', 'password'))
       }).then(function(userJson) {

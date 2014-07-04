@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
 export default DS.Model.extend({
   amount: DS.attr('number'),
@@ -9,26 +10,6 @@ export default DS.Model.extend({
   supplier: Ember.computed.alias('yeast.supplier'),
   form: Ember.computed.alias('yeast.form'),
   notes: Ember.computed.alias('yeast.notes'),
-
-  // productId: (->
-  //   @get("yeast.productId")
-  // ).property("yeast.productId").cacheable()
-  //
-  // name: (->
-  //   @get("yeast.name")
-  // ).property("yeast.name").cacheable()
-  //
-  // supplier: (->
-  //   @get("yeast.supplier")
-  // ).property("yeast.supplier").cacheable()
-  //
-  // form: (->
-  //   @get("yeast.form")
-  // ).property("yeast.form").cacheable()
-  //
-  // notes: (->
-  //   @get("yeast").get "notes"
-  // ).property("yeast").cacheable()
 
   brew: DS.belongsTo('Brew'),
   yeast: DS.belongsTo('Yeast')

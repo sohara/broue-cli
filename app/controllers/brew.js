@@ -42,7 +42,7 @@ export default Ember.ObjectController.extend({
     var batchSizeGallons = this.get("batchSize") * 0.26417205;
     var maltColorUnits = this.get("maltColorUnits");
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
-    return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100
+    return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100;
   }.property("maltColorUnits", "batchSize"),
 
   gravityFactor: function() {
@@ -66,7 +66,7 @@ export default Ember.ObjectController.extend({
 
   recordedEfficiency: function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
-    if (typeof(recordedOriginalGravity) != "undefined") {
+    if (typeof(recordedOriginalGravity) !== "undefined") {
       var totalExtractUnits = this.get('totalExtractUnits');
       var batchSize = this.get("batchSize");
       var recordedPostBoilVolume = this.get("recordedPostBoilVolume");
@@ -94,7 +94,7 @@ export default Ember.ObjectController.extend({
 
   alcoholByVolume: function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
-    var recordedFinalGravity = this.get('recordedFinalGravity')
+    var recordedFinalGravity = this.get('recordedFinalGravity');
     if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
       var abv = ((1.05 * (recordedOriginalGravity - recordedFinalGravity) / recordedFinalGravity) / 0.79);
       return (abv * 100).toFixed(1);

@@ -11,12 +11,9 @@ export default Ember.ObjectController.extend({
 
   mashable: function() {
     var type = this.get('fermentableType');
-    return (type == "Grain" || type == "Adjunct")
+    return (type === "Grain" || type === "Adjunct");
   }.property('fermentableType'),
 
-  // extractYield: function() {
-  //   return @get('fermentable.totalYield')
-  // }.property("fermentable.totalYield").cacheable()
   extractUnits: function() {
     var weight = this.get("weight");
     var extractYield = this.get("extractYield");

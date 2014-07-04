@@ -8,7 +8,7 @@ export default Ember.Component.extend({
 
   valuePropertyName: function() {
     var fromPath = this.get('valuePropertyBinding._from').split('.');
-    return fromPath[fromPath.length -1]
+    return fromPath[fromPath.length -1];
   }.property('valuePropertyBinding'),
 
   // Extract the label text from property of parent view property
