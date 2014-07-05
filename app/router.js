@@ -17,6 +17,9 @@ Router.map(function() {
         this.resource('hops', function() {
           this.route('edit', { path: ':resource_id/edit' });
         });
+        this.resource('yeasts', function() {
+          this.route('edit', { path: ':resource_id/edit' });
+        });
       });
       this.resource('specs', function() {
         this.route('edit', { path: "edit" });

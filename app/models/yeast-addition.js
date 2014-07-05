@@ -10,7 +10,8 @@ export default DS.Model.extend({
   supplier: Ember.computed.alias('yeast.supplier'),
   form: Ember.computed.alias('yeast.form'),
   notes: Ember.computed.alias('yeast.notes'),
+  description: Ember.computed.alias('yeast.description'),
 
   brew: DS.belongsTo('Brew'),
-  yeast: DS.belongsTo('Yeast')
+  yeast: DS.belongsTo('Yeast', {async: true})
 });

@@ -11,5 +11,10 @@ export default DS.Model.extend({
   temperatureHigh: DS.attr('number'),
   attenuationLow: DS.attr('number'),
   attenuationHigh: DS.attr('number'),
-  yeastAdditions: DS.hasMany('YeastAddition')
+  yeastAdditions: DS.hasMany('YeastAddition'),
+
+
+  description: function() {
+    return "%@1 - %@2".fmt(this.get('productId'), this.get('name'));
+  }.property('productId', 'name')
 });

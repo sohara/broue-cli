@@ -9,7 +9,7 @@
         <th>Name</th>
         <th>Supplier</th>
         <th>Form</th>
-        <th>Amount</th>
+        <th colspan="2">Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +20,11 @@
         <td>{{supplier}}</td>
         <td>{{form}}</td>
         <td>{{amount}} {{unit}}</td>
+        <td>
+          {{#link-to 'yeasts.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              <span class="glyphicon glyphicon-edit"></span>
+            {{/link-to}}
+        </td>
       </tr>
       {{/each}}
     </tbody>

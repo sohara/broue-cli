@@ -25,7 +25,8 @@ var brews = [
     water_grain_ratio: 3,
     style_id: 1,
     fermentable_addition_ids: [139],
-    hop_addition_ids: [202]
+    hop_addition_ids: [202],
+    yeast_addition_ids: [14]
   },
   {
     id: 2,
@@ -84,6 +85,26 @@ var hops = [
   }
 ];
 
+var yeast_additions = [
+  {id:14, amount:50, yeast_id:40, brew_id:1, unit:null}
+];
+
+var yeasts = [
+  {
+    attenuation_high: 85,
+    attenuation_low: 78,
+    flocculation: "Medium",
+    form: "Liquid",
+    id: 40,
+    name: "Belgian Saison II Yeast",
+    notes: "Saison strain with more fruity ester production than with WLP565. Moderately phenolic, with a clove-like characteristic in finished beer flavor and aroma. Ferments faster than WLP565.",
+    product_id: "WLP566",
+    supplier: "White Labs",
+    temperature_high: 26,
+    temperature_low: 20
+  }
+];
+
 var styles = [
   {
     id: '1',
@@ -110,6 +131,8 @@ module('Acceptance: Brews', {
           fermentables: fermentables,
           hop_additions: hop_additions,
           hops: hops,
+          yeast_additions: yeast_additions,
+          yeasts: yeasts,
           styles: styles})];
         return response;
       });
@@ -135,6 +158,8 @@ module('Acceptance: Brews', {
           fermentables: fermentables,
           hop_additions: hop_additions,
           hops: hops,
+          yeast_additions: yeast_additions,
+          yeasts: yeasts,
           styles: styles} );
         return [200, headers, jsonBody];
       });
@@ -288,5 +313,22 @@ test("edit a brew's hop additions", function() {
   });
   andThen(function() {
     equal(find('div.slate-statbox:contains("Bitterness") div:contains("41")').length, 1);
+  });
+});
+
+test("edit a brew's yeast additions", function() {
+  visit('/brews/1');
+  andThen(function() {
+    click('tr:contains("Belgian Saison") a[title="Edit"]') ;
+  });
+  andThen(function() {
+    fillIn('div.amount input', "75");
+    find('select.yeast-unit').val('vial(s) of liquid yeast');
+    // Need to trigger 'change' even manually in testing
+    find('select.yeast-unit').trigger('change');
+    click('button:contains("Save Changes")');
+  });
+  andThen(function() {
+    equal(find('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
   });
 });
