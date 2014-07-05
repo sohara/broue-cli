@@ -1,36 +1,14 @@
 {{#modal-dialog param=this.model title="Edit Yeast" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-8">
   <form role="form" class="form-horizontal">
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Yeast
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=yeasts
-          optionLabelPath="content.description"
-          optionValuePath="content.id"
-          selection=yeast.content
-          prompt="Please select a yeast"
-          class='form-control'}}
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Unit
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=units
-          selection=unit
-          prompt="Please select a unit"
-          class='form-control yeast-unit'}}
-        </div>
-      </div>
-    </div>
+    {{bs-select-field valueProperty=yeast
+      optionsContent=yeasts
+      optionLabelPath="content.description"
+      optionValuePath="content.id"
+      prompt="Please select a yeast" }}
+    {{bs-select-field valueProperty=unit
+      optionsContent=units
+      prompt="Please select a unit" }}
     {{bs-text-field valueProperty=amount appendText="unit"}}
   </form>
 </div>

@@ -1,50 +1,20 @@
 {{#modal-dialog param=this.model title="Edit Hop" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-12">
   <form role="form" class="form-horizontal">
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Hop
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=hops
-          optionLabelPath="content.name"
-          optionValuePath="content.id"
-          selection=hop.content
-          prompt="Please select a hop"
-          class='form-control'}}
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Form
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=forms
-          selection=form
-          prompt="Please select a form"
-          class='form-control'}}
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Use
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=uses
-          selection=use
-          prompt="Please select a use"
-          class='form-control'}}
-        </div>
-      </div>
-    </div>
+    {{bs-select-field valueProperty=hop
+      optionsContent=hops
+      optionLabelPath="content.name"
+      optionValuePath="content.id"
+      prompt="Please select a hop" }}
+
+    {{bs-select-field valueProperty=form
+      optionsContent=forms
+      prompt="Please select a form" }}
+
+    {{bs-select-field valueProperty=use
+      optionsContent=uses
+      prompt="Please select a use" }}
+
     {{bs-text-field valueProperty=weight appendText="g"}}
     {{bs-text-field valueProperty=boilTime appendText="minutes"}}
     {{bs-text-field valueProperty=alphaAcids appendText="% AA"}}

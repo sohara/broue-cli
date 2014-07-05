@@ -13,5 +13,5 @@ export default DS.Model.extend({
   description: Ember.computed.alias('yeast.description'),
 
   brew: DS.belongsTo('Brew'),
-  yeast: DS.belongsTo('Yeast', {async: true})
+  yeast: DS.belongsTo('Yeast')
 });

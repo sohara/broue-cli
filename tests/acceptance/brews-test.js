@@ -219,11 +219,11 @@ test('create a new brew', function() {
     click('a:contains("New Brew")');
   });
   andThen(function() {
-    fillIn("input.brew-name", "Super stuff ale");
-    find('select.brew-style').val('18');
+    fillIn("div.name input", "Super stuff ale");
+    find('div.style select').val('18');
     // Need to trigger 'change' even manually in testing
-    find('select.brew-style').trigger('change');
-    equal(find('select.brew-style').val(), '18');
+    find('div.style select').trigger('change');
+    equal(find('div.style select').val(), '18');
     click('button:contains("Save")');
   });
   andThen(function() {
@@ -242,10 +242,10 @@ test('edit an existing brew', function() {
     click('a:contains("Edit")');
   });
   andThen(function() {
-    fillIn("input.brew-name", "Even Awesomer IPA");
-    find('select.brew-style').val('18');
+    fillIn("div.name input", "Even Awesomer IPA");
+    find('div.style select').val('18');
     // Need to trigger 'change' even manually in testing
-    find('select.brew-style').trigger('change');
+    find('div.style select').trigger('change');
     click('button:contains("Save")');
   });
   andThen(function() {
@@ -323,9 +323,9 @@ test("edit a brew's yeast additions", function() {
   });
   andThen(function() {
     fillIn('div.amount input', "75");
-    find('select.yeast-unit').val('vial(s) of liquid yeast');
+    find('.unit select').val('vial(s) of liquid yeast');
     // Need to trigger 'change' even manually in testing
-    find('select.yeast-unit').trigger('change');
+    find('.unit select').trigger('change');
     click('button:contains("Save Changes")');
   });
   andThen(function() {

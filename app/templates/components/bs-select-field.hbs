@@ -1,0 +1,15 @@
+<label {{bind-attr for=inputElementId}} class="col-md-2 control-label" >
+  {{labelText}}
+</label>
+<div class="col-md-10">
+  <div class="input-group">
+    {{view Ember.Select
+    viewName=inputName
+    content=optionsContent
+    optionLabelPath=optionLabelPath
+    optionValuePath=optionValuePath
+    selection=valueProperty
+    prompt=prompt
+    class='form-control'}}
+  </div>
+</div>

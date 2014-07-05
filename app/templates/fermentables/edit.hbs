@@ -1,22 +1,11 @@
 {{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-8">
   <form role="form" class="form-horizontal">
-    <div class="form-group">
-      <label class="col-md-2 control-label">
-        Fermentable
-      </label>
-      <div class="col-md-10">
-        <div class="input-group">
-          {{view Ember.Select
-          content=fermentables
-          optionLabelPath="content.description"
-          optionValuePath="content.id"
-          selection=fermentable.content
-          prompt="Please select a fermentable"
-          class='form-control'}}
-        </div>
-      </div>
-    </div>
+    {{bs-select-field valueProperty=fermentable
+      optionsContent=fermentables
+      optionLabelPath="content.description"
+      optionValuePath="content.id"
+      prompt="Please select a fermentable" }}
     {{bs-text-field valueProperty=weight appendText="g"}}
   </form>
 </div>
