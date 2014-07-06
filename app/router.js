@@ -13,12 +13,15 @@ Router.map(function() {
       this.resource('recipe', { path: "" }, function() {
         this.resource('fermentables', function() {
           this.route('edit', { path: ':resource_id/edit' });
+          this.route('new');
         });
         this.resource('hops', function() {
           this.route('edit', { path: ':resource_id/edit' });
+          this.route('new');
         });
         this.resource('yeasts', function() {
           this.route('edit', { path: ':resource_id/edit' });
+          this.route('new');
         });
       });
       this.resource('specs', function() {

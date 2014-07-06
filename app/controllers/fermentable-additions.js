@@ -6,7 +6,7 @@ export default Ember.ArrayController.extend({
   // Positive additions are those whose weight is greater
   // than zero, and can therefore be included in calculations
   // (filtering to avoid NaN results)
-  positive: Ember.computed.filter('@this', function(addition) {
+  positive: Ember.computed.filter('@this.@each.{weight}', function(addition) {
     return addition.get('weight') > 0;
   }),
 
@@ -35,8 +35,7 @@ export default Ember.ArrayController.extend({
       return accum + parseInt(addition.get('weight'));
     }, 0);
     return totalWeight;
-  }.property('positive.@each.weight'),
-
+  }.property('@each.weight'),
 
   totalMashedAdditionsWeight: function() {
     var totalWeight = this.get('mashable').reduce(function(accum, addition) {

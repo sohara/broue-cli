@@ -28,7 +28,11 @@ export default Ember.Route.extend({
 
   deactivate: function() {
     var model = this.get('controller.model');
-    model.rollback();
+    if (model.get('isNew')) {
+      model.deleteRecord();
+    } else {
+      model.rollback();
+    }
   },
 
   actions: {
