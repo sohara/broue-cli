@@ -118,8 +118,11 @@ var styles = [
   }
 ];
 
+var nativeConfirm = window.confirm;
+
 module('Acceptance: Brews', {
   setup: function() {
+    window.confirm = function() { return true; };
     App = startApp();
     localStorage.setItem('user', toS(userJSON));
 
@@ -198,6 +201,7 @@ module('Acceptance: Brews', {
     };
   },
   teardown: function() {
+    window.confirm = nativeConfirm;
     Ember.run(App, 'destroy');
     server.shutdown();
   }
@@ -330,5 +334,37 @@ test("edit a brew's yeast additions", function() {
   });
   andThen(function() {
     equal(find('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
+  });
+});
+
+test("delete a brew's fermentable addition", function() {
+  visit('/brews/1');
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
+    click('tr:contains("Superior Pale Ale") button[title="Delete"]') ;
+  });
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.000")').length, 1);
+  });
+});
+
+test("delete a brew's hop addition", function() {
+  visit('/brews/1');
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Bitterness") div:contains("30.6 IBU")').length, 1);
+    click('tr:contains("Warrior") button[title="Delete"]') ;
+  });
+  andThen(function() {
+    equal(find('div.slate-statbox:contains("Bitterness") div:contains("0 IBU")').length, 1);
+  });
+});
+
+test("delete a brew's yeast addition", function() {
+  visit('/brews/1');
+  andThen(function() {
+    click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
+  });
+  andThen(function() {
+    equal(find('tr:contains("Belgian Saison II")').length, 0);
   });
 });

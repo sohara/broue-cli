@@ -10,8 +10,7 @@
         <th>Name</th>
         <th>Color</th>
         <th>% Extract</th>
-        <th>Weight</th>
-        <th> </th>
+        <th colspan="3">Weight</th>
       </tr>
     </thead>
     {{#each}}
@@ -26,13 +25,18 @@
             <span class="glyphicon glyphicon-edit"></span>
           {{/link-to}}
       </td>
+      <td>
+        <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </td>
     </tr>
     </tbody>
     {{/each}}
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td colspan="2">{{grams-to-kilos totalWeight}} kg</td>
+        <td colspan="3">{{grams-to-kilos totalWeight}} kg</td>
       </tr>
     </tfoot>
   </table>
