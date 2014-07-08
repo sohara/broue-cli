@@ -42,7 +42,6 @@ export default Ember.Route.extend({
         _this.send('closeModal');
       }).
       catch(function(reason) {
-        debugger;
         console.log(reason)
       });
     },

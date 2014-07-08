@@ -247,6 +247,9 @@ module('Acceptance: Brews', {
         var jsonBody = toS( bodyObject );
         return [200, headers, jsonBody];
       });
+      this.delete('/notes/:id', function(req) {
+        return [204, headers, ""];
+      });
     });
     server.unhandledRequest = function(verb, path, request){
       verb; // HTTP verb
@@ -534,5 +537,16 @@ test("Add a new note", function() {
   });
   andThen(function() {
     equal(find('li:contains("Brand, spaking")').length, 1);
+  });
+});
+
+test("Delete a new note", function() {
+  visit('/brews/1/notes');
+  andThen(function() {
+    equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
+    click('div.panel:contains("Notes") button:contains("Delete")') ;
+  });
+  andThen(function() {
+    equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
   });
 });

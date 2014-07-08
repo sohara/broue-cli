@@ -9,10 +9,19 @@
       {{#each}}
       <li class="well recede-background">
       {{simple-format text}}
-      {{#link-to 'notes.edit' this class="btn btn-default btn-xs pull-right"}}
-      <span class="glyphicon glyphicon-edit"></span> Edit
-      {{/link-to}}
-      <p class="small text-muted">{{formatted-date createdAt}}</p>
+      <div class="row">
+        <div class="col-md-8">
+          <p class="small text-muted">{{formatted-date createdAt}}</p>
+        </div>
+        <div class="col-md-4 text-right">
+          <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+          {{#link-to 'notes.edit' this class="btn btn-default btn-xs"}}
+          <span class="glyphicon glyphicon-edit"></span> Edit
+          {{/link-to}}
+        </div>
+      </div>
       </li>
       {{/each}}
     </ul>
