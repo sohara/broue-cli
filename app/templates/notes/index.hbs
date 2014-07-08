@@ -1,0 +1,20 @@
+<br><br>
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    {{#linkTo 'notes.new' class="btn btn-default btn-xs pull-right"}}<i class="glyphicon glyphicon-plus-sign"></i> Add note{{/linkTo}}
+    <h2 class="panel-title">Notes</h2>
+  </div>
+  <div class="panel-body">
+    <ul class="list-unstyled">
+      {{#each}}
+      <li class="well recede-background">
+      {{simple-format text}}
+      {{#link-to 'notes.edit' this class="btn btn-default btn-xs pull-right"}}
+      <span class="glyphicon glyphicon-edit"></span> Edit
+      {{/link-to}}
+      <p class="small text-muted">{{formatted-date createdAt}}</p>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</div>

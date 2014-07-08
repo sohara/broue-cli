@@ -1,0 +1,9 @@
+{{#if label}}
+  <label {{bind-attr for=inputElementId}} class="control-label" >
+    {{labelText}}
+  </label>
+{{/if}}
+<div >
+  {{textarea value=valueProperty class='form-control' viewName=inputName
+  rows="20"}}
+</div>

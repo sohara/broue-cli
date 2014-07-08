@@ -26,7 +26,8 @@ var brews = [
     style_id: 1,
     fermentable_addition_ids: [139],
     hop_addition_ids: [202],
-    yeast_addition_ids: [14]
+    yeast_addition_ids: [14],
+    note_ids: [57]
   },
   {
     id: 2,
@@ -105,6 +106,15 @@ var yeasts = [
   }
 ];
 
+var notes = [
+  {
+      brew_id: 1,
+      created_at: "2012-09-12T14:08:45Z",
+      id: 57,
+      text: "Brew day 1: used 532g caramel 60 and... ",
+  }
+];
+
 var styles = [
   {
     id: '1',
@@ -148,12 +158,13 @@ module('Acceptance: Brews', {
         brewObject.brew.id = 3;
         return [200, headers, toS(brewObject)];
       });
-      this.post('/hop_additions', function(req) {
-        var bodyObject = JSON.parse(req.requestBody);
-        bodyObject.hop_addition.id = "30";
-        bodyObject.hops = hops;
-        return [200, headers, toS(bodyObject)];
-      });
+      // this.post('/hop_additions', function(req) {
+      //   debugger;
+      //   var bodyObject = JSON.parse(req.requestBody);
+      //   bodyObject.hop_addition.id = "30";
+      //   bodyObject.hops = hops;
+      //   return [200, headers, toS(bodyObject)];
+      // });
       this.put('/brews/:id', function(req) {
         var brewObject = JSON.parse(req.requestBody);
         brewObject.brew.id = req.params.id;
@@ -169,7 +180,8 @@ module('Acceptance: Brews', {
           hops: hops,
           yeast_additions: yeast_additions,
           yeasts: yeasts,
-          styles: styles} );
+          styles: styles,
+          notes: notes } );
         return [200, headers, jsonBody];
       });
       this.put('/fermentable_additions/:id', function(req) {
@@ -177,14 +189,45 @@ module('Acceptance: Brews', {
         bodyObject.fermentable_addition.id = req.params.id;
         bodyObject.fermentables = fermentables;
         var jsonBody = toS( bodyObject );
-        return [200, headers, bodyObject];
+        return [200, headers, jsonBody];
+      });
+      this.put('/yeast_additions/:id', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.yeast_addition.id = req.params.id;
+        bodyObject.yeasts = yeasts;
+        var jsonBody = toS( bodyObject );
+        return [200, headers, jsonBody];
+      });
+      this.post('/fermentable_additions', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.fermentable_addition.id = "30";
+        bodyObject.fermentables = fermentables;
+        return [200, headers, toS(bodyObject)];
+      });
+      this.post('/yeast_additions', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.yeast_addition.id = "302";
+        bodyObject.yeasts = yeasts;
+        return [200, headers, toS(bodyObject)];
       });
       this.put('/hop_additions/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.hop_addition.id = req.params.id;
         bodyObject.hops = hops;
         var jsonBody = toS( bodyObject );
-        return [200, headers, body];
+        return [200, headers, jsonBody];
+      });
+      this.put('/notes/:id', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.note.id = req.params.id;
+        var jsonBody = toS( bodyObject );
+        return [200, headers, jsonBody];
+      });
+      this.post('/notes', function(req) {
+        var bodyObject = JSON.parse(req.requestBody);
+        bodyObject.note.id = "302";
+        bodyObject.notes = notes;
+        return [200, headers, toS(bodyObject)];
       });
       this.get('fermentables', function(req) {
         var response =  [200, headers, toS({fermentables: fermentables})];
@@ -333,6 +376,12 @@ test("add a new fermentable addition", function() {
     click('button:contains("Save Changes")');
   });
   andThen(function() {
+    click("a:contains('Specs')");
+  });
+  andThen(function() {
+    click("a:contains('Recipe')");
+  });
+  andThen(function() {
     equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.095")').length, 1);
   });
 });
@@ -363,6 +412,9 @@ test("edit a brew's hop additions", function() {
 //     click('a:contains("Add Hop")');
 //   });
 //   andThen(function() {
+//     fillIn('.alpha-acids input', "15.2");
+//     fillIn('.boil-time input', "30");
+//     fillIn('div.weight input', "125");
 //     find('.hop select').val('45');
 //     // Need to trigger 'change' even manually in testing
 //     find('.hop select').trigger('change');
@@ -372,11 +424,13 @@ test("edit a brew's hop additions", function() {
 //     find('.form-group.use select').val('Boil');
 //     // Need to trigger 'change' even manually in testing
 //     find('.form-group.use select').trigger('change');
-//     fillIn('.alpha-acids input', "15.2");
-//     fillIn('.boil-time input', "30");
-//     fillIn('.weight input', "125");
-//     find('.weight input').trigger('change');
 //     click('button:contains("Save Changes")');
+//   });
+//   andThen(function() {
+//     click('a:contains("Specs")')
+//   });
+//   andThen(function() {
+//     click('a:contains("Recipe")')
 //   });
 //   andThen(function() {
 //     debugger;
@@ -410,7 +464,7 @@ test("add yeast additions", function() {
     click('a:contains("Add Yeast")') ;
   });
   andThen(function() {
-    fillIn('div.amount input', "75");
+    fillIn('div.amount input', "1");
     find('.unit select').val('vial(s) of liquid yeast');
     find('.unit select').trigger('change');
     find('.yeast select').val('40');
@@ -418,8 +472,8 @@ test("add yeast additions", function() {
     click('button:contains("Save Changes")');
   });
   andThen(function() {
-    equal(find('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
-    equal(find('tr:contains("Belgian Saison") td:contains("75")').length, 1);
+    equal(find('tr:contains("vial(s) of liquid yeast") td:contains("1")').length, 1);
+    equal(find('tr:contains("Belgian Saison") td:contains("1")').length, 1);
   });
 });
 
@@ -452,5 +506,33 @@ test("delete a brew's yeast addition", function() {
   });
   andThen(function() {
     equal(find('tr:contains("Belgian Saison II")').length, 0);
+  });
+});
+
+test("Edit a brew's notes", function() {
+  visit('/brews/1/notes');
+  andThen(function() {
+    click('div.panel:contains("Notes") a:contains("Edit")') ;
+  });
+  andThen(function() {
+    fillIn("textarea", "I'm totally changing this note");
+    click('button:contains("Save")');
+  });
+  andThen(function() {
+    equal(find('li:contains("totally changing this note")').length, 1);
+  });
+});
+
+test("Add a new note", function() {
+  visit('/brews/1/notes');
+  andThen(function() {
+    click('div.panel:contains("Notes") a:contains("Add")') ;
+  });
+  andThen(function() {
+    fillIn("textarea", "Brand, spaking new note, yo!");
+    click('button:contains("Save")');
+  });
+  andThen(function() {
+    equal(find('li:contains("Brand, spaking")').length, 1);
   });
 });

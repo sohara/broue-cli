@@ -16,5 +16,6 @@ export default DS.Model.extend({
   style: DS.belongsTo('Style'),
   fermentableAdditions: DS.hasMany('FermentableAddition'),
   hopAdditions: DS.hasMany('HopAddition'),
-  yeastAdditions: DS.hasMany('YeastAddition')
+  yeastAdditions: DS.hasMany('YeastAddition'),
+  notes: DS.hasMany('Note')
 });

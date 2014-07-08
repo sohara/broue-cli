@@ -29,7 +29,7 @@ export default Ember.Route.extend({
   deactivate: function() {
     var model = this.get('controller.model');
     if (model.get('isNew')) {
-      model.deleteRecord();
+      // model.deleteRecord();
     } else {
       model.rollback();
     }
@@ -40,6 +40,10 @@ export default Ember.Route.extend({
       var _this = this;
       model.save().then(function() {
         _this.send('closeModal');
+      }).
+      catch(function(reason) {
+        debugger;
+        console.log(reason)
       });
     },
     closeModal: function() {
