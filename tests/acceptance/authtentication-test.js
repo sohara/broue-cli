@@ -41,7 +41,14 @@ module('Integration - Authentication', {
       this.get('/brews', function(){
         return [200, headers, JSON.stringify({brews: brews})];
       });
-      this.post('/users/sign_in', function(req) {
+      this.post('/users/sign_in.json', function(req) {
+        var credentials = JSON.parse(req.requestBody);
+        if (credentials.password !== 'password') {
+          return [401, headers, toS({message: "Your email or password was incorrect."})];
+        }
+        return [200, headers, toS(userJSON)];
+      });
+      this.post('/users.json', function(req) {
         var credentials = JSON.parse(req.requestBody);
         if (credentials.password !== 'password') {
           return [401, headers, toS({message: "Your email or password was incorrect."})];
@@ -68,6 +75,23 @@ test('Allows a guest to sign in', function() {
     click("button[type='submit']");
 
     andThen(function() {
+      equal(currentURL(), "/brews", "Successful login redirects to /brews");
+      equal(find('h2').text(), 'Brews', "The brews heading is found");
+    });
+  });
+});
+
+test('Allows a guest to sign up for an account', function() {
+  expect(3);
+  visit('/').then(function() {
+    equal(find('h3').text(), 'Sign in', "The Sign in header is found");
+    click("a:contains('Sign up')").then(function() {
+      fillIn("input#email", "jack@example.com");
+      fillIn("input#password", "password");
+      fillIn("input#passwordConfirmation", "password");
+      fillIn("input#username", "sohara");
+      click("button[type='submit']");
+    }).then(function() {
       equal(currentURL(), "/brews", "Successful login redirects to /brews");
       equal(find('h2').text(), 'Brews', "The brews heading is found");
     });

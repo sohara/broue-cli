@@ -38,6 +38,7 @@ Router.map(function() {
     this.route('edit', {path: ':brew_id/edit'});
   });
   this.resource('login');
+  this.resource('signup');
 });
 
 export default Router;
