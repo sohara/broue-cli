@@ -17,5 +17,6 @@ export default DS.Model.extend({
   fermentableAdditions: DS.hasMany('FermentableAddition'),
   hopAdditions: DS.hasMany('HopAddition'),
   yeastAdditions: DS.hasMany('YeastAddition'),
-  notes: DS.hasMany('Note')
+  notes: DS.hasMany('Note'),
+  user: DS.belongsTo('user')
 });

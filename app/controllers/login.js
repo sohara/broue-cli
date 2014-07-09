@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  needs: ['application'],
   email: null,
   password: null,
   errorMessage: null,
@@ -8,7 +9,7 @@ export default Ember.Controller.extend({
   previousTransition: null,
 
   // Computed property setter and getter
-  currentUser: function(key, value) {
+  session: function(key, value) {
    if (arguments.length > 1) {
      localStorage.setItem('user', JSON.stringify(value));
      return value;
@@ -17,7 +18,7 @@ export default Ember.Controller.extend({
   }.property(),
 
   verify: function(transition) {
-    if (!this.get('currentUser')) {
+    if (!this.get('session')) {
       this.set('previousTransition', transition);
       this.transitionToRoute('login');
     }
@@ -39,11 +40,14 @@ export default Ember.Controller.extend({
         // (doesn't like async stuff)
         Ember.run(this, function() {
           this.setProperties({
-            currentUser: userJson,
+            session: userJson,
             isProcessing: false,
             email: null,
             password: null
           });
+
+          var user = this.store.push('user', userJson.user)
+          this.get('controllers.application').set('user', user);
 
           var previousTransition = this.get('previousTransition');
           if (previousTransition) {

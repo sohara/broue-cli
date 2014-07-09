@@ -14,9 +14,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-    {{#if user}}
+    {{#if user.username}}
       <ul class="nav navbar-nav navbar-right">
-        <li><p class="navbar-text">Hello {{user.name}}</p></li>
+        <li><p class="navbar-text">Hello, {{user.username}}</p></li>
         <li><p class="navbar-text">
           <a href {{action "logout"}}>Logout</a>
         </p></li>

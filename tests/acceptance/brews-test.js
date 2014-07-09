@@ -6,8 +6,17 @@ var App, server;
 var userJSON = {
   token: "aQXpLwsQivHhYZKZyaF2",
   email: "sohara@sohara.com",
-  bio: "I like to brew. More than you."
+  bio: "I like to brew. More than you.",
+  user_id: 1,
+  user: user
 };
+
+var user = {
+    id: 1,
+    bio: "I like to brew. More than you.",
+    username: "sohara",
+    email: "sohara@sohara.com"
+  };
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -249,6 +258,9 @@ module('Acceptance: Brews', {
       });
       this.delete('/notes/:id', function(req) {
         return [204, headers, ""];
+      });
+      this.get('/users/:id', function(req) {
+        return [200, headers, toS({user: user})];
       });
     });
     server.unhandledRequest = function(verb, path, request){

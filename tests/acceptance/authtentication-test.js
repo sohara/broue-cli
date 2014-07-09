@@ -3,10 +3,18 @@ import startApp from '../helpers/start-app';
 
 var App, server;
 
+var user = {
+    id: 1,
+    bio: "I like to brew. More than you.",
+    username: "sohara",
+    email: "sohara@sohara.com"
+  };
+
 var userJSON = {
   token: "aQXpLwsQivHhYZKZyaF2",
   email: "sohara@sohara.com",
-  bio: "I like to brew. More than you."
+  user_id: 1,
+  user: user
 };
 
 module('Integration - Authentication', {
@@ -39,6 +47,9 @@ module('Integration - Authentication', {
           return [401, headers, toS({message: "Your email or password was incorrect."})];
         }
         return [200, headers, toS(userJSON)];
+      });
+      this.get('/users/:id', function(req) {
+        return [200, headers, toS({user: user})];
       });
     });
   },
