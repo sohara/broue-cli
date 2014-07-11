@@ -1,62 +1,39 @@
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
+import stubs from '../helpers/pretender-stubs';
 
-var App, server;
+var App, server, Stubs;
 
-var user = {
-    id: 1,
-    bio: "I like to brew. More than you.",
-    username: "sohara",
-    email: "sohara@sohara.com"
-  };
-
-var userJSON = {
-  token: "aQXpLwsQivHhYZKZyaF2",
-  email: "sohara@sohara.com",
-  user_id: 1,
-  user: user
-};
-
-module('Integration - Authentication', {
+module('Acceptance - Authentication', {
   setup: function() {
     App = startApp();
+    Stubs = stubs();
 
     localStorage.removeItem('user');
 
     var toS = JSON.stringify;
     var headers = {"Content-Type":"application/json"};
 
-    var brews = [
-      {
-        id: 1,
-        name: "Awesome IPA"
-      },
-      {
-        id: 2,
-        name: "Summer Saison"
-      }
-    ];
-
     server = new Pretender(function() {
       this.get('/brews', function(){
-        return [200, headers, JSON.stringify({brews: brews})];
+        return [200, headers, JSON.stringify({brews: Stubs.brews})];
       });
       this.post('/users/sign_in.json', function(req) {
         var credentials = JSON.parse(req.requestBody);
         if (credentials.password !== 'password') {
           return [401, headers, toS({message: "Your email or password was incorrect."})];
         }
-        return [200, headers, toS(userJSON)];
+        return [200, headers, toS(Stubs.userJSON)];
       });
       this.post('/users.json', function(req) {
         var credentials = JSON.parse(req.requestBody);
         if (credentials.password !== 'password') {
           return [401, headers, toS({message: "Your email or password was incorrect."})];
         }
-        return [200, headers, toS(userJSON)];
+        return [200, headers, toS(Stubs.userJSON)];
       });
       this.get('/users/:id', function(req) {
-        return [200, headers, toS({user: user})];
+        return [200, headers, toS({user: Stubs.user})];
       });
       this.put('/users/:id', function(req) {
         var requestObject = JSON.parse(req.requestBody);
@@ -107,7 +84,7 @@ test('Allows a guest to sign up for an account', function() {
 test('Allows a user to view their profile', function() {
   expect(2);
   Ember.run(function() {
-    localStorage.setItem('user', JSON.stringify(userJSON));
+    localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');
   andThen(function() {
@@ -122,7 +99,7 @@ test('Allows a user to view their profile', function() {
 test('A user can edit their profile', function() {
   expect(3);
   Ember.run(function() {
-    localStorage.setItem('user', JSON.stringify(userJSON));
+    localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/profile');
   andThen(function() {
@@ -143,7 +120,7 @@ test('A user can edit their profile', function() {
 test('Allows a logged in user to log out', function() {
   expect(1);
   Ember.run(function() {
-    localStorage.setItem('user', JSON.stringify(userJSON));
+    localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');
   andThen(function() {
