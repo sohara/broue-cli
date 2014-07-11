@@ -1,9 +1,8 @@
 import Ember from 'ember';
+import AuthenticatedRoute from '../mixins/authenticated-route';
 
-export default Ember.Route.extend({
-  beforeModel: function(transition) {
-    this.controllerFor('login').verify(transition);
-  },
+export default Ember.Route.extend(AuthenticatedRoute, {
+
   setupController: function(controller, model) {
     this._super(controller, model);
     var styles = this.store.find('style');
