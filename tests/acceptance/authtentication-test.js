@@ -58,6 +58,12 @@ module('Integration - Authentication', {
       this.get('/users/:id', function(req) {
         return [200, headers, toS({user: user})];
       });
+      this.put('/users/:id', function(req) {
+        var requestObject = JSON.parse(req.requestBody);
+        requestObject.user.id = req.params.id;
+        var jsonBody = toS(requestObject);
+        return [200, headers, jsonBody];
+      });
     });
   },
   teardown: function() {
@@ -98,6 +104,42 @@ test('Allows a guest to sign up for an account', function() {
   });
 });
 
+test('Allows a user to view their profile', function() {
+  expect(2);
+  Ember.run(function() {
+    localStorage.setItem('user', JSON.stringify(userJSON));
+  });
+  visit('/');
+  andThen(function() {
+    click('a:contains("View Profile")');
+  });
+  andThen(function() {
+    equal(find('p:contains("I like to brew. More than you.")').length, 1, "Finds the user's bio");
+    equal(find('h3:contains("Awesome IPA")').length, 1, "Finds user's recent brews listed");
+  });
+});
+
+test('A user can edit their profile', function() {
+  expect(3);
+  Ember.run(function() {
+    localStorage.setItem('user', JSON.stringify(userJSON));
+  });
+  visit('/profile');
+  andThen(function() {
+    click('a:contains("Edit Profile")');
+  });
+  andThen(function() {
+    fillIn(".email input", "different@example.com");
+    fillIn(".username input", "notsohara");
+    fillIn(".bio textarea", "It's a new bio");
+    click("button[type='submit']").then(function() {
+    equal(find('h1:contains("notsohara")').length, 1, "Finds the user's username");
+    equal(find('p:contains("It\'s a new bio")').length, 1, "Finds the user's bio");
+    equal(find('h3:contains("Awesome IPA")').length, 1, "Finds user's recent brews listed");
+    });
+  });
+});
+
 test('Allows a logged in user to log out', function() {
   expect(1);
   Ember.run(function() {
@@ -125,3 +167,4 @@ test('Displays login error when logging in with bad credentials', function() {
     });
   });
 });
+

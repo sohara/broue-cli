@@ -1,0 +1,11 @@
+<h1>Edit Your Profile</h1>
+<form role="form" class="form-horizontal">
+  {{bs-text-field valueProperty=username}}
+  {{bs-text-field valueProperty=email}}
+  {{bs-textarea-field valueProperty=bio label="About Me" rows="3"}}
+
+  <div class="col-md-10 col-md-offset-2">
+    <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
+    <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
+  </div>
+</form>

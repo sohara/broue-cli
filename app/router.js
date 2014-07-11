@@ -5,6 +5,12 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource('login');
+  this.resource('signup');
+  this.resource('profile', function() {
+    this.route('show', { path: "" });
+    this.route('edit', { path: "edit" });
+  });
   this.resource('brews', function() {
     this.route('new');
     this.resource('brew', { path: ":brew_id" }, function() {
@@ -37,8 +43,6 @@ Router.map(function() {
     });
     this.route('edit', {path: ':brew_id/edit'});
   });
-  this.resource('login');
-  this.resource('signup');
 });
 
 export default Router;

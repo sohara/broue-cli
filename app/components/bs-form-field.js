@@ -14,11 +14,15 @@ export default Ember.Component.extend({
   // Extract the label text from property of parent view property
   // bound to 'value'
   labelText: function() {
-    return this.get('valuePropertyName')
-      .decamelize()
-      .split("_")
-      .map(Ember.String.capitalize)
-      .join(" ");
+    if (typeof(this.get('label')) !== "undefined") {
+      return this.get('label')
+    } else {
+      return this.get('valuePropertyName')
+        .decamelize()
+        .split("_")
+        .map(Ember.String.capitalize)
+        .join(" ");
+    }
   }.property('valuePropertyName'),
 
   inputName: function() {
