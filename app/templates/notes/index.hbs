@@ -1,7 +1,9 @@
 <br><br>
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#linkTo 'notes.new' class="btn btn-default btn-xs pull-right"}}<i class="glyphicon glyphicon-plus-sign"></i> Add note{{/linkTo}}
+    {{#if canEdit}}
+      {{#linkTo 'notes.new' class="btn btn-default btn-xs pull-right"}}<i class="glyphicon glyphicon-plus-sign"></i> Add note{{/linkTo}}
+    {{/if}}
     <h2 class="panel-title">Notes</h2>
   </div>
   <div class="panel-body">
@@ -14,12 +16,14 @@
           <p class="small text-muted">{{formatted-date createdAt}}</p>
         </div>
         <div class="col-md-4 text-right">
+          {{#if controller.canEdit}}
           <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
             <span class="glyphicon glyphicon-trash"></span> Delete
           </button>
           {{#link-to 'notes.edit' this class="btn btn-default btn-xs"}}
           <span class="glyphicon glyphicon-edit"></span> Edit
           {{/link-to}}
+          {{/if}}
         </div>
       </div>
       </li>

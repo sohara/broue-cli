@@ -1,0 +1,17 @@
+{{#link-to 'recipe' brew tagName="li"}}
+<div class="info">
+  <h3>
+    {{brew.name}}
+  </h3>
+  <p class="text-muted">
+  {{brew.style.subcategoryName}}
+  </p>
+  <div class="brewer">
+    <span class="text-muted small">brewed by:</span><br>
+    {{brew.user.username}}
+  </div>
+  <div class="date small">
+    <span class="text-muted">Created:</span> {{formatted-date brew.createdAt}}
+  </div>
+</div>
+{{/link-to}}

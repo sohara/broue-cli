@@ -1,6 +1,8 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#linkTo 'specs.edit' class="btn btn-default btn-xs pull-right edit-specs"}}<i class="glyphicon glyphicon-edit"></i> Edit{{/linkTo}}
+    {{#if canEdit}}
+      {{#linkTo 'specs.edit' class="btn btn-default btn-xs pull-right edit-specs"}}<i class="glyphicon glyphicon-edit"></i> Edit{{/linkTo}}
+    {{/if}}
     <h2 class="panel-title">Specs</h2>
   </div>
   <table class="table table-striped">

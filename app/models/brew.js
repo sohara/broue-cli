@@ -14,9 +14,9 @@ export default DS.Model.extend({
   recordedPostBoilVolume: DS.attr('number'),
   createdAt: DS.attr('date'),
   style: DS.belongsTo('Style'),
-  fermentableAdditions: DS.hasMany('FermentableAddition'),
-  hopAdditions: DS.hasMany('HopAddition'),
-  yeastAdditions: DS.hasMany('YeastAddition'),
-  notes: DS.hasMany('Note'),
-  user: DS.belongsTo('user')
+  fermentableAdditions: DS.hasMany('FermentableAddition', {async: true}),
+  hopAdditions: DS.hasMany('HopAddition', {async: true}),
+  yeastAdditions: DS.hasMany('YeastAddition', {async: true}),
+  notes: DS.hasMany('Note', {async: true}),
+  user: DS.belongsTo('user', {async: true})
 });

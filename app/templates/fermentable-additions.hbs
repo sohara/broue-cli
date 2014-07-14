@@ -1,9 +1,11 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#link-to 'fermentables.new' class="btn btn-default btn-xs pull-right" title="New"}}
-      <span class="glyphicon glyphicon-plus-sign"></span>
-      Add Fermentable
-    {{/link-to}}
+    {{#if canEdit}}
+      {{#link-to 'fermentables.new' class="btn btn-default btn-xs pull-right" title="New"}}
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Add Fermentable
+      {{/link-to}}
+    {{/if}}
     <h2 class="panel-title">Fermentable Additions</h2>
   </div>
 
@@ -13,7 +15,7 @@
         <th>Name</th>
         <th>Color</th>
         <th>% Extract</th>
-        <th colspan="3">Weight</th>
+        <th {{bind-attr colspan=view.computedColspan}}>Weight</th>
       </tr>
     </thead>
     {{#each}}
@@ -23,16 +25,18 @@
       <td>{{color}}</td>
       <td>{{percentExtract}}</td>
       <td>{{grams-to-kilos weight}} kg</td>
-      <td>
-        {{#link-to 'fermentables.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
-            <span class="glyphicon glyphicon-edit"></span>
-          {{/link-to}}
-      </td>
-      <td>
-        <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
-          <span class="glyphicon glyphicon-trash"></span>
-        </button>
-      </td>
+      {{#if canEdit}}
+        <td>
+          {{#link-to 'fermentables.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              <span class="glyphicon glyphicon-edit"></span>
+            {{/link-to}}
+        </td>
+        <td>
+          <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
+            <span class="glyphicon glyphicon-trash"></span>
+          </button>
+        </td>
+      {{/if}}
     </tr>
     </tbody>
     {{/each}}

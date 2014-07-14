@@ -6,5 +6,7 @@ export default DS.Model.extend({
   slug: DS.attr('string'),
   bio: DS.attr('string'),
   image: DS.attr(),
+  updatedAt: DS.attr('date'),
+  brewCount: DS.attr('number'),
   brews: DS.hasMany('brew')
 });

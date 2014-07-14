@@ -3,6 +3,10 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
   itemController: 'fermentableAddition',
 
+  needs: ['brew'],
+
+  canEdit: Ember.computed.alias('controllers.brew.canEdit'),
+
   // Positive additions are those whose weight is greater
   // than zero, and can therefore be included in calculations
   // (filtering to avoid NaN results)

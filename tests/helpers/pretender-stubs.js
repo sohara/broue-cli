@@ -27,6 +27,7 @@ export default function () {
         target_mash_temp: 69,
         water_grain_ratio: 3,
         style_id: 1,
+        user_id: 1,
         fermentable_addition_ids: [139],
         hop_addition_ids: [202],
         yeast_addition_ids: [14],

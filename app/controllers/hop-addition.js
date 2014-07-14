@@ -5,6 +5,7 @@ export default Ember.ObjectController.extend({
   name: Ember.computed.alias('hop.name'),
   batchSize: Ember.computed.alias('controllers.brew.batchSize'),
   gravityFactor: Ember.computed.alias('controllers.brew.gravityFactor'),
+  canEdit: Ember.computed.alias('controllers.brew.canEdit'),
 
   ibus: function() {
     var alphaAcidUnits = this.get("alphaAcidUnits");

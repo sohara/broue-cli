@@ -1,13 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: [ 'fermentableAdditions' ],
+  needs: [ 'fermentableAdditions', 'brew' ],
 
   name: Ember.computed.alias('fermentable.name'),
   fermentableType: Ember.computed.alias('fermentable.fermentableType'),
   extractYield: Ember.computed.alias('fermentable.totalYield'),
   color: Ember.computed.alias('fermentable.color'),
   totalExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalExtractUnits'),
+  canEdit: Ember.computed.alias('controllers.brew.canEdit'),
 
   mashable: function() {
     var type = this.get('fermentableType');

@@ -79,8 +79,8 @@ module('Acceptance: Brews', {
   }
 });
 
-test('visiting /brews', function() {
-  visit('/brews');
+test('visiting /my-brews', function() {
+  visit('/my-brews');
 
   andThen(function() {
     equal(currentPath(), 'brews.index');
@@ -90,7 +90,7 @@ test('visiting /brews', function() {
 
 test('create a new brew', function() {
   expect(3);
-  visit('/brews');
+  visit('/my-brews');
   andThen(function() {
     click('a:contains("New Brew")');
   });
@@ -103,14 +103,14 @@ test('create a new brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.recipe.index');
+    equal(currentPath(), 'brew.recipe.index');
     equal(find('h2:contains("Super stuff ale")').length, 1);
   });
 });
 
 test('edit an existing brew', function() {
   expect(3);
-  visit('/brews');
+  visit('/my-brews');
   andThen(function() {
     click('a:contains("Awesome IPA")');
   });
@@ -125,7 +125,7 @@ test('edit an existing brew', function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(currentPath(), 'brews.brew.recipe.index');
+    equal(currentPath(), 'brew.recipe.index');
     equal(find('h2:contains("Even Awesomer IPA")').length, 1);
     equal(find('h2:contains("Cream Ale")').length, 1);
   });
@@ -140,7 +140,7 @@ test('edit brew specs', function() {
     fillIn('.boil-loss input', '6')
     click('button:contains("Save")');
     andThen(function() {
-      equal(currentPath(), 'brews.brew.specs.index');
+      equal(currentPath(), 'brew.specs.index');
       equal(find('table tr:first td:last').text(), '29 litres');
     });
   })
@@ -155,7 +155,7 @@ test('edit brew day records', function() {
     fillIn('.recorded-original-gravity input', '1.048')
     click('button:contains("Save")');
     andThen(function() {
-      equal(currentPath(), 'brews.brew.brew_day.index');
+      equal(currentPath(), 'brew.brew_day.index');
       equal(find('table tr:first td:last').text(), '2014-06-25');
     });
   })

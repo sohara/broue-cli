@@ -1,15 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
-  needs: ['fermentableAdditions', 'hopAdditions'],
+  needs: ['fermentableAdditions', 'hopAdditions', 'application'],
 
-  fermentableAdditions: Ember.computed.alias('computed.fermentableAdditions'),
+  // Seems like an error. Remove if possible
+  // fermentableAdditions: Ember.computed.alias('computed.fermentableAdditions'),
   totalMashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalMashedExtractUnits'),
   totalUnmashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalUnmashedExtractUnits'),
   maltColorUnits: Ember.computed.alias('controllers.fermentableAdditions.maltColorUnits'),
   totalIBUs: Ember.computed.alias('controllers.hopAdditions.totalIBUs'),
   totalMashedAdditionsWeight: Ember.computed.alias('controllers.fermentableAdditions.totalMashedAdditionsWeight'),
   totalExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalExtractUnits'),
+
+  currentUser: Ember.computed.alias('controllers.application.user'),
+
+  canEdit: function() {
+    return this.get('currentUser.id') === this.get('user.id');
+  }.property('currentUser.id', 'user.id'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");

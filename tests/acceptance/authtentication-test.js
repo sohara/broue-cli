@@ -52,14 +52,16 @@ module('Acceptance - Authentication', {
 test('Allows a guest to sign in', function() {
   expect(3);
   visit('/').then(function() {
-    equal(find('h3').text(), 'Sign in', "The Sign in header is found");
-    fillIn("input#email", "jack@example.com");
-    fillIn("input#password", "password");
-    click("button[type='submit']");
+    click("a:contains('Login')").then(function() {
+      equal(find('h3').text(), 'Sign in', "The Sign in header is found");
+      fillIn("input#email", "jack@example.com");
+      fillIn("input#password", "password");
+      click("button[type='submit']");
+    });
 
     andThen(function() {
-      equal(currentURL(), "/brews", "Successful login redirects to /brews");
-      equal(find('h2').text(), 'Brews', "The brews heading is found");
+      equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
+      equal(find('h2').text(), 'My Brews', "The brews heading is found");
     });
   });
 });
@@ -67,16 +69,16 @@ test('Allows a guest to sign in', function() {
 test('Allows a guest to sign up for an account', function() {
   expect(3);
   visit('/').then(function() {
-    equal(find('h3').text(), 'Sign in', "The Sign in header is found");
-    click("a:contains('Sign up')").then(function() {
+    equal(find('h2:first').text(), 'Latest Brews', "The latest brews header is found");
+    click("a:contains('Sign Up')").then(function() {
       fillIn("input#email", "jack@example.com");
       fillIn("input#password", "password");
       fillIn("input#passwordConfirmation", "password");
       fillIn("input#username", "sohara");
       click("button[type='submit']");
     }).then(function() {
-      equal(currentURL(), "/brews", "Successful login redirects to /brews");
-      equal(find('h2').text(), 'Brews', "The brews heading is found");
+      equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
+      equal(find('h2').text(), 'My Brews', "The brews heading is found");
     });
   });
 });
@@ -133,7 +135,7 @@ test('Allows a logged in user to log out', function() {
 
 test('Displays login error when logging in with bad credentials', function() {
   expect(2);
-  visit('/').then(function() {
+  visit('/login').then(function() {
     fillIn("input#email", "jack@example.com");
     fillIn("input#password", "notpassword");
     click("button[type='submit']");
