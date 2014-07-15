@@ -3,15 +3,16 @@ import Ember from 'ember';
 export default Ember.ArrayController.extend({
   itemController: 'fermentableAddition',
 
-  needs: ['brew'],
+  needs: ['brew', 'application'],
+  measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
 
   canEdit: Ember.computed.alias('controllers.brew.canEdit'),
 
   // Positive additions are those whose weight is greater
   // than zero, and can therefore be included in calculations
   // (filtering to avoid NaN results)
-  positive: Ember.computed.filter('@this.@each.{weight}', function(addition) {
-    return addition.get('weight') > 0;
+  positive: Ember.computed.filter('@this.@each.{weightGrams}', function(addition) {
+    return addition.get('weightGrams') > 0;
   }),
 
   mashable: Ember.computed.filterBy('positive', 'mashable', true),
@@ -34,26 +35,33 @@ export default Ember.ArrayController.extend({
     return Math.round(sum * 100) / 100;
   }.property('totalMashedExtractUnits', 'totalUnmashedExtractUnits'),
 
-  totalWeight: function() {
-    var totalWeight = this.get('positive').reduce(function(accum, addition) {
-      return accum + parseInt(addition.get('weight'));
+  weightGrams: function() {
+    var weightGrams = this.get('positive').reduce(function(accum, addition) {
+      return accum + parseFloat(addition.get('weightGrams'));
     }, 0);
-    return totalWeight;
-  }.property('@each.weight'),
+    return weightGrams;
+  }.property('@each.weightGrams'),
 
-  totalMashedAdditionsWeight: function() {
-    var totalWeight = this.get('mashable').reduce(function(accum, addition) {
-      return accum + parseInt(addition.get('weight'));
+  weightOz: function() {
+    var weightGrams = this.get('positive').reduce(function(accum, addition) {
+      return accum + parseFloat(addition.get('weightOz'));
     }, 0);
-    return totalWeight;
-  }.property('mashable.@each.weight'),
+    return weightGrams;
+  }.property('@each.weightOz'),
+
+  totalMashedAdditionsWeightGrams: function() {
+    var totalWeightGrams = this.get('mashable').reduce(function(accum, addition) {
+      return accum + parseFloat(addition.get('weightGrams'));
+    }, 0);
+    return totalWeightGrams;
+  }.property('mashable.@each.weightGrams'),
 
   maltColorUnits: function() {
     return this.get('positive').reduce(function(accum, addition) {
-      var weightLbs = addition.get('weight') * 0.0022046226;
+      var weightLbs = addition.get('weightGrams') * 0.0022046226;
       var additionUnits = weightLbs * addition.get('color');
       return accum + additionUnits;
     }, 0);
-  }.property('positive.@each.color', 'positive.@each.weight')
+  }.property('positive.@each.color', 'positive.@each.weightGrams')
 
 });

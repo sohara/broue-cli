@@ -16,6 +16,14 @@
       {{#link-to 'brews.new' class="btn btn-default navbar-btn" }}
         <span class="glyphicon glyphicon-plus-sign"></span> New Brew
       {{/link-to}}
+      <div class="btn-group">
+        <button type="button" {{bind-attr class=":btn :btn-default isUS:active"}} {{action setMeasureSystem 'us'}}>
+          U.S.
+        </button>
+        <button type="button" {{bind-attr class=":btn :btn-default isMetric:active"}} class="btn btn-default" {{action setMeasureSystem 'metric'}}>
+          Metric
+        </button>
+      </div>
 
       <ul class="nav navbar-nav navbar-right">
         {{#if user.username}}

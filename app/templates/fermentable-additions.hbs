@@ -24,7 +24,7 @@
       <td>{{name}}</td>
       <td>{{color}}</td>
       <td>{{percentExtract}}</td>
-      <td>{{grams-to-kilos weight}} kg</td>
+      <td>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
       {{#if canEdit}}
         <td>
           {{#link-to 'fermentables.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
@@ -43,7 +43,7 @@
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td colspan="3">{{grams-to-kilos totalWeight}} kg</td>
+        <td>{{localized-weight model=this measureSystem=controller.measureSystem magnitude="high"}}</td>
       </tr>
     </tfoot>
   </table>

@@ -3,6 +3,15 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   needs: ['login'],
   session: Ember.computed.alias('controllers.login.session'),
+  measureSystem: 'us',
+
+  isMetric: function() {
+    return this.get('measureSystem') == 'metric';
+  }.property('measureSystem'),
+  isUS: function() {
+    return this.get('measureSystem') == 'us';
+  }.property('measureSystem'),
+
   user: function(key, value) {
     if (arguments.length > 1) {
       return value;
@@ -29,6 +38,9 @@ export default Ember.Controller.extend({
       Ember.run.next(this, function() {
         this.clearStore();
       });
+    },
+    setMeasureSystem: function(measureSystem) {
+      this.set('measureSystem', measureSystem);
     }
   }
 });

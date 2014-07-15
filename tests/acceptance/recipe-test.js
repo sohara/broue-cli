@@ -103,7 +103,8 @@ module('Acceptance: Recipes', {
 test("edit a brew's fermentable additions", function() {
   visit('/brews/1');
   andThen(function() {
-    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1,
+      "Starting O.G. is found");
     click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
   });
   andThen(function() {
@@ -111,7 +112,8 @@ test("edit a brew's fermentable additions", function() {
     click('button:contains("Save Changes")');
   });
   andThen(function() {
-    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1);
+    equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1,
+      "Ending O.G. is found");
   });
 });
 

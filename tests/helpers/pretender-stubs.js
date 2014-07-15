@@ -52,7 +52,8 @@ export default function () {
       brew_id: 1,
         fermentable_id: 45,
         id: 139,
-        weight: 23000
+        weight_grams: 23000,
+        weight_oz: 811.30
     }
   ];
 
