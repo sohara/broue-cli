@@ -79,7 +79,8 @@ export default function () {
         hop_id: 45,
         id: 202,
         use: "First Wort",
-        weight: 100
+        weight_grams: 100,
+        weight_oz: 3.52739
     }
   ];
   stubs.hops = [

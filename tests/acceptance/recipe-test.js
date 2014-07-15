@@ -149,7 +149,7 @@ test("edit a brew's hop additions", function() {
     click('tr:contains("Warrior") a[title="Edit"]') ;
   });
   andThen(function() {
-    fillIn('div.weight input', "125");
+    fillIn('div.weight-grams input', "125");
     fillIn('div.alpha-acids input', "16.2");
     click('button:contains("Save Changes")');
   });

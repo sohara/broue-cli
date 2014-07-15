@@ -43,10 +43,10 @@ export default Ember.ArrayController.extend({
   }.property('@each.weightGrams'),
 
   weightOz: function() {
-    var weightGrams = this.get('positive').reduce(function(accum, addition) {
+    var weightOz = this.get('positive').reduce(function(accum, addition) {
       return accum + parseFloat(addition.get('weightOz'));
     }, 0);
-    return weightGrams;
+    return weightOz;
   }.property('@each.weightOz'),
 
   totalMashedAdditionsWeightGrams: function() {

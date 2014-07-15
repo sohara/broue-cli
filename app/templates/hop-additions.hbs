@@ -26,7 +26,7 @@
         <td>{{name}}</td>
         <td>{{form}}</td>
         <td>{{use}}</td>
-        <td>{{weight}} g</td>
+        <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
         <td>{{boilTime}}</td>
         <td>{{alphaAcids}}</td>
         <td>{{ibus}}</td>
@@ -48,7 +48,7 @@
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td>{{totalWeight}} g</td>
+        <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
         <td colspan="2"> </td>
         <td colspan="3">{{totalIBUs}}</td>
       </tr>

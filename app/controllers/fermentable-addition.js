@@ -2,9 +2,7 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   needs: [ 'fermentable-additions', 'brew', 'application' ],
-
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
-
   name: Ember.computed.alias('fermentable.name'),
   fermentableType: Ember.computed.alias('fermentable.fermentableType'),
   extractYield: Ember.computed.alias('fermentable.totalYield'),
