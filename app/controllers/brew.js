@@ -2,9 +2,8 @@ import Ember from 'ember';
 
 export default Ember.ObjectController.extend({
   needs: ['fermentableAdditions', 'hopAdditions', 'application'],
+  measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
 
-  // Seems like an error. Remove if possible
-  // fermentableAdditions: Ember.computed.alias('computed.fermentableAdditions'),
   totalMashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalMashedExtractUnits'),
   totalUnmashedExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalUnmashedExtractUnits'),
   maltColorUnits: Ember.computed.alias('controllers.fermentableAdditions.maltColorUnits'),
@@ -22,17 +21,17 @@ export default Ember.ObjectController.extend({
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
     var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
     var efficiency = this.get("efficiency");
-    var batchSize = this.get("batchSize");
-    var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / batchSize);
-    var unmashed = ((totalUnmashedExtractUnits * 0.3865) / batchSize);
+    var batchSizeLitres = this.get("batchSizeLitres");
+    var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / batchSizeLitres);
+    var unmashed = ((totalUnmashedExtractUnits * 0.3865) / batchSizeLitres);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "batchSize", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
+  }.property("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
 
   boilVolume: function() {
-    var boilVolume = parseFloat(this.get("batchSize")) + parseFloat(this.get("boilLoss"));
+    var boilVolume = parseFloat(this.get("batchSizeLitres")) + parseFloat(this.get("boilLossLitres"));
     return Math.round(boilVolume * 100) / 100;
-  }.property("batchSize"),
+  }.property("batchSizeLitres", "boilLossLitres"),
 
   preBoilGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
@@ -46,7 +45,8 @@ export default Ember.ObjectController.extend({
   }.property("efficiency", "batchSize", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits"),
 
   colorSRM: function() {
-    var batchSizeGallons = this.get("batchSize") * 0.26417205;
+    // var batchSizeGallons = this.get("batchSizeLitres") * 0.26417205;
+    var batchSizeGallons = this.get("batchSizeGallons");
     var maltColorUnits = this.get("maltColorUnits");
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
     return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100;
@@ -58,18 +58,31 @@ export default Ember.ObjectController.extend({
   }.property("preBoilGravity"),
 
   strikeWaterVolume: function() {
+    var measureSystemSuffix = this.get('measureSystem').capitalize();
+    return this.get('strikeWaterVolume%@1'.fmt(measureSystemSuffix));
+  }.property('strikeWaterVolumeMetric', 'measureSystem'),
+
+  strikeWaterVolumeMetric: function() {
     var totalMashedAdditionsWeightGrams = this.get('totalMashedAdditionsWeightGrams');
-    var waterGrainRatio = this.get('waterGrainRatio');
-    return (totalMashedAdditionsWeightGrams * waterGrainRatio) / 1000;
-  }.property("totalMashedAdditionsWeightGrams", "waterGrainRatio"),
+    var waterGrainRatioMetric = this.get('waterGrainRatioMetric');
+    return (totalMashedAdditionsWeightGrams * waterGrainRatioMetric) / 1000;
+  }.property("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric"),
+
+  strikeWaterVolumeUs: function() {
+    return ( this.get('strikeWaterVolumeMetric') / 3.7854118 ).toFixed(2);
+  }.property('strikeWaterVolumeMetric'),
+
+  unitOfMesure: function() {
+    return this.get('measureSystem') === 'metric' ? 'litres' : 'gallons';
+  }.property('measureSystem'),
 
   strikeWaterTemp: function() {
-    var waterGrainRatio = parseFloat(this.get('waterGrainRatio'));
+    var waterGrainRatioMetric = parseFloat(this.get('waterGrainRatioMetric'));
     var grainTemp = parseFloat(this.get('grainTemp'));
     var targetMashTemp = parseFloat(this.get('targetMashTemp'));
-    var strikeTemp = ((0.2 / (waterGrainRatio / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
+    var strikeTemp = ((0.2 / (waterGrainRatioMetric / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
     return Math.round(strikeTemp * 100) / 100;
-  }.property("waterGrainRatio", "targetMashTemp", "grainTemp"),
+  }.property("waterGrainRatioMetric", "targetMashTemp", "grainTemp"),
 
   recordedEfficiency: function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');

@@ -40,9 +40,10 @@ module('Acceptance: Brews', {
         return [200, headers, toS(brewObject)];
       });
       this.put('/brews/:id', function(req) {
-        var brewObject = JSON.parse(req.requestBody);
-        brewObject.brew.id = req.params.id;
-        var jsonBody = toS( brewObject);
+        var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
+        var requestBrew = JSON.parse(req.requestBody).brew;
+        var mergedBrew = jQuery.extend(brewObject, requestBrew);
+        var jsonBody = toS( {brew: brewObject});
         return [200, headers, jsonBody];
       });
       this.get('/brews/:id', function(req) {
@@ -136,12 +137,14 @@ test('edit brew specs', function() {
   andThen(function() { click('a:contains("Specs")'); });
   andThen(function() { click('a.edit-specs:contains("Edit")'); });
   andThen(function() {
-    fillIn('.batch-size input', '29')
-    fillIn('.boil-loss input', '6')
+    fillIn('.batch-size-litres input', '29')
+    fillIn('.boil-loss-litres input', '6')
+    fillIn('.water-grain-ratio-metric input', '2.5')
     click('button:contains("Save")');
     andThen(function() {
       equal(currentPath(), 'brew.specs.index');
-      equal(find('table tr:first td:last').text(), '29 litres');
+      equal(find('table tr:first td:last').text().trim(), '7.66 gallons');
+      equal(find('div.slate-statbox:contains("Strike Water") div:contains("15.19 gallons")').length, 1);
     });
   })
 });

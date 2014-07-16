@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  controllerName: 'brews/edit',
   returnRoute: 'recipe',
 
   model: function(params) {
