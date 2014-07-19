@@ -62,6 +62,9 @@ module('Acceptance: Brews', {
       this.get('/users/:id', function(req) {
         return [200, headers, toS({user: user})];
       });
+      this.delete('/brews/:id', function(req) {
+        return [204, headers, ""];
+      });
     });
     server.unhandledRequest = function(verb, path, request){
       verb; // HTTP verb
@@ -163,5 +166,14 @@ test('edit brew day records', function() {
       equal(find('table tr:first td:last').text(), '2014-06-25');
     });
   })
+});
+
+test('delete a brew', function() {
+  visit('/brews/1');
+  andThen(function() { click('.brew-actions button:contains("Destroy")'); })
+  .then(function() {
+    equal(currentPath(), 'index');
+    equal(find('h2:first').text(), 'Latest Brews');
+  });
 });
 

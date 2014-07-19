@@ -9,11 +9,13 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    destroyRecord: function(model) {
+    destroyBrew: function(model) {
       var _this = this;
-      model.destroyRecord().then(function() {
-        _this.transitionTo('brews.index');
-      });
+      if(confirm("Are you sure you want to delete this brew?")) {
+        model.destroyRecord().then(function() {
+          _this.transitionTo('index');
+        });
+      }
     }
   }
 });

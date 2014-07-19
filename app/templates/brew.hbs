@@ -3,9 +3,9 @@
     <h2>{{name}} <small>{{style.subcategoryName}}</small></h2>
     <h3>by {{user.username}}</h3>
   </div>
-  <div class='col-md-4 text-right'>
+  <div class='col-md-4 text-right brew-actions'>
     {{#if canEdit}}
-      {{link-to 'Edit' 'brews.edit' this class="btn btn-primary"}} <button {{action 'destroyRecord' this}} class="btn btn-danger">Destroy</button>
+      {{link-to 'Edit' 'brews.edit' this class="btn btn-primary"}} <button {{action 'destroyBrew' this}} class="btn btn-danger">Destroy</button>
     {{/if}}
   </div>
 </div>
