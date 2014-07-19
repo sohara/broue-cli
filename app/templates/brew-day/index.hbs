@@ -18,7 +18,11 @@
       </tr>
       <tr>
         <td>Recorded Post-Boil Volume</td>
-        <td>{{#if recordedPostBoilVolume}}{{recordedPostBoilVolume}} litres{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>{{#if recordedPostBoilVolumePresent}}
+          {{localized-volume model=this measureSystem=measureSystem property="recordedPostBoilVolume"}}
+          {{else}}
+            <span class="text-muted">—</span>{{/if}}
+          </td>
       </tr>
       <tr>
         <td>Recorded Final Gravity</td>

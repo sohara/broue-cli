@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['form-group'],
-  classNameBindings: ['valuePropertyDasherized'],
+  classNameBindings: ['labelDasherized'],
   inputElementId: null,
   appendText: null,
 
@@ -31,12 +31,13 @@ export default Ember.Component.extend({
 
   // For acceptance tests... apply a classname to make it easy to
   // target input with a selector
-  valuePropertyDasherized: function() {
-    return this.get('valuePropertyName')
+  labelDasherized: function() {
+    var text = this.get('labelText') || this.get('valuePropertyName');
+    return text
       .decamelize()
-      .split("_")
+      .split(" ")
       .join("-");
-  }.property('valuePropertyName'),
+  }.property('labelText'),
 
   didInsertElement: function() {
     this._super();

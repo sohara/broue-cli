@@ -1,15 +1,17 @@
 <form role="form" class="form-horizontal">
-  {{bs-text-field valueProperty=batchSizeLitres appendText="litres"}}
+  {{convertible-text-field object=this convertibleProperty='batchSize' type="volume" measureSystem=measureSystem}}
 
-  {{bs-text-field valueProperty=boilLossLitres appendText="litres"}}
+  {{convertible-text-field object=this convertibleProperty='boilLoss' type="volume" measureSystem=measureSystem}}
 
   {{bs-text-field valueProperty=efficiency appendText="%"}}
 
-  {{bs-text-field valueProperty=targetMashTemp appendText="°C"}}
+  {{convertible-text-field object=this convertibleProperty='targetMashTemp' type="temp" measureSystem=measureSystem}}
 
   {{bs-text-field valueProperty=waterGrainRatioMetric appendText="litres/kg"}}
 
-  {{bs-text-field valueProperty=grainTemp appendText="°C"}}
+  {{convertible-text-field object=this convertibleProperty='waterGrainRatio' type="ratio" measureSystem=measureSystem}}
+
+  {{convertible-text-field object=this convertibleProperty='grainTemp' type="temp" measureSystem=measureSystem}}
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

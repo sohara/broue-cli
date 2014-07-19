@@ -12,6 +12,10 @@ export default Ember.Component.extend({
     ratio: {
       metric: 'litres/kg',
       us: 'quarts/lb'
+    },
+    temp: {
+      metric: '°C',
+      us: '°F'
     }
   },
 
@@ -28,6 +32,8 @@ export default Ember.Component.extend({
   localizedUnit: function() {
     if (this.get('property') === 'waterGrainRatio') {
       return this.get('measureSystem') === 'metric' ? 'Metric' : 'Us';
+    } else if (this.get('property').indexOf('Temp') > -1) {
+      return this.get('measureSystem') === 'metric' ? 'C' : 'F';
     } else {
       return this.get('measureSystem') === 'metric' ? 'Litres' : 'Gallons';
     }
@@ -43,6 +49,8 @@ export default Ember.Component.extend({
   displayUnit: function() {
     if (this.get('property') === 'waterGrainRatio') {
       return this.get('units.ratio.%@1'.fmt(this.get('measureSystem')));
+    } else if (this.get('property').indexOf('Temp') > -1) {
+      return this.get('units.temp.%@1'.fmt(this.get('measureSystem')));
     } else {
       return this.get('units.volume.%@1'.fmt(this.get('measureSystem')));
     }

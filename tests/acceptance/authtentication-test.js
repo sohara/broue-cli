@@ -110,7 +110,7 @@ test('A user can edit their profile', function() {
   andThen(function() {
     fillIn(".email input", "different@example.com");
     fillIn(".username input", "notsohara");
-    fillIn(".bio textarea", "It's a new bio");
+    fillIn(".about-me textarea", "It's a new bio");
     click("button[type='submit']").then(function() {
     equal(find('h1:contains("notsohara")').length, 1, "Finds the user's username");
     equal(find('p:contains("It\'s a new bio")').length, 1, "Finds the user's bio");

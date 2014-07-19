@@ -137,14 +137,15 @@ test('edit brew specs', function() {
   andThen(function() { click('a:contains("Specs")'); });
   andThen(function() { click('a.edit-specs:contains("Edit")'); });
   andThen(function() {
-    fillIn('.batch-size-litres input', '29')
-    fillIn('.boil-loss-litres input', '6')
-    fillIn('.water-grain-ratio-metric input', '2.5')
+
+    fillIn('.batch-size input', '5')
+    fillIn('.boil-loss input', '1.5')
+    fillIn('.water-grain-ratio input', '1.5')
     click('button:contains("Save")');
     andThen(function() {
       equal(currentPath(), 'brew.specs.index');
-      equal(find('table tr:first td:last').text().trim(), '7.66 gallons');
-      equal(find('div.slate-statbox:contains("Strike Water") div:contains("15.19 gallons")').length, 1);
+      equal(find('table tr:first td:last').text().trim(), '5 gallons');
+      equal(find('div.slate-statbox:contains("Strike Water") div:contains("19.01 gallons")').length, 1);
     });
   })
 });

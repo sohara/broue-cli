@@ -108,7 +108,7 @@ test("edit a brew's fermentable additions", function() {
     click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
   });
   andThen(function() {
-    fillIn('div:contains("Weight") input', "22000");
+    fillIn('div:contains("Weight") input', "776");
     click('button:contains("Save Changes")');
   });
   andThen(function() {
@@ -124,7 +124,7 @@ test("add a new fermentable addition", function() {
     click('a:contains("Add Fermentable")');
   });
   andThen(function() {
-    fillIn('div:contains("Weight") input', "22000");
+    fillIn('div:contains("Weight") input', "776");
     find('.fermentable select').val('45');
     // Need to trigger 'change' even manually in testing
     find('.fermentable select').trigger('change');
@@ -149,12 +149,12 @@ test("edit a brew's hop additions", function() {
     click('tr:contains("Warrior") a[title="Edit"]') ;
   });
   andThen(function() {
-    fillIn('div.weight-grams input', "125");
+    fillIn('div.weight input', "4.5");
     fillIn('div.alpha-acids input', "16.2");
     click('button:contains("Save Changes")');
   });
   andThen(function() {
-    equal(find('div.slate-statbox:contains("Bitterness") div:contains("41")').length, 1);
+    equal(find('div.slate-statbox:contains("Bitterness") div:contains("41.9")').length, 1);
   });
 });
 

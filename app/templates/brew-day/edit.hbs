@@ -3,7 +3,7 @@
 
   {{bs-text-field valueProperty=recordedOriginalGravity appendText="S.G."}}
 
-  {{bs-text-field valueProperty=recordedPostBoilVolume appendText="litres"}}
+  {{convertible-text-field object=this convertibleProperty='recordedPostBoilVolume' type="volume" measureSystem=measureSystem}}
 
   {{bs-text-field valueProperty=recordedFinalGravity appendText="S.G."}}
 

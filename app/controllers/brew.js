@@ -11,6 +11,10 @@ export default Ember.ObjectController.extend({
   totalMashedAdditionsWeightGrams: Ember.computed.alias('controllers.fermentableAdditions.totalMashedAdditionsWeightGrams'),
   totalExtractUnits: Ember.computed.alias('controllers.fermentableAdditions.totalExtractUnits'),
 
+  recordedPostBoilVolumePresent: function() {
+    return (!Ember.isBlank('recordedPostBoilVolumeLitres') || !Ember.isBlank('recordedPostBoilVolumeGallons'));
+  }.property('recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons'),
+
   currentUser: Ember.computed.alias('controllers.application.user'),
 
   canEdit: function() {
@@ -76,13 +80,26 @@ export default Ember.ObjectController.extend({
     return this.get('measureSystem') === 'metric' ? 'litres' : 'gallons';
   }.property('measureSystem'),
 
+  tempUnit: function() {
+    return this.get('measureSystem') === 'metric' ? '°C' : '°F';
+  }.property('measureSystem'),
+
   strikeWaterTemp: function() {
+    var suffix = this.get('measureSystem') === 'metric' ? 'C' : 'F';
+    return this.get('strikeWaterTemp' + suffix);
+  }.property('measureSystem', 'strikeWaterTempC', 'strikeWaterTempF'),
+
+  strikeWaterTempF: function() {
+    return  Math.round(( (this.get('strikeWaterTempC') * (9/5)) + 32) * 100 ) / 100;
+  }.property('strikeWaterTempC'),
+
+  strikeWaterTempC: function() {
     var waterGrainRatioMetric = parseFloat(this.get('waterGrainRatioMetric'));
-    var grainTemp = parseFloat(this.get('grainTemp'));
-    var targetMashTemp = parseFloat(this.get('targetMashTemp'));
+    var grainTemp = parseFloat(this.get('grainTempC'));
+    var targetMashTemp = parseFloat(this.get('targetMashTempC'));
     var strikeTemp = ((0.2 / (waterGrainRatioMetric / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
     return Math.round(strikeTemp * 100) / 100;
-  }.property("waterGrainRatioMetric", "targetMashTemp", "grainTemp"),
+  }.property("waterGrainRatioMetric", "targetMashTempC", "grainTempC"),
 
   recordedEfficiency: function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
