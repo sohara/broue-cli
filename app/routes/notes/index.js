@@ -6,12 +6,14 @@ export default Ember.Route.extend({
   actions: {
     destroyRecord: function(model) {
       var _this = this;
-      model.destroyRecord().then(function() {
-        _this.transitionTo('notes.index');
-      }).
-      catch(function(response) {
-        console.log(response);
-      });
+      if (confirm("Are you sure you want to destroy this note?")) {
+        model.destroyRecord().then(function() {
+          _this.transitionTo('notes.index');
+        }).
+        catch(function(response) {
+          console.log(response);
+        });
+      }
     }
   }
 });
