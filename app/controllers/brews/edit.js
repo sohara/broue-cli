@@ -4,18 +4,42 @@ export default Ember.ObjectController.extend({
   needs: ['styles', 'application'],
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
 
+  defaults: {
+    us: {
+      batchSizeGallons: 5,
+      boilLossGallons: 1,
+      grainTempF: 68,
+      targetMashTempF: 150,
+      waterGrainRatioUs: 1.5
+    },
+    metric: {
+      batchSizeLitres: 20,
+      boilLossLitres: 5,
+      grainTempC: 20,
+      targetMashTempC: 65,
+      waterGrainRatioMetric: 3
+    }
+  },
+
+  synchronizeAll: function() {
+    if (this.get('content.isNew')) {
+      var defaults = this.get('defaults.' + this.get('measureSystem'));
+      for (var key in defaults) {
+        this.setProperties(defaults);
+      }
+    }
+  }.observes('content', 'measureSystem'),
+
   styles: function() {
     return this.get('controllers.styles');
   }.property('controllers.styles'),
 
   volumeChanged: function(object, keyName) {
-    console.log("Volume change fired");
-    Ember.run.once(this, 'synchronizeUnits', keyName);
+    this.synchronizeUnits(keyName);
   }.observes('batchSizeLitres', 'batchSizeGallons', 'boilLossLitres', 'boilLossGallons', 'recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons'),
 
   tempChanged: function(object, keyName) {
-    console.log("temp change fired");
-    Ember.run.once(this, 'synchronizeTemp', keyName);
+    this.synchronizeTemp(keyName);
   }.observes('targetMashTempC', 'targetMashTempF', 'grainTempC', 'grainTempF'),
 
   synchronizeTemp: function(keyName) {
@@ -40,8 +64,7 @@ export default Ember.ObjectController.extend({
   },
 
   mashRatioChanged: function(object, keyName) {
-    console.log("Ratio change fired");
-    Ember.run.once(this, 'synchronizeRatio', keyName);
+    this.synchronizeRatio(keyName);
   }.observes('waterGrainRatioMetric', 'waterGrainRatioUs'),
 
   synchronizeUnits: function(keyName) {
