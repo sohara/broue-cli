@@ -16,9 +16,11 @@ var app = new EmberApp();
 // modules that you would like to import into your application
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
-app.import({development:'vendor/route-recognizer/dist/route-recognizer.js'});
-app.import({development:'vendor/FakeXMLHttpRequest/fake_xml_http_request.js'});
-app.import({development:'vendor/pretender/pretender.js'});
+if (app.env !== 'production') {
+  app.import('vendor/route-recognizer/dist/route-recognizer.js');
+  app.import('vendor/FakeXMLHttpRequest/fake_xml_http_request.js');
+  app.import('vendor/pretender/pretender.js');
+}
 
 app.import('vendor/bootstrap/dist/js/bootstrap.js');
 app.import('vendor/bootstrap/dist/css/bootstrap.css');
