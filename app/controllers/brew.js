@@ -105,8 +105,8 @@ export default Ember.ObjectController.extend({
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
     if (typeof(recordedOriginalGravity) !== "undefined") {
       var totalExtractUnits = this.get('totalExtractUnits');
-      var batchSize = this.get("batchSize");
-      var recordedPostBoilVolume = this.get("recordedPostBoilVolume");
+      var batchSize = this.get("batchSizeLitres");
+      var recordedPostBoilVolume = this.get("recordedPostBoilVolumeLitres");
       var volume = recordedPostBoilVolume > 0 ? recordedPostBoilVolume : batchSize;
       var maximumOG = ((totalExtractUnits * 0.3865) / volume);
       var efficiency = ((recordedOriginalGravity - 1) / maximumOG) * 100;
@@ -115,7 +115,7 @@ export default Ember.ObjectController.extend({
     else {
       return "N/A";
     }
-  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSize", "recordedPostBoilVolume"),
+  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres"),
 
   apparentAttenuation: function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
