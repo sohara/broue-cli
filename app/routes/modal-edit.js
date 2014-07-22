@@ -42,11 +42,9 @@ export default Ember.Route.extend({
         _this.send('closeModal');
       }).
       catch(function(reason) {
-        console.log(reason)
       });
     },
     closeModal: function() {
-      console.log("In router closeModal");
       this.disconnectOutlet({
         parentView: 'application',
         outlet: 'modal'
@@ -54,7 +52,6 @@ export default Ember.Route.extend({
       this.send('goToBrew');
     },
     cancel: function() {
-      console.log("In router cancel");
       this.send('closeModal');
     },
     goToBrew: function() {

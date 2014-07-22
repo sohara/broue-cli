@@ -57,7 +57,6 @@ export default Ember.Component.extend({
 
   propertyDidChange: function() {
     Ember.run.once(this, function() {
-      console.log("Changing binding");
       var suffix = this.get('suffix');
       var propName = this.get('convertibleProperty');
       var fromPath = 'object.%@1%@2'.fmt(propName, suffix)

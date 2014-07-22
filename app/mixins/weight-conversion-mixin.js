@@ -3,7 +3,6 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
 
   weightChanged: function(object, keyName) {
-    console.log("Weight changed fired");
     Ember.run.once(this, 'synchronizeUnits', keyName);
   }.observes('weightGrams', 'weightOz'),
 

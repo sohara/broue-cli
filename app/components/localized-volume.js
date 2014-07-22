@@ -20,7 +20,6 @@ export default Ember.Component.extend({
   },
 
   propertyDidChange: function() {
-    console.log("brew property changing");
     Ember.run.once(this, function() {
       if ( this.get('property') !== null ) {
         var propertyName =  '%@1%@2'.fmt(this.get('property'), this.get('localizedUnit'));

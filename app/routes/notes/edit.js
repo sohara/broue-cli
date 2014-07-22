@@ -20,7 +20,6 @@ export default Ember.Route.extend({
         _this.transitionTo('notes.index');
       }).
       catch(function(reason) {
-        console.log(reason)
       });
     },
     cancel: function(model) {
