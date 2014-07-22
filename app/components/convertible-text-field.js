@@ -11,6 +11,10 @@ export default Ember.Component.extend({
       us: 'Oz',
       metric: 'Grams'
     },
+    weightScaled: {
+      us: "Lbs",
+      metric: "Kg"
+    },
     ratio: {
       us: 'Us',
       metric: 'Metric'
