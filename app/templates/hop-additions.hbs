@@ -50,7 +50,7 @@
         <td colspan="3">Total</td>
         <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
         <td colspan="2"> </td>
-        <td colspan="3">{{totalIBUs}}</td>
+        <td {{bind-attr colspan=view.computedColspan}}>{{totalIBUs}}</td>
       </tr>
     </tfoot>
   </table>
