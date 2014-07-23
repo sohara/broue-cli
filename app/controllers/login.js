@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  needs: ['application'],
+  needs: ['application', 'flash'],
   email: null,
   password: null,
   passwordConfirmation: null,
@@ -21,8 +21,11 @@ export default Ember.Controller.extend({
 
   verify: function(transition) {
     if (!this.get('session')) {
+      var _this = this;
       this.set('previousTransition', transition);
-      this.transitionToRoute('login');
+      this.transitionToRoute('login').then(function() {
+        _this.get('controllers.flash').render("Please login or sign up to continue.", "warning");
+      });
     }
   },
 

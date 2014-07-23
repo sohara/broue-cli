@@ -1,21 +1,20 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(Ember.Evented, {
   type: 'success',
   message: "test message",
-  hidden: true,
 
   render: function(message, type) {
     this.setProperties({
-      hidden: false,
       message: message,
       type: type || 'success'
     });
+    this.trigger('show');
   },
 
   actions: {
     hide: function() {
-      this.set('hidden', true);
+      this.trigger('hide');
     }
   }
 });
