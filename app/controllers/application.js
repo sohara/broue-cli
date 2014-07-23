@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  needs: ['login'],
+  needs: ['login', 'flash'],
   session: Ember.computed.alias('controllers.login.session'),
   measureSystem: 'us',
 
@@ -34,7 +34,8 @@ export default Ember.Controller.extend({
   actions: {
     logout: function() {
       this.setProperties({ session: null, user: null });
-      this.transitionToRoute('login');
+      this.transitionToRoute('index');
+      this.get('controllers.flash').render("Successfully logged out");
       Ember.run.next(this, function() {
         this.clearStore();
       });
