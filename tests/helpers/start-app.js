@@ -2,6 +2,7 @@
 
 var Application = require('broue-cli/app')['default'];
 var Router = require('broue-cli/router')['default'];
+import Ember from 'ember';
 
 export default function startApp(attrs) {
   var App;
@@ -10,9 +11,7 @@ export default function startApp(attrs) {
     // useful Test defaults
     rootElement: '#ember-testing',
     LOG_ACTIVE_GENERATION:false,
-    LOG_VIEW_LOOKUPS: false,
-    LOG_TRANSITIONS: false,
-    LOG_TRANSITIONS_INTERNAL: false
+    LOG_VIEW_LOOKUPS: false
   }, attrs); // but you can override;
 
   Router.reopen({
