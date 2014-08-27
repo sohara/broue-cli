@@ -25,25 +25,25 @@ var app = new EmberApp({
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 if (app.env !== 'production') {
-  app.import('vendor/route-recognizer/dist/route-recognizer.js');
-  app.import('vendor/FakeXMLHttpRequest/fake_xml_http_request.js');
-  app.import('vendor/pretender/pretender.js');
+  app.import('bower_components/route-recognizer/dist/route-recognizer.js');
+  app.import('bower_components/FakeXMLHttpRequest/fake_xml_http_request.js');
+  app.import('bower_components/pretender/pretender.js');
 }
 
-app.import('vendor/bootstrap/dist/js/bootstrap.js');
-app.import('vendor/bootstrap/dist/css/bootstrap.css');
-app.import('vendor/fontawesome/less/font-awesome.less');
+app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+app.import('bower_components/bootstrap/dist/css/bootstrap.css');
+app.import('bower_components/fontawesome/less/font-awesome.less');
 
-app.import('vendor/moment/moment.js');
+app.import('bower_components/moment/moment.js');
 
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
-var boostrapFonts = pickFiles('vendor/bootstrap/dist/fonts',{
+var boostrapFonts = pickFiles('bower_components/bootstrap/dist/fonts',{
     srcDir: '/',
     files: ['**/*'],
     destDir: '/fonts'
 });
-var faFonts = pickFiles('vendor/fontawesome/fonts',{
+var faFonts = pickFiles('bower_components/fontawesome/fonts',{
     srcDir: '/',
     files: ['**/*'],
     destDir: '/fonts'

@@ -2,8 +2,8 @@
   "predef": {
     "document": true,
     "window": true,
-    "BroueCliENV": true,
-    "moment": true
+    "-Promise": true,
+    "BroueCliENV": true
   },
   "browser" : true,
   "boss" : true,
