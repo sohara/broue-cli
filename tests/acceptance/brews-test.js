@@ -76,6 +76,8 @@ module('Acceptance: Brews', {
     };
   },
   teardown: function() {
+    Ember.$('.modal').hide();
+    Ember.$('.modal-backdrop').remove();
     window.confirm = nativeConfirm;
     localStorage.removeItem('user');
     Ember.run(App, 'destroy');

@@ -44,6 +44,8 @@ module('Acceptance - Authentication', {
     });
   },
   teardown: function() {
+    Ember.$('.modal').hide();
+    Ember.$('.modal-backdrop').remove();
     Ember.run(App, 'destroy');
     server.shutdown();
   }
