@@ -40,7 +40,6 @@ export default Ember.Route.extend({
       var _this = this;
       model.save().then(function() {
         Ember.$('.modal').modal('hide');
-        _this.send('closeModal');
       }).
       catch(function(reason) {
       });
@@ -52,7 +51,7 @@ export default Ember.Route.extend({
           outlet: 'modal'
         });
         this.send('goToBrew');
-      }, 400);
+      });
     },
     cancel: function() {
       this.send('closeModal');

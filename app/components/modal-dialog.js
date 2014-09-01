@@ -13,7 +13,6 @@ export default Ember.Component.extend({
   actions: {
     cancel: function() {
       this.$().modal('hide');
-      this.sendAction('close');
     },
     save: function(param) {
       this.sendAction('save', param);
