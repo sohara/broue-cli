@@ -39,14 +39,14 @@ export default Ember.Route.extend({
     save: function(model) {
       var _this = this;
       model.save().then(function() {
+        Ember.$('.modal').modal('hide');
         _this.send('closeModal');
       }).
       catch(function(reason) {
       });
     },
     closeModal: function() {
-      Ember.$('.modal').modal('hide');
-      Ember.run.later(this, function() {
+      Ember.run.once(this, function() {
         this.disconnectOutlet({
           parentView: 'application',
           outlet: 'modal'
