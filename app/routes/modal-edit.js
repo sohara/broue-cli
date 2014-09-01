@@ -45,11 +45,14 @@ export default Ember.Route.extend({
       });
     },
     closeModal: function() {
-      this.disconnectOutlet({
-        parentView: 'application',
-        outlet: 'modal'
-      });
-      this.send('goToBrew');
+      Ember.$('.modal').modal('hide');
+      Ember.run.later(this, function() {
+        this.disconnectOutlet({
+          parentView: 'application',
+          outlet: 'modal'
+        });
+        this.send('goToBrew');
+      }, 400);
     },
     cancel: function() {
       this.send('closeModal');

@@ -10,15 +10,10 @@ export default Ember.Component.extend({
     }.bind(this));
   },
 
-  willDestroyElement: function() {
-    this.$().modal('hide');
-    // FML jquery :'(
-    Ember.$('.modal-backdrop').remove();
-  },
-
   actions: {
     cancel: function() {
-      this.sendAction('cancel');
+      this.$().modal('hide');
+      this.sendAction('close');
     },
     save: function(param) {
       this.sendAction('save', param);
