@@ -15,7 +15,7 @@ export default Ember.Route.extend({
         _this.transitionTo('profile.show');
       });
     },
-    cancel: function(model) {
+    cancel: function() {
       this.transitionTo('profile.show');
     }
   }

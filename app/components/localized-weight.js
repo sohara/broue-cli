@@ -23,11 +23,11 @@ export default Ember.Component.extend({
   }.property('model.weightGrams', 'model.weightOz', 'measureSystem'),
 
   localizedDivisor: function() {
-    return this.get('measureSystem') === 'metric' ? 1000 : 16
+    return this.get('measureSystem') === 'metric' ? 1000 : 16;
   }.property('measureSystem'),
 
   displayWeight: function() {
-    var divisor = this.get('magnitude') == 'high' ? this.get('localizedDivisor') : 1;
+    var divisor = this.get('magnitude') === 'high' ? this.get('localizedDivisor') : 1;
     return this.roundedToTwo(this.get('localizedWeight') / divisor);
   }.property('localizedWeight', 'magnitude'),
 

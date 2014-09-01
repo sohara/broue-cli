@@ -9,9 +9,10 @@ export default Ember.Route.extend({
       if (confirm("Are you sure you want to destroy this note?")) {
         model.destroyRecord().then(function() {
           _this.transitionTo('notes.index');
-        }).
-        catch(function(response) {
         });
+        // Need to add catch/or promise reject handling code here
+        // .catch(function(reason) {
+        // });
       }
     }
   }

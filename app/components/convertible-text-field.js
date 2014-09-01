@@ -42,7 +42,6 @@ export default Ember.Component.extend({
   }.property('suffix'),
 
   suffix: function() {
-    //var suffix = (this.get('measureSystem') === "us") ? 'Gallons' : 'Litres';
     var suffix = this.get('types.%@1.%@2'.fmt(this.get('type'), this.get('measureSystem')));
     return suffix;
   }.property('measureSystem'),
@@ -59,7 +58,7 @@ export default Ember.Component.extend({
     Ember.run.once(this, function() {
       var suffix = this.get('suffix');
       var propName = this.get('convertibleProperty');
-      var fromPath = 'object.%@1%@2'.fmt(propName, suffix)
+      var fromPath = 'object.%@1%@2'.fmt(propName, suffix);
       if (typeof(this.myBinding) !== 'undefined' &&  this.myBinding._from !== fromPath ) {
         this.myBinding.disconnect(this);
       }

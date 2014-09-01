@@ -6,17 +6,17 @@ export default Ember.Controller.extend({
   measureSystem: 'us',
 
   isMetric: function() {
-    return this.get('measureSystem') == 'metric';
+    return this.get('measureSystem') === 'metric';
   }.property('measureSystem'),
   isUS: function() {
-    return this.get('measureSystem') == 'us';
+    return this.get('measureSystem') === 'us';
   }.property('measureSystem'),
 
   user: function(key, value) {
     if (arguments.length > 1) {
       return value;
     }
-    if ( this.get('session') !== null && typeof(this.get('session')) != 'undefined') {
+    if ( this.get('session') !== null && typeof(this.get('session')) !== 'undefined') {
       return this.store.find('user', this.get('session.user_id'));
     }
   }.property('session'),

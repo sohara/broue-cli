@@ -5,7 +5,7 @@ export default Ember.ObjectController.extend({
   currentUser: Ember.computed.alias('controllers.application.user'),
 
   recentBrews: function() {
-    return this.get('controllers.brews/index.recentBrews')
+    return this.get('controllers.brews/index.recentBrews');
   }.property('controllers.brews/index.recentBrews'),
 
   isCurrentUser: function() {

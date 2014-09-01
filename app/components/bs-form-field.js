@@ -15,7 +15,7 @@ export default Ember.Component.extend({
   // bound to 'value'
   labelText: function() {
     if (typeof(this.get('label')) !== "undefined") {
-      return this.get('label')
+      return this.get('label');
     } else {
       return this.get('valuePropertyName')
         .decamelize()

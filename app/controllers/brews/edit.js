@@ -24,9 +24,7 @@ export default Ember.ObjectController.extend({
   synchronizeAll: function() {
     if (this.get('content.isNew')) {
       var defaults = this.get('defaults.' + this.get('measureSystem'));
-      for (var key in defaults) {
-        this.setProperties(defaults);
-      }
+      this.setProperties(defaults);
     }
   }.observes('content', 'measureSystem'),
 
@@ -54,7 +52,7 @@ export default Ember.ObjectController.extend({
           this.set(key + 'C', convertedC);
         }
       }
-      else if (toStrip == 'C') {
+      else if (toStrip === 'C') {
         var convertedF = (tempC * (9/5)) + 32;
         if (this.roundedToTwo(tempF) !== this.roundedToTwo(convertedF)) {
           this.set(key + 'F', convertedF);
@@ -92,13 +90,13 @@ export default Ember.ObjectController.extend({
     if (this.get('content') !== null) {
       var ratioMetric = parseFloat(this.get('waterGrainRatioMetric')) || 0;
       var ratioUs = parseFloat(this.get('waterGrainRatioUs')) || 0;
-      if (keyName == 'waterGrainRatioMetric') {
+      if (keyName === 'waterGrainRatioMetric') {
         var convertedUs = ratioMetric * 0.47930570952469;
         if (this.roundedToTwo(ratioUs) !== this.roundedToTwo(convertedUs)) {
           this.set('waterGrainRatioUs', convertedUs);
         }
       }
-      else if (keyName == 'waterGrainRatioUs') {
+      else if (keyName === 'waterGrainRatioUs') {
         var convertedMetric = ratioUs / 0.47930570952469;
         if (this.roundedToTwo(ratioMetric) !== this.roundedToTwo(convertedMetric)) {
           this.set('waterGrainRatioMetric', convertedMetric);

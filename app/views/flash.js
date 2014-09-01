@@ -28,14 +28,14 @@ export default Ember.View.extend({
   },
 
   alertSuccess: function() {
-    return this.get('controller.type') == 'success';
+    return this.get('controller.type') === 'success';
   }.property('controller.type'),
 
   alertWarning: function() {
-    return this.get('controller.type') == 'warning';
+    return this.get('controller.type') === 'warning';
   }.property('controller.type'),
 
   alertDanger: function() {
-    return this.get('controller.type') == 'danger';
+    return this.get('controller.type') ==='danger';
   }.property('controller.type')
 });

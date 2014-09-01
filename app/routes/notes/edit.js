@@ -18,11 +18,12 @@ export default Ember.Route.extend({
       var _this = this;
       model.save().then(function() {
         _this.transitionTo('notes.index');
-      }).
-      catch(function(reason) {
       });
+      // Need to add catch/or promise reject handling code here
+      // .catch(function(reason) {
+      // });
     },
-    cancel: function(model) {
+    cancel: function() {
       this.transitionTo('notes.index');
     }
   }

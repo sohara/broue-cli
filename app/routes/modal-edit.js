@@ -37,12 +37,12 @@ export default Ember.Route.extend({
 
   actions: {
     save: function(model) {
-      var _this = this;
       model.save().then(function() {
         Ember.$('.modal').modal('hide');
-      }).
-      catch(function(reason) {
       });
+      // Need to add catch/or promise reject handling code here
+      // .catch(function(reason) {
+      // });
     },
     closeModal: function() {
       Ember.run.once(this, function() {
