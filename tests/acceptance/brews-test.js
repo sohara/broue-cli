@@ -60,20 +60,12 @@ module('Acceptance: Brews', {
         return [200, headers, jsonBody];
       });
       this.get('/api/v1/users/:id', function(req) {
-        return [200, headers, toS({user: user})];
+        return [200, headers, toS({user: Stubs.user})];
       });
       this.delete('/api/v1/brews/:id', function(req) {
         return [204, headers, ""];
       });
     });
-    server.unhandledRequest = function(verb, path, request){
-      verb; // HTTP verb
-      path; // path requested
-      request; // xhr object
-
-      // default behavior
-      throw new Error("Pretender intercepted "+verb+" "+path+" but no handler was defined for this type of request")
-    };
   },
   teardown: function() {
     Ember.$('.modal').hide();
@@ -143,16 +135,16 @@ test('edit brew specs', function() {
   andThen(function() { click('a.edit-specs:contains("Edit")'); });
   andThen(function() {
 
-    fillIn('.batch-size input', '5')
-    fillIn('.boil-loss input', '1.5')
-    fillIn('.water-grain-ratio input', '1.5')
+    fillIn('.batch-size input', '5');
+    fillIn('.boil-loss input', '1.5');
+    fillIn('.water-grain-ratio input', '1.5');
     click('button:contains("Save")');
     andThen(function() {
       equal(currentPath(), 'brew.specs.index');
       equal(find('table tr:first td:last').text().trim(), '5 gallons');
       equal(find('div.slate-statbox:contains("Strike Water") div:contains("19.01 gallons")').length, 1);
     });
-  })
+  });
 });
 
 test('edit brew day records', function() {
@@ -160,14 +152,14 @@ test('edit brew day records', function() {
   andThen(function() { click('a:contains("Brew Day")'); });
   andThen(function() { click('a.edit-specs:contains("Edit")'); });
   andThen(function() {
-    fillIn('.brew-date input', '2014-06-25')
-    fillIn('.recorded-original-gravity input', '1.048')
+    fillIn('.brew-date input', '2014-06-25');
+    fillIn('.recorded-original-gravity input', '1.048');
     click('button:contains("Save")');
     andThen(function() {
       equal(currentPath(), 'brew.brew_day.index');
       equal(find('table tr:first td:last').text(), '2014-06-25');
     });
-  })
+  });
 });
 
 test('delete a brew', function() {

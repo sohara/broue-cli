@@ -1,6 +1,6 @@
 export default function () {
 
-  var stubs = {}
+  var stubs = {};
   stubs.user = {
     id: 1,
     bio: "I like to brew. More than you.",

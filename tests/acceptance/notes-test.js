@@ -48,14 +48,6 @@ module('Acceptance: Notes', {
         return [204, headers, ""];
       });
     });
-    server.unhandledRequest = function(verb, path, request){
-      verb; // HTTP verb
-      path; // path requested
-      request; // xhr object
-
-      // default behavior
-      throw new Error("Pretender intercepted "+verb+" "+path+" but no handler was defined for this type of request")
-    };
   },
   teardown: function() {
     Ember.$('.modal').hide();
@@ -70,7 +62,7 @@ module('Acceptance: Notes', {
 test("Edit a brew's notes", function() {
   visit('/brews/1/notes');
   andThen(function() {
-    click('div.panel:contains("Notes") a:contains("Edit")') ;
+    click('div.panel:contains("Notes") a:contains("Edit")');
   });
   andThen(function() {
     fillIn("textarea", "I'm totally changing this note");

@@ -83,14 +83,6 @@ module('Acceptance: Recipes', {
         return [200, headers, jsonBody];
       });
     });
-    server.unhandledRequest = function(verb, path, request){
-      verb; // HTTP verb
-      path; // path requested
-      request; // xhr object
-
-      // default behavior
-      throw new Error("Pretender intercepted "+verb+" "+path+" but no handler was defined for this type of request")
-    };
   },
   teardown: function() {
     Ember.$('.modal').hide();
