@@ -3,7 +3,9 @@
     "document": true,
     "window": true,
     "-Promise": true,
-    "BroueCliENV": true
+    "BroueCliENV": true,
+    "moment": true,
+    "ga": true
   },
   "browser" : true,
   "boss" : true,
