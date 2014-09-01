@@ -3,7 +3,7 @@ import startApp from '../../../helpers/start-app';
 
 moduleFor('controller:fermentables/edit', 'FermentableAdditionController', {
   // Specify the other units that are required for this test.
-  needs: ['controller:fermentables', 'controller:application', 'controller:login']
+  needs: ['controller:fermentables', 'controller:application', 'controller:login', 'controller:flash']
 });
 
 test('it updates weightOz when weightGrams is changed', function() {

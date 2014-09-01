@@ -19,7 +19,7 @@ module('Acceptance: Notes', {
 
     server = new Pretender(function() {
 
-      this.get('/brews/:id', function(req) {
+      this.get('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var jsonBody = toS( { brew: brewObject,
           fermentable_additions: Stubs.fermentable_additions,
@@ -32,19 +32,19 @@ module('Acceptance: Notes', {
           notes: Stubs.notes } );
         return [200, headers, jsonBody];
       });
-      this.put('/notes/:id', function(req) {
+      this.put('/api/v1/notes/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.note.id = req.params.id;
         var jsonBody = toS( bodyObject );
         return [200, headers, jsonBody];
       });
-      this.post('/notes', function(req) {
+      this.post('/api/v1/notes', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.note.id = "302";
         bodyObject.notes = Stubs.notes;
         return [200, headers, toS(bodyObject)];
       });
-      this.delete('/notes/:id', function(req) {
+      this.delete('/api/v1/notes/:id', function(req) {
         return [204, headers, ""];
       });
     });

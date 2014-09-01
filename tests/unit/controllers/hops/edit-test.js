@@ -3,7 +3,7 @@ import startApp from '../../../helpers/start-app';
 
 moduleFor('controller:hops/edit', 'hopAdditionController', {
   // Specify the other units that are required for this test.
-  needs: ['controller:hops', 'controller:application', 'controller:login']
+  needs: ['controller:hops', 'controller:application', 'controller:login', 'controller:flash']
 });
 
 test('it updates weightOz when weightGrams is changed', function() {

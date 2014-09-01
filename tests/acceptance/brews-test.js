@@ -19,7 +19,7 @@ module('Acceptance: Brews', {
 
     server = new Pretender(function() {
 
-      this.get('/brews', function(){
+      this.get('/api/v1/brews', function(){
         var response =  [200, headers, toS({brews: Stubs.brews,
           fermentable_additions: Stubs.fermentable_additions,
           fermentables: Stubs.fermentables,
@@ -30,23 +30,23 @@ module('Acceptance: Brews', {
           styles: Stubs.styles})];
         return response;
       });
-      this.get('/styles', function(){
+      this.get('/api/v1/styles', function(){
         var response =  [200, headers, toS({styles: Stubs.styles})];
         return response;
       });
-      this.post('/brews', function(req) {
+      this.post('/api/v1/brews', function(req) {
         var brewObject = JSON.parse(req.requestBody);
         brewObject.brew.id = 3;
         return [200, headers, toS(brewObject)];
       });
-      this.put('/brews/:id', function(req) {
+      this.put('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var requestBrew = JSON.parse(req.requestBody).brew;
         var mergedBrew = jQuery.extend(brewObject, requestBrew);
         var jsonBody = toS( {brew: brewObject});
         return [200, headers, jsonBody];
       });
-      this.get('/brews/:id', function(req) {
+      this.get('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var jsonBody = toS( { brew: brewObject,
           fermentable_additions: Stubs.fermentable_additions,
@@ -59,10 +59,10 @@ module('Acceptance: Brews', {
           notes: Stubs.notes } );
         return [200, headers, jsonBody];
       });
-      this.get('/users/:id', function(req) {
+      this.get('/api/v1/users/:id', function(req) {
         return [200, headers, toS({user: user})];
       });
-      this.delete('/brews/:id', function(req) {
+      this.delete('/api/v1/brews/:id', function(req) {
         return [204, headers, ""];
       });
     });
@@ -88,7 +88,7 @@ test('visiting /my-brews', function() {
 
   andThen(function() {
     equal(currentPath(), 'brews.index');
-    equal(find('td:contains("Awesome IPA")').length, 1);
+    equal(find('td:contains("Awesome IPA")').length, 1, "User's brew is found");
   });
 });
 
@@ -172,8 +172,8 @@ test('delete a brew', function() {
   visit('/brews/1');
   andThen(function() { click('.brew-actions button:contains("Destroy")'); })
   .then(function() {
-    equal(currentPath(), 'index');
-    equal(find('h2:first').text(), 'Latest Brews');
+    equal(currentPath(), 'index', "At the correct path");
+    equal(find('h2:first').text(), 'Latest Brews', "Shows latest brews title");
   });
 });
 

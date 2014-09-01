@@ -15,7 +15,7 @@ module('Acceptance - Authentication', {
     var headers = {"Content-Type":"application/json"};
 
     server = new Pretender(function() {
-      this.get('/brews', function(){
+      this.get('/api/v1/brews', function(){
         return [200, headers, JSON.stringify({brews: Stubs.brews})];
       });
       this.post('/users/sign_in.json', function(req) {
@@ -32,10 +32,10 @@ module('Acceptance - Authentication', {
         }
         return [200, headers, toS(Stubs.userJSON)];
       });
-      this.get('/users/:id', function(req) {
+      this.get('/api/v1/users/:id', function(req) {
         return [200, headers, toS({user: Stubs.user})];
       });
-      this.put('/users/:id', function(req) {
+      this.put('/api/v1/users/:id', function(req) {
         var requestObject = JSON.parse(req.requestBody);
         requestObject.user.id = req.params.id;
         var jsonBody = toS(requestObject);
@@ -89,6 +89,7 @@ test('Allows a user to view their profile', function() {
     localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');
+  App.testHelpers.wait();
   andThen(function() {
     click('a:contains("View Profile")');
   });
@@ -129,7 +130,7 @@ test('Allows a logged in user to log out', function() {
     click('a:contains("Logout")');
   });
   andThen(function() {
-    equal(find('h3:contains("Sign in")').length, 1);
+    equal(find('li a:contains("Login")').length, 1, "Login link found");
   });
 });
 

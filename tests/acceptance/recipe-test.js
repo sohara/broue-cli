@@ -18,7 +18,7 @@ module('Acceptance: Recipes', {
     localStorage.setItem('user', toS(Stubs.userJSON));
 
     server = new Pretender(function() {
-      this.get('/brews/:id', function(req) {
+      this.get('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var jsonBody = toS( { brew: brewObject,
           fermentable_additions: Stubs.fermentable_additions,
@@ -31,41 +31,41 @@ module('Acceptance: Recipes', {
           notes: Stubs.notes } );
         return [200, headers, jsonBody];
       });
-      this.get('fermentables', function(req) {
+      this.get('/api/v1/fermentables', function(req) {
         var response =  [200, headers, toS({fermentables: Stubs.fermentables})];
         return response;
       });
-      this.put('/fermentable_additions/:id', function(req) {
+      this.put('/api/v1/fermentable_additions/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.fermentable_addition.id = req.params.id;
         bodyObject.fermentables = Stubs.fermentables;
         var jsonBody = toS( bodyObject );
         return [200, headers, jsonBody];
       });
-      this.post('/fermentable_additions', function(req) {
+      this.post('/api/v1/fermentable_additions', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.fermentable_addition.id = "30";
         bodyObject.fermentables = Stubs.fermentables;
         return [200, headers, toS(bodyObject)];
       });
-      this.get('yeasts', function(req) {
+      this.get('/api/v1/yeasts', function(req) {
         var response =  [200, headers, toS({yeasts: Stubs.yeasts})];
         return response;
       });
-      this.put('/yeast_additions/:id', function(req) {
+      this.put('/api/v1/yeast_additions/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.yeast_addition.id = req.params.id;
         bodyObject.yeasts = Stubs.yeasts;
         var jsonBody = toS( bodyObject );
         return [200, headers, jsonBody];
       });
-      this.post('/yeast_additions', function(req) {
+      this.post('/api/v1/yeast_additions', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.yeast_addition.id = "302";
         bodyObject.yeasts = Stubs.yeasts;
         return [200, headers, toS(bodyObject)];
       });
-      this.put('/hop_additions/:id', function(req) {
+      this.put('/api/v1/hop_additions/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.hop_addition.id = req.params.id;
         bodyObject.hops = Stubs.hops;
@@ -76,7 +76,7 @@ module('Acceptance: Recipes', {
         var response =  [200, headers, toS({hops: Stubs.hops})];
         return response;
       });
-      this.put('/fermentables/:id', function(req) {
+      this.put('/api/v1/fermentables/:id', function(req) {
         var bodyObject = JSON.parse(req.requestBody);
         bodyObject.fermentable_addition.id = req.params.id;
         var jsonBody = toS( bodyObject );
@@ -108,7 +108,7 @@ test("edit a brew's fermentable additions", function() {
     click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
   });
   andThen(function() {
-    fillIn('div:contains("Weight") input', "776");
+    fillIn('div:contains("Weight") input', "48.5");
     click('button:contains("Save Changes")');
   });
   andThen(function() {
@@ -124,7 +124,7 @@ test("add a new fermentable addition", function() {
     click('a:contains("Add Fermentable")');
   });
   andThen(function() {
-    fillIn('div:contains("Weight") input', "776");
+    fillIn('div:contains("Weight") input', "48.5");
     find('.fermentable select').val('45');
     // Need to trigger 'change' even manually in testing
     find('.fermentable select').trigger('change');
