@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Handlebars.makeBoundHelper(function(string) {
-  if (typeof string !== "undefined") {
+  if (typeof string !== "undefined" && typeof string !== "object") {
     var simpleFormatRE1 = /\r\n?/g;
     var simpleFormatRE2 = /\n\n+/g;
     var simpleFormatRE3 = /([^\n]\n)(?=[^\n])/g;
