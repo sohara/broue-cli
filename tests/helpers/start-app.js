@@ -1,8 +1,6 @@
-/* global require */
-
-var Application = require('broue-cli/app')['default'];
-var Router = require('broue-cli/router')['default'];
 import Ember from 'ember';
+import Application from 'broue-cli/app';
+import Router from 'broue-cli/router';
 
 export default function startApp(attrs) {
   var App;

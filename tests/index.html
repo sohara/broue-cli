@@ -33,14 +33,15 @@
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
 
+    <script>
+      window.BroueCliENV = {{ENV}};
+      window.EmberENV = window.BroueCliENV.EmberENV;
+    </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/test-support.js"></script>
     <script src="assets/broue-cli.js"></script>
     <script src="testem.js"></script>
     <script>
-      window.BroueCliENV = require('broue-cli/config/environment')['default'];
-      window.EmberENV = window.BroueCliENV.EmberENV;
-
       require('broue-cli/tests/test-helper');
     </script>
     <script src="assets/test-loader.js"></script>
