@@ -25,11 +25,15 @@ export default Ember.ObjectController.extend(WeightConversionMixin, {
     var convertedProperty = this.conversions[key]['property'];
     var conversionFactor = this.conversions[key]['factor'];
     if (typeof(value) !== 'undefined') {
-      var converted = value * conversionFactor;
+      var converted = parseFloat(value) * conversionFactor;
       this.set(convertedProperty, converted);
       return value;
     }
-    return this.roundedToTwo(this.get(convertedProperty) / conversionFactor);
+    if (isNaN(parseFloat(this.get(convertedProperty)))) {
+      return undefined;
+    } else {
+      return this.get(convertedProperty) / conversionFactor;
+    }
   },
 
   weightLbs: function(key, value) {

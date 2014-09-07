@@ -1,7 +1,7 @@
 import { test, moduleFor } from 'ember-qunit';
 import startApp from '../../../helpers/start-app';
 
-moduleFor('controller:fermentables/edit', 'FermentableAdditionController', {
+moduleFor('controller:fermentables/edit', 'FermentableEditController', {
   // Specify the other units that are required for this test.
   needs: ['controller:fermentables', 'controller:application', 'controller:login', 'controller:flash']
 });
@@ -28,4 +28,34 @@ test('it updates weightGrams when weightOz is changed', function() {
     equal(controller.get('weightOz'), 20);
   });
   equal(controller.get('weightGrams').toFixed(2), 566.99);
+});
+
+test('it returns undefined for weightLbs when weightOz is undefined', function() {
+  var controller = this.subject();
+  var model = Ember.Object.create();
+  Ember.run(function() {
+    controller.set('model', model);
+    equal(controller.get('weightLbs'), undefined);
+  });
+});
+
+test('it returns undefined for weightKg when weightGrams is undefined', function() {
+  var controller = this.subject();
+  var model = Ember.Object.create();
+  Ember.run(function() {
+    controller.set('model', model);
+    equal(controller.get('weightKg'), undefined);
+  });
+});
+
+test('it does not reset weightLbs when when setting weightLbs with 3 or more decimals', function() {
+  var controller = this.subject();
+  var model = Ember.Object.create();
+  Ember.run(function() {
+    controller.set('model', model);
+    controller.set('weightLbs', '0.3456');
+    var weightOz = controller.get('weightOz');
+    var weightLbs = controller.get('weightLbs');
+    equal(weightLbs, '0.3456');
+  });
 });
