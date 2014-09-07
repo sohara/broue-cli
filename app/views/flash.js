@@ -6,8 +6,11 @@ export default Ember.View.extend({
   message: null,
 
 
-  didInsertElement: function() {
+  willInsertElement: function() {
     this.$().hide();
+  },
+
+  didInsertElement: function() {
     this.get('controller').on('show', this, this.show);
     this.get('controller').on('hide', this, this.hide);
   },
