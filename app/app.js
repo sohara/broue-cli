@@ -1,17 +1,16 @@
-/* jshint unused: false */
-
 import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
-import Route from './ext/route-reopen';
+import config from './config/environment';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var App = Ember.Application.extend({
-  modulePrefix: 'broue-cli', // TODO: loaded via config
+  modulePrefix: config.modulePrefix,
+  podModulePrefix: config.podModulePrefix,
   Resolver: Resolver
 });
 
-loadInitializers(App, 'broue-cli');
+loadInitializers(App, config.modulePrefix);
 
 export default App;
