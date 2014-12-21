@@ -1,5 +1,6 @@
 import { test, moduleFor } from 'ember-qunit';
 import startApp from '../../../helpers/start-app';
+import Ember from 'ember';
 
 moduleFor('controller:fermentables/edit', 'FermentableEditController', {
   // Specify the other units that are required for this test.
