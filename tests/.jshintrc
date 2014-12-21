@@ -39,16 +39,12 @@
     "findWithAssert",
     "wait",
     "DS",
-    "keyEvent",
     "isolatedContainer",
     "startApp",
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName",
-    "localStorage",
-    "Pretender",
-    "jQuery"
+    "currentRouteName"
   ],
   "node": false,
   "browser": false,
