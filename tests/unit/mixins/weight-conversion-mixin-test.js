@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import WeightConversionMixinMixin from 'broue-cli/mixins/weight-conversion-mixin';
+import WeightConversionMixinMixin from 'broue/mixins/weight-conversion-mixin';
 
 module('WeightConversionMixinMixin');
 

@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'broue-cli',
+    modulePrefix: 'broue',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
