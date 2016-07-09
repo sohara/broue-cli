@@ -27,8 +27,9 @@
   <div class="col-md-8">
     <h2>{{username}}'s Recent Brews</h2>
     <ul class="brews-list list-unstyled">
-    {{#each brew in recentBrews}}
-    {{partial "brew/brew-card"}}
-    {{/each}}
+      {{#each brew in recentBrews}}
+        {{partial "brew/brew-card"}}
+      {{/each}}
+    </ul>
   </div>
 </div>

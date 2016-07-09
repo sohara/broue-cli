@@ -18,15 +18,16 @@
     <ul class="brews-list list-unstyled">
       {{#each user in activeUsers}}
         {{#link-to 'user' user tagName="li"}}
-        <div class="info">
-          <h3>
-            {{user.username}}
-          </h3>
-          <p class="text-muted">
-            Last active {{time-from-now user.updatedAt}}
-          </p>
-          <div class="brew-count">
-            {{user.brewCount}} <span class="text-muted">brews</span>
+          <div class="info">
+            <h3>
+              {{user.username}}
+            </h3>
+            <p class="text-muted">
+              Last active {{time-from-now user.updatedAt}}
+            </p>
+            <div class="brew-count">
+              {{user.brewCount}} <span class="text-muted">brews</span>
+            </div>
           </div>
         {{/link-to}}
       {{/each}}

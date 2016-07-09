@@ -138,5 +138,5 @@ export default Ember.ObjectController.extend({
     } else {
       return "N/A";
     }
-  }.property("recordedOriginalGravity", "recordedFinalGravity").cacheable()
+  }.property("recordedOriginalGravity", "recordedFinalGravity")
 });
