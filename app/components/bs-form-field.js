@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   appendText: null,
 
   valuePropertyName: function() {
-    var fromPath = this.get('valuePropertyBinding._from').split('.');
+    var fromPath = this.get('valuePropertyBinding.stream.source.key').split('.');
     return fromPath[fromPath.length -1];
   }.property('valuePropertyBinding'),
 
