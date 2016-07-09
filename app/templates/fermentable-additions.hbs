@@ -18,28 +18,28 @@
         <th {{bind-attr colspan=view.computedColspan}}>Weight</th>
       </tr>
     </thead>
-    {{#each}}
     <tbody>
-    <tr>
-      <td>{{name}}</td>
-      <td>{{color}}</td>
-      <td>{{percentExtract}}</td>
-      <td>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
-      {{#if canEdit}}
-        <td>
-          {{#link-to 'fermentables.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
-              <span class="glyphicon glyphicon-edit"></span>
-            {{/link-to}}
-        </td>
-        <td>
-          <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
-            <span class="glyphicon glyphicon-trash"></span>
-          </button>
-        </td>
-      {{/if}}
-    </tr>
+      {{#each addition in controller}}
+        <tr>
+          <td>{{addition.name}}</td>
+          <td>{{addition.color}}</td>
+          <td>{{addition.percentExtract}}</td>
+          <td>{{localized-weight model=addition measureSystem=measureSystem magnitude="high"}}</td>
+          {{#if canEdit}}
+            <td>
+              {{#link-to 'fermentables.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+                  <span class="glyphicon glyphicon-edit"></span>
+                {{/link-to}}
+            </td>
+            <td>
+              <button {{action 'destroyRecord' addition}} class="btn btn-default btn-xs" title="Delete">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          {{/if}}
+        </tr>
+      {{/each}}
     </tbody>
-    {{/each}}
     <tfoot>
       <tr>
         <td colspan="3">Total</td>

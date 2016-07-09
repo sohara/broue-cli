@@ -19,26 +19,26 @@
       </tr>
     </thead>
     <tbody>
-      {{#each}}
-      <tr>
-        <td>{{productId}}</td>
-        <td>{{name}}</td>
-        <td>{{supplier}}</td>
-        <td>{{form}}</td>
-        <td>{{amount}} {{unit}}</td>
-        {{#if controller.canEdit}}
-          <td>
-            {{#link-to 'yeasts.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
-                <span class="glyphicon glyphicon-edit"></span>
-              {{/link-to}}
-          </td>
-          <td>
-            <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
-          </td>
-        {{/if}}
-      </tr>
+      {{#each addition in controller}}
+        <tr>
+          <td>{{addition.productId}}</td>
+          <td>{{addition.name}}</td>
+          <td>{{addition.supplier}}</td>
+          <td>{{addition.form}}</td>
+          <td>{{addition.amount}} {{addition.unit}}</td>
+          {{#if controller.canEdit}}
+            <td>
+              {{#link-to 'yeasts.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+                  <span class="glyphicon glyphicon-edit"></span>
+                {{/link-to}}
+            </td>
+            <td>
+              <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          {{/if}}
+        </tr>
       {{/each}}
     </tbody>
     <tfoot>

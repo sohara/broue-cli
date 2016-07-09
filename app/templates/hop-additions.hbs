@@ -21,28 +21,28 @@
       </tr>
     </thead>
     <tbody>
-      {{#each}}
-      <tr>
-        <td>{{name}}</td>
-        <td>{{form}}</td>
-        <td>{{use}}</td>
-        <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
-        <td>{{boilTime}}</td>
-        <td>{{alphaAcids}}</td>
-        <td>{{ibus}}</td>
-        {{#if canEdit}}
-        <td>
-          {{#link-to 'hops.edit' this class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
-              <span class="glyphicon glyphicon-edit"></span>
-            {{/link-to}}
-        </td>
-        <td>
-          <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
-            <span class="glyphicon glyphicon-trash"></span>
-          </button>
-        </td>
-      {{/if}}
-      </tr>
+      {{#each addition in controller}}
+        <tr>
+          <td>{{addition.name}}</td>
+          <td>{{addition.form}}</td>
+          <td>{{addition.use}}</td>
+          <td>{{localized-weight model=addition measureSystem=measureSystem}}</td>
+          <td>{{addition.boilTime}}</td>
+          <td>{{addition.alphaAcids}}</td>
+          <td>{{addition.ibus}}</td>
+          {{#if canEdit}}
+          <td>
+            {{#link-to 'hops.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+                <span class="glyphicon glyphicon-edit"></span>
+              {{/link-to}}
+          </td>
+          <td>
+            <button {{action 'destroyRecord' addition}} class="btn btn-default btn-xs" title="Delete">
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </td>
+        {{/if}}
+        </tr>
       {{/each}}
     </tbody>
     <tfoot>
