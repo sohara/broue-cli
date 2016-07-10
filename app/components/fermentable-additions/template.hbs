@@ -15,24 +15,24 @@
         <th>Name</th>
         <th>Color</th>
         <th>% Extract</th>
-        <th {{bind-attr colspan=view.computedColspan}}>Weight</th>
+        <th colspan={{computedColspan}}>Weight</th>
       </tr>
     </thead>
     <tbody>
-      {{#each addition in controller}}
+      {{#each brew.decoratedFermentableAdditions as |addition|}}
         <tr>
-          <td>{{addition.name}}</td>
-          <td>{{addition.color}}</td>
+          <td>{{addition.fermentable.name}}</td>
+          <td>{{addition.fermentable.color}}</td>
           <td>{{addition.percentExtract}}</td>
-          <td>{{localized-weight model=addition.model measureSystem=measureSystem magnitude="high"}}</td>
+          <td>{{localized-weight model=addition measureSystem=measureSystem magnitude="high"}}</td>
           {{#if canEdit}}
             <td>
-              {{#link-to 'fermentables.edit' addition.model class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              {{#link-to 'fermentables.edit' addition.content class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
                   <span class="glyphicon glyphicon-edit"></span>
                 {{/link-to}}
             </td>
             <td>
-              <button {{action 'destroyRecord' addition}} class="btn btn-default btn-xs" title="Delete">
+              <button {{action 'remove' addition.content}} class="btn btn-default btn-xs" title="Delete">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>
@@ -43,7 +43,7 @@
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td {{bind-attr colspan=view.computedColspan}}>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
+        <td colspan={{computedColspan}}>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
       </tr>
     </tfoot>
   </table>

@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   actions: {
     destroyRecord: function(model) {
       var _this = this;
-      var modelName = model.get('constructor.typeKey').decamelize().replace("_", " ");
+      var modelName = model.get('constructor.modelName').decamelize().replace("_", " ");
       if(confirm("Are you sure you want to delete this %@1?".fmt(modelName))) {
         model.destroyRecord().then(function() {
           _this.flash.render("%@1 successfully destroyed".fmt(modelName.capitalize()));

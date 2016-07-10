@@ -6,11 +6,11 @@
     <th>Name</th>
     <th>Created</th>
   </tr>
-  {{#each}}
-  <tr class='brew'>
-    <td>{{link-to id 'recipe' this}}</td>
-    <td>{{link-to name 'recipe' this}}</td>
-    <td>{{formatted-date createdAt}}</td>
-  </tr>
+  {{#each brews as |brew|}}
+    <tr class='brew'>
+      <td>{{link-to brew.id 'recipe' brew}}</td>
+      <td>{{link-to brew.name 'recipe' brew}}</td>
+      <td>{{formatted-date brew.createdAt}}</td>
+    </tr>
   {{/each}}
 </table>

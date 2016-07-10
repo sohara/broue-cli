@@ -1,11 +1,11 @@
 <form role="form" class="form-horizontal">
-  {{bs-text-field valueProperty=model.brewDate appendText="litres"}}
+  {{bs-text-field model=model property="brewDate" appendText="litres"}}
 
-  {{bs-text-field valueProperty=model.recordedOriginalGravity appendText="S.G."}}
+  {{bs-text-field model=model property="recordedOriginalGravity" appendText="S.G."}}
 
   {{convertible-text-field object=model convertibleProperty='recordedPostBoilVolume' type="volume" measureSystem=measureSystem}}
 
-  {{bs-text-field valueProperty=model.recordedFinalGravity appendText="S.G."}}
+  {{bs-text-field model=model property="recordedFinalGravity" appendText="S.G."}}
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

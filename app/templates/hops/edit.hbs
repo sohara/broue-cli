@@ -1,23 +1,22 @@
 {{#modal-dialog param=this.model title="Edit Hop" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-12">
   <form role="form" class="form-horizontal">
-    {{bs-select-field valueProperty=model.hop
+    {{bs-select-field model=model property="hop"
       optionsContent=hops
-      optionLabelPath="content.name"
-      optionValuePath="content.id"
+      optionLabelPath="name"
       prompt="Please select a hop" }}
 
-    {{bs-select-field valueProperty=model.form
+    {{bs-select-field model=model property="form"
       optionsContent=forms
       prompt="Please select a form" }}
 
-    {{bs-select-field valueProperty=model.use
+    {{bs-select-field model=model property="use"
       optionsContent=uses
       prompt="Please select a use" }}
 
     {{convertible-text-field object=this convertibleProperty='model.weight' type="weight" measureSystem=measureSystem}}
-    {{bs-text-field valueProperty=model.boilTime appendText="minutes"}}
-    {{bs-text-field valueProperty=model.alphaAcids appendText="% AA"}}
+    {{bs-text-field model=model property="boilTime" appendText="minutes"}}
+    {{bs-text-field model=model property="alphaAcids" appendText="% AA"}}
   </form>
 </div>
 {{/modal-dialog}}

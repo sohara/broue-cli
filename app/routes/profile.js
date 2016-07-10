@@ -11,12 +11,8 @@ export default Ember.Route.extend(AuthenticatedRoute, {
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    var ownBrews = this.controllerFor('brews/index');
-    if (ownBrews.get('length') === 0) {
-      var brews = this.store.find('brew', {user_id: model.get('id')});
-      this.controllerFor('brews/index').set('model', brews);
-    }
-    controller.set('recentBrews', ownBrews);
+    var brews = this.store.query('brew', {user_id: model.get('id')});
+    this.controllerFor('brews/index').set('model', brews);
   }
 
 });

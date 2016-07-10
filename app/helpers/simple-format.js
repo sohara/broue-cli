@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
-export default Ember.Handlebars.makeBoundHelper(function(string) {
+export function simpleFormat(params) {
+  let string = params[0];
   if (typeof string !== "undefined" && typeof string !== "object") {
     var simpleFormatRE1 = /\r\n?/g;
     var simpleFormatRE2 = /\n\n+/g;
@@ -12,4 +13,6 @@ export default Ember.Handlebars.makeBoundHelper(function(string) {
     fstr = new Ember.Handlebars.SafeString("<p>" + fstr + "</p>");
     return fstr;
   }
-});
+}
+
+export default Ember.Helper.helper(simpleFormat);

@@ -9,6 +9,6 @@ export default DS.Model.extend({
   use: DS.attr('string'),
 
 
-  brew: DS.belongsTo('Brew'),
-  hop: DS.belongsTo('Hop')
+  brew: DS.belongsTo('Brew', {async: false}),
+  hop: DS.belongsTo('Hop', {async: false})
 });

@@ -1,8 +1,11 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
+const { alias } = computed;
 
 export default Ember.Controller.extend({
-  needs: ['brews', 'users'],
+  brewsController: inject.controller('brews'),
+  usersController: inject.controller('users'),
 
-  recentBrews: Ember.computed.alias('controllers.brews.recentBrews'),
-  activeUsers: Ember.computed.alias('controllers.users.activeUsers')
+  recentBrews: alias('brewsController.recentBrews'),
+  activeUsers: alias('usersController.activeUsers')
 });

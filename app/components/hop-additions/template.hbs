@@ -17,27 +17,27 @@
         <th>Weight</th>
         <th>Boil Time</th>
         <th>AA %</th>
-        <th {{bind-attr colspan=view.computedColspan}}>IBUs</th>
+        <th colspan={{computedColspan}}>IBUs</th>
       </tr>
     </thead>
     <tbody>
-      {{#each addition in controller}}
+      {{#each brew.decoratedHopAdditions as |addition|}}
         <tr>
           <td>{{addition.name}}</td>
-          <td>{{addition.model.form}}</td>
-          <td>{{addition.model.use}}</td>
-          <td>{{localized-weight model=addition.model measureSystem=measureSystem}}</td>
-          <td>{{addition.model.boilTime}}</td>
-          <td>{{addition.model.alphaAcids}}</td>
+          <td>{{addition.form}}</td>
+          <td>{{addition.use}}</td>
+          <td>{{localized-weight model=addition measureSystem=measureSystem}}</td>
+          <td>{{addition.boilTime}}</td>
+          <td>{{addition.alphaAcids}}</td>
           <td>{{addition.ibus}}</td>
           {{#if canEdit}}
           <td>
-            {{#link-to 'hops.edit' addition.model class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+            {{#link-to 'hops.edit' addition.content class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
                 <span class="glyphicon glyphicon-edit"></span>
               {{/link-to}}
           </td>
           <td>
-            <button {{action 'destroyRecord' addition.model}} class="btn btn-default btn-xs" title="Delete">
+            <button {{action 'remove' addition.content}} class="btn btn-default btn-xs" title="Delete">
               <span class="glyphicon glyphicon-trash"></span>
             </button>
           </td>
@@ -50,7 +50,7 @@
         <td colspan="3">Total</td>
         <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
         <td colspan="2"> </td>
-        <td {{bind-attr colspan=view.computedColspan}}>{{totalIBUs}}</td>
+        <td colspan={{computedColspan}}>{{brew.totalIBUs}}</td>
       </tr>
     </tfoot>
   </table>

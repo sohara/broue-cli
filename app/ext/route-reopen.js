@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.reopen({
-  enter: function() {
-    this._super.apply(this, arguments);
-    this.flash.send('hide');
-  },
+  // TODO: Either get this to work as required or remove
+  // deactivate: function() {
+  //   this._super.apply(this, arguments);
+  //   this.get('flash').trigger('hide');
+  // }
 });

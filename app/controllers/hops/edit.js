@@ -1,14 +1,14 @@
 import Ember from 'ember';
 import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
+const { computed, inject } = Ember;
+const { alias, oneWay } = computed;
 
 export default Ember.Controller.extend(WeightConversionMixin, {
-  needs: ['hops', 'application'],
+  applicationController: inject.controller('application'),
+  hopsController: inject.controller('hops'),
 
-  measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
-
-  hops: function() {
-    return this.get('controllers.hops');
-  }.property('controllers.hops'),
+  measureSystem: alias('applicationController.measureSystem'),
+  hops: oneWay('hopsController.model'),
 
   forms: [ "Whole", "Pellet", "Plug" ],
   uses: [ "Boil", "Mash", "First Wort", "Aroma", "Dry Hop" ]

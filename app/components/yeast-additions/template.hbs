@@ -15,25 +15,25 @@
         <th>Name</th>
         <th>Supplier</th>
         <th>Form</th>
-        <th {{bind-attr colspan=view.computedColspan}}>Amount</th>
+        <th colspan={{computedColspan}}>Amount</th>
       </tr>
     </thead>
     <tbody>
-      {{#each addition in controller}}
+      {{#each additions as |addition|}}
         <tr>
           <td>{{addition.productId}}</td>
           <td>{{addition.name}}</td>
           <td>{{addition.supplier}}</td>
           <td>{{addition.form}}</td>
           <td>{{addition.amount}} {{addition.unit}}</td>
-          {{#if controller.canEdit}}
+          {{#if canEdit}}
             <td>
               {{#link-to 'yeasts.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
                   <span class="glyphicon glyphicon-edit"></span>
                 {{/link-to}}
             </td>
             <td>
-              <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
+              <button {{action 'remove' addition}} class="btn btn-default btn-xs" title="Delete">
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>

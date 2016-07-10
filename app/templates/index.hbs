@@ -7,8 +7,8 @@
   <div class="col-md-6">
     <h2>Latest Brews</h2>
     <ul class="brews-list list-unstyled">
-      {{#each brew in recentBrews}}
-      {{partial "brew/brew-card"}}
+      {{#each recentBrews as |brew|}}
+        {{partial "brew/brew-card"}}
       {{/each}}
     </ul>
   </div>
@@ -16,7 +16,7 @@
   <div class="col-md-6">
     <h2>Active Brewers</h2>
     <ul class="brews-list list-unstyled">
-      {{#each user in activeUsers}}
+      {{#each activeUsers as |user|}}
         {{#link-to 'user' user tagName="li"}}
           <div class="info">
             <h3>

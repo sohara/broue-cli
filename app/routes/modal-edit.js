@@ -21,7 +21,7 @@ export default Ember.Route.extend({
   setupController: function(controller, model) {
     this._super(controller, model);
     var parentResource = this.get('parentResource');
-    var items = this.store.find(parentResource);
+    var items = this.store.findAll(parentResource);
     var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
     this.controllerFor(inflector.pluralize(parentResource)).set('model', items);
   },
@@ -31,15 +31,16 @@ export default Ember.Route.extend({
     if (model.get('isNew')) {
       // model.deleteRecord();
     } else {
-      model.rollback();
+      model.rollbackAttributes();
     }
   },
 
   actions: {
     save: function(model) {
       model.save().then(function() {
+        // this.send('closeModal');
         Ember.$('.modal').modal('hide');
-      });
+      }.bind(this));
       // Need to add catch/or promise reject handling code here
       // .catch(function(reason) {
       // });

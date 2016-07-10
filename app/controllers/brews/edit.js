@@ -1,8 +1,12 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
+const { alias } = computed;
 
 export default Ember.Controller.extend({
-  needs: ['styles', 'application'],
-  measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
+  applicationController: inject.controller('application'),
+  stylesController: inject.controller('styles'),
+  measureSystem: alias('applicationController.measureSystem'),
+  styles: alias('stylesController.model'),
 
   defaults: {
     us: {
@@ -22,26 +26,22 @@ export default Ember.Controller.extend({
   },
 
   synchronizeAll: function() {
-    if (this.get('content.isNew')) {
+    if (this.get('model.isNew')) {
       var defaults = this.get('defaults.' + this.get('measureSystem'));
-      this.setProperties(defaults);
+      this.get('model').setProperties(defaults);
     }
-  }.observes('content', 'measureSystem'),
-
-  styles: function() {
-    return this.get('controllers.styles');
-  }.property('controllers.styles'),
+  }.observes('model', 'measureSystem'),
 
   volumeChanged: function(object, keyName) {
     this.synchronizeUnits(keyName);
-  }.observes('batchSizeLitres', 'batchSizeGallons', 'boilLossLitres', 'boilLossGallons', 'recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons'),
+  }.observes('model.batchSizeLitres', 'model.batchSizeGallons', 'model.boilLossLitres', 'model.boilLossGallons', 'model.recordedPostBoilVolumeLitres', 'model.recordedPostBoilVolumeGallons').on('init'),
 
   tempChanged: function(object, keyName) {
     this.synchronizeTemp(keyName);
-  }.observes('targetMashTempC', 'targetMashTempF', 'grainTempC', 'grainTempF'),
+  }.observes('model.targetMashTempC', 'model.targetMashTempF', 'model.grainTempC', 'model.grainTempF'),
 
   synchronizeTemp: function(keyName) {
-    if (this.get('content') !== null) {
+    if (this.get('model') !== null) {
       var toStrip = keyName.charAt(keyName.length -1);
       var key = keyName.slice(0, keyName.length -1);
       var tempC = parseFloat(this.get(key + 'C')) || 0;
@@ -63,7 +63,7 @@ export default Ember.Controller.extend({
 
   mashRatioChanged: function(object, keyName) {
     this.synchronizeRatio(keyName);
-  }.observes('waterGrainRatioMetric', 'waterGrainRatioUs'),
+  }.observes('model.waterGrainRatioMetric', 'model.waterGrainRatioUs'),
 
   synchronizeUnits: function(keyName) {
     if (this.get('content') !== null) {
@@ -87,19 +87,19 @@ export default Ember.Controller.extend({
   },
 
   synchronizeRatio: function(keyName) {
-    if (this.get('content') !== null) {
-      var ratioMetric = parseFloat(this.get('waterGrainRatioMetric')) || 0;
-      var ratioUs = parseFloat(this.get('waterGrainRatioUs')) || 0;
-      if (keyName === 'waterGrainRatioMetric') {
+    if (this.get('model') !== null) {
+      var ratioMetric = parseFloat(this.get('model.waterGrainRatioMetric')) || 0;
+      var ratioUs = parseFloat(this.get('model.waterGrainRatioUs')) || 0;
+      if (keyName === 'model.waterGrainRatioMetric') {
         var convertedUs = ratioMetric * 0.47930570952469;
         if (this.roundedToTwo(ratioUs) !== this.roundedToTwo(convertedUs)) {
-          this.set('waterGrainRatioUs', convertedUs);
+          this.set('model.waterGrainRatioUs', convertedUs);
         }
       }
-      else if (keyName === 'waterGrainRatioUs') {
+      else if (keyName === 'model.waterGrainRatioUs') {
         var convertedMetric = ratioUs / 0.47930570952469;
         if (this.roundedToTwo(ratioMetric) !== this.roundedToTwo(convertedMetric)) {
-          this.set('waterGrainRatioMetric', convertedMetric);
+          this.set('model.waterGrainRatioMetric', convertedMetric);
         }
       }
     }

@@ -1,15 +1,16 @@
-<label {{bind-attr for=inputElementId}} class="col-md-2 control-label" >
+<label for={{inputElementId}} class="col-md-2 control-label" >
   {{labelText}}
 </label>
 <div class="col-md-10">
   <div class="input-group">
-    {{view Ember.Select
-    viewName=inputName
-    content=optionsContent
-    optionLabelPath=optionLabelPath
-    optionValuePath=optionValuePath
-    selection=valueProperty
-    prompt=prompt
-    class='form-control'}}
+    <select onchange={{action "selectValue" value="target.value"}}
+      class="form-control">
+      {{#unless hidePrompt}}
+        <option value>{{prompt}}</option>
+      {{/unless}}
+      {{#each optionsContent as |choice index|}}
+        <option value={{index}} selected={{is-equal (get-prop choice optionValuePath) (get-prop model property)}}>{{get-prop choice optionLabelPath}}</option>
+      {{/each}}
+    </select>
   </div>
 </div>

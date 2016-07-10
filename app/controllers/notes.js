@@ -1,7 +1,9 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
+const { oneWay } = computed;
 
-export default Ember.ArrayController.extend({
-  needs: ['brew'],
+export default Ember.Controller.extend({
+  brewController: inject.controller('brew'),
 
-  canEdit: Ember.computed.alias('controllers.brew.canEdit'),
+  canEdit: oneWay('brewController.canEdit')
 });

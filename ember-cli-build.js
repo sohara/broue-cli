@@ -11,6 +11,9 @@ module.exports = function(defaults) {
     minifyCSS: {
       enabled: true,
       options: {}
+    },
+    babel: {
+      includePolyfill: true
     }
   });
 

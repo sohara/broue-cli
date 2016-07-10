@@ -6,9 +6,9 @@
         {{model.username}}
       </h1>
       {{#if model.image}}
-        <img {{bind-attr src=model.image}}>
+        <img src={{model.image}}>
       {{/if}}
-      {{#if bio}}
+      {{#if model.bio}}
         <blockquote>
           <p>{{model.bio}}</p>
         </blockquote>
@@ -27,7 +27,7 @@
   <div class="col-md-8">
     <h2>{{model.username}}'s Recent Brews</h2>
     <ul class="brews-list list-unstyled">
-      {{#each brew in recentBrews}}
+      {{#each recentBrews as |brew|}}
         {{partial "brew/brew-card"}}
       {{/each}}
     </ul>

@@ -49,8 +49,8 @@ Router.map(function() {
 
 export default Router.reopen({
   notifyGoogleAnalytics: function() {
-    if (typeof(ga) !== 'undefined') {
-      return ga('send', 'pageview', {
+    if (typeof(window.ga) !== 'undefined') {
+      return window.ga('send', 'pageview', {
         'page': this.get('url'),
         'title': this.get('url')
       });

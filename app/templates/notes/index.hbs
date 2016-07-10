@@ -16,7 +16,7 @@
               <p class="small text-muted">{{formatted-date note.createdAt}}</p>
             </div>
             <div class="col-md-4 text-right">
-              {{#if controller.canEdit}}
+              {{#if canEdit}}
                 <button {{action 'destroyRecord' note}} class="btn btn-default btn-xs" title="Delete">
                   <span class="glyphicon glyphicon-trash"></span> Delete
                 </button>

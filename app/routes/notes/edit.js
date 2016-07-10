@@ -14,7 +14,7 @@ export default Ember.Route.extend(AuthenticatedRoute, {
       model.deleteRecord();
       brew.get('notes').removeObject(model);
     } else {
-      model.rollback();
+      model.rollbackAttributes();
     }
   },
 

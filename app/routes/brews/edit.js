@@ -9,7 +9,7 @@ export default Ember.Route.extend({
   },
   deactivate: function() {
     var model = this.get('controller.model');
-    model.rollback();
+    model.rollbackAttributes();
   },
   actions: {
     save: function(model) {

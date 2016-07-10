@@ -1,12 +1,11 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
+const { oneWay } = computed;
 
 export default Ember.Controller.extend({
-  needs: ['yeasts'],
+  yeastsController: inject.controller('yeasts'),
 
-  yeasts: function() {
-    return this.get('controllers.yeasts');
-  }.property('controllers.yeasts'),
-
+  yeasts: oneWay('yeastsController.model'),
 
   units: [
     "vial(s) of liquid yeast",

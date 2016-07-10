@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend(Ember.Evented, {
+export default Ember.Service.extend(Ember.Evented, {
   type: 'success',
   message: "",
 
@@ -13,10 +13,4 @@ export default Ember.Controller.extend(Ember.Evented, {
       this.trigger('show');
     });
   },
-
-  actions: {
-    hide: function() {
-      this.trigger('hide');
-    }
-  }
 });

@@ -1,29 +1,30 @@
 import Ember from 'ember';
 import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
+const { computed, inject } = Ember;
+const { alias, oneWay } = computed;
+
+const CONVERSIONS = {
+  weightLbs: {
+    factor: 16,
+    property: 'weightOz'
+  },
+  weightKg: {
+    factor: 1000,
+    property: 'weightGrams'
+  }
+};
 
 export default Ember.Controller.extend(WeightConversionMixin, {
-  needs: ['fermentables', 'application'],
+  applicationController: inject.controller('application'),
+  fermentablesController: inject.controller('fermentables'),
 
-  measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
+  measureSystem: alias('applicationController.measureSystem'),
 
-  fermentables: function() {
-    return this.get('controllers.fermentables');
-  }.property('controllers.fermentables'),
-
-  conversions: {
-    weightLbs: {
-      factor: 16,
-      property: 'weightOz'
-    },
-    weightKg: {
-      factor: 1000,
-      property: 'weightGrams'
-    }
-  },
+  fermentables: oneWay('fermentablesController.model'),
 
   weightConversion: function(key, value) {
-    var convertedProperty = this.conversions[key]['property'];
-    var conversionFactor = this.conversions[key]['factor'];
+    var convertedProperty = CONVERSIONS[key]['property'];
+    var conversionFactor = CONVERSIONS[key]['factor'];
     if (typeof(value) !== 'undefined') {
       var converted = parseFloat(value) * conversionFactor;
       this.set(`model.${convertedProperty}`, converted);
@@ -32,21 +33,27 @@ export default Ember.Controller.extend(WeightConversionMixin, {
     if (isNaN(parseFloat(this.get(`model.${convertedProperty}`)))) {
       return undefined;
     } else {
-      return this.get(`model.${convertedProperty}`) / conversionFactor;
+      let converted = this.get(`model.${convertedProperty}`) / conversionFactor;
+      return this.roundedToTwo(converted);
     }
   },
 
-  weightLbs: function(key, value) {
-    return this.weightConversion(key, value);
-  }.property('model.weightOz'),
+  weightLbs: computed('model.weightOz', {
+    get (key) {
+      return this.weightConversion(key);
+    },
+    set (key, value) {
+      return this.weightConversion(key, value);
+    }
+  }),
 
-  weightKg: function(key, value) {
-    return this.weightConversion(key, value);
-  }.property('weightGrams'),
-
-
-  roundedToTwo: function(value) {
-    return Math.round((value) * 100) / 100;
-  }
+  weightKg: computed('model.weightGrams', {
+    get(key) {
+      return this.weightConversion(key);
+    },
+    set (key, value) {
+      return this.weightConversion(key, value);
+    }
+  })
 
 });

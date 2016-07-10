@@ -1,15 +1,14 @@
 {{#modal-dialog param=this.model title="Edit Yeast" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-8">
   <form role="form" class="form-horizontal">
-    {{bs-select-field valueProperty=model.yeast
+    {{bs-select-field model=model property="yeast"
       optionsContent=yeasts
-      optionLabelPath="content.description"
-      optionValuePath="content.id"
+      optionLabelPath="description"
       prompt="Please select a yeast" }}
-    {{bs-select-field valueProperty=model.unit
+    {{bs-select-field model=model property="unit"
       optionsContent=units
       prompt="Please select a unit" }}
-    {{bs-text-field valueProperty=model.amount appendText="unit"}}
+    {{bs-text-field model=model property="amount" appendText="unit"}}
   </form>
 </div>
 {{/modal-dialog}}

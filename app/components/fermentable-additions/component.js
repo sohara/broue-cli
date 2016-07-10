@@ -1,0 +1,25 @@
+import Ember from 'ember';
+import EditTableView from '../../mixins/edit-table-view';
+
+export default Ember.Component.extend(EditTableView, {
+
+  weightGrams: function() {
+    var weightGrams = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {
+      return accum + parseFloat(addition.get('weightGrams'));
+    }, 0);
+    return weightGrams;
+  }.property('brew.positiveFermentableAdditions.@each.weightGrams'),
+
+  weightOz: function() {
+    var weightOz = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {
+      return accum + parseFloat(addition.get('weightOz'));
+    }, 0);
+    return weightOz;
+  }.property('brew.positiveFermentableAdditions.@each.weightOz'),
+
+  actions: {
+    remove (model) {
+      this.sendAction('remove', model);
+    }
+  }
+});

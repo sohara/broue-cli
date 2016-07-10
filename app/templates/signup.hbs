@@ -3,7 +3,7 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"><strong>Sign up for an account</strong></h3></div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" oninput={{action "resetErrorMessage"}}>
           <div class="form-group">
             <label for="email"> Email</label>
             {{input type="email" value=email class="form-control" style="border-radius:0px" id="email" placeholder="Enter email"}}
@@ -27,7 +27,7 @@
           <p class="alert alert-danger">{{errorMessage}}</p>
           {{/if}}
 
-          <button {{action "signUp"}} {{bind-attr disabled="isProcessing"}} type="submit" class="btn btn-sm btn-default">Sign Up</button>
+          <button {{action "signUp"}} disabled={{isProcessing}} type="submit" class="btn btn-sm btn-default">Sign Up</button>
         </form>
       </div>
     </div>

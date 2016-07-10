@@ -1,7 +1,9 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
 
 export default Ember.Controller.extend({
-  needs: ['application', 'flash'],
+  applicationController: inject.controller('application'),
+  flash: inject.service(),
   email: null,
   password: null,
   passwordConfirmation: null,
@@ -11,20 +13,22 @@ export default Ember.Controller.extend({
   previousTransition: null,
 
   // Computed property setter and getter
-  session: function(key, value) {
-   if (arguments.length > 1) {
-     localStorage.setItem('user', JSON.stringify(value));
-     return value;
-   }
-   return JSON.parse(localStorage.getItem('user') || "null");
-  }.property(),
+  session: computed({
+    get () {
+      return JSON.parse(localStorage.getItem('user') || "null");
+    },
+    set (key, user) {
+      localStorage.setItem('user', JSON.stringify(user));
+      return user;
+    }
+  }),
 
   verify: function(transition) {
     if (!this.get('session')) {
       var _this = this;
       this.set('previousTransition', transition);
       this.transitionToRoute('login').then(function() {
-        _this.get('controllers.flash').render("Please login or sign up to continue.", "warning");
+        _this.get('flash').render("Please login or sign up to continue.", "warning");
       });
     }
   },
@@ -33,7 +37,7 @@ export default Ember.Controller.extend({
   beginSubmission: function() {
     this.setProperties({
       errorMessage: null,
-    isProcessing: true
+      isProcessing: true
     });
   },
 
@@ -51,8 +55,9 @@ export default Ember.Controller.extend({
         password: null
       });
 
-      var user = this.store.push('user', userJson.user);
-      this.get('controllers.application').set('user', user);
+      let normalizedUserJSON = this.store.normalize('user', userJson.user);
+      var user = this.store.push(normalizedUserJSON);
+      this.get('applicationController').set('user', user);
 
       var previousTransition = this.get('previousTransition');
       if (previousTransition) {
@@ -67,7 +72,7 @@ export default Ember.Controller.extend({
     Ember.run(this, function() {
       this.setProperties({
         errorMessage: xhr.responseJSON.message,
-      isProcessing: false
+        isProcessing: false
       });
     });
   },
@@ -92,15 +97,15 @@ export default Ember.Controller.extend({
       Ember.$.ajax("/users.json", {
         type: "POST",
         data: JSON.stringify(this.getProperties('email', 'password',
-            'passwordConfirmation', 'username'))
+              'passwordConfirmation', 'username'))
       }).then(function(userJson) {
         this.handleSuccess(userJson);
       }.bind(this), function(xhr) {
         this.handleError(xhr);
       }.bind(this));
     },
-   resetErrorMessage: function() {
-     this.set('errorMessage', null);
-   },
+    resetErrorMessage: function() {
+      this.set('errorMessage', null);
+    }
   }
 });

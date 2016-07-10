@@ -1,10 +1,12 @@
 import Ember from 'ember';
+const { computed } = Ember;
+const { sort } = computed;
 
-export default Ember.ArrayController.extend({
-  sortProperties: ['updatedAt'],
-  sortAscending: false,
+export default Ember.Controller.extend({
+  userSorting: ['updatedAt:desc'],
+  users: sort('model', 'userSorting'),
 
   activeUsers: function() {
-    return this.get('arrangedContent').splice(0, 10);
-  }.property('arrangedContent.[]')
+    return this.get('users').splice(0, 10);
+  }.property('users.[]')
 });

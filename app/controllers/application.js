@@ -1,8 +1,10 @@
 import Ember from 'ember';
+const { computed, inject } = Ember;
+const { alias } = computed;
 
 export default Ember.Controller.extend({
-  needs: ['login', 'flash'],
-  session: Ember.computed.alias('controllers.login.session'),
+  loginController: inject.controller('login'),
+  session: alias('loginController.session'),
   measureSystem: 'us',
 
   isMetric: function() {
@@ -12,14 +14,16 @@ export default Ember.Controller.extend({
     return this.get('measureSystem') === 'us';
   }.property('measureSystem'),
 
-  user: function(key, value) {
-    if (arguments.length > 1) {
-      return value;
+  user: computed('session', {
+    get: function () {
+      if ( this.get('session') !== null && typeof(this.get('session')) !== 'undefined') {
+        return this.store.find('user', this.get('session.user_id'));
+      }
+    },
+    set: function (key, user) {
+      return user;
     }
-    if ( this.get('session') !== null && typeof(this.get('session')) !== 'undefined') {
-      return this.store.find('user', this.get('session.user_id'));
-    }
-  }.property('session'),
+  }),
 
   clearStore: function() {
     var typeMaps = this.store.get('typeMaps');
@@ -35,7 +39,7 @@ export default Ember.Controller.extend({
     logout: function() {
       this.setProperties({ session: null, user: null });
       this.transitionToRoute('index');
-      this.get('controllers.flash').render("Successfully logged out");
+      this.get('flash').render("Successfully logged out");
       Ember.run.next(this, function() {
         this.clearStore();
       });

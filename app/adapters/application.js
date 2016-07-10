@@ -11,5 +11,8 @@ export default DS.ActiveModelAdapter.extend({
         'auth-email': session.email
       };
     } else { return {}; }
-  }.property("login.session")
+  }.property("login.session"),
+  shouldReloadAll () {
+    return false;
+  }
 });

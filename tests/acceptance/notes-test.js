@@ -1,8 +1,10 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
+import startApp from 'broue/tests/helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
+import Pretender from 'pretender';
 
-var App, server, Stubs;
+var application, server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -11,14 +13,16 @@ var headers = {"Content-Type":"application/json"};
 var nativeConfirm = window.confirm;
 
 module('Acceptance: Notes', {
-  setup: function() {
+  beforeEach: function() {
     window.confirm = function() { return true; };
-    App = startApp();
+    application = startApp();
     Stubs = stubs();
-    localStorage.setItem('user', toS(Stubs.userJSON));
+    window.localStorage.setItem('user', toS(Stubs.userJSON));
 
     server = new Pretender(function() {
-
+      this.get('/api/v1/users/:id', function() {
+        return [200, headers, toS({user: Stubs.user})];
+      });
       this.get('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var jsonBody = toS( { brew: brewObject,
@@ -44,22 +48,22 @@ module('Acceptance: Notes', {
         bodyObject.notes = Stubs.notes;
         return [200, headers, toS(bodyObject)];
       });
-      this.delete('/api/v1/notes/:id', function(req) {
+      this.delete('/api/v1/notes/:id', function() {
         return [204, headers, ""];
       });
     });
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
     window.confirm = nativeConfirm;
-    localStorage.removeItem('user');
-    Ember.run(App, 'destroy');
+    window.localStorage.removeItem('user');
+    Ember.run(application, 'destroy');
     server.shutdown();
   }
 });
 
-test("Edit a brew's notes", function() {
+test("Edit a brew's notes", function(assert) {
   visit('/brews/1/notes');
   andThen(function() {
     click('div.panel:contains("Notes") a:contains("Edit")');
@@ -69,11 +73,11 @@ test("Edit a brew's notes", function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(find('li:contains("totally changing this note")').length, 1);
+    assert.equal(find('li:contains("totally changing this note")').length, 1);
   });
 });
 
-test("Add a new note", function() {
+test("Add a new note", function(assert) {
   visit('/brews/1/notes');
   andThen(function() {
     click('div.panel:contains("Notes") a:contains("Add")') ;
@@ -83,17 +87,17 @@ test("Add a new note", function() {
     click('button:contains("Save")');
   });
   andThen(function() {
-    equal(find('li:contains("Brand, spaking")').length, 1);
+    assert.equal(find('li:contains("Brand, spaking")').length, 1);
   });
 });
 
-test("Delete a new note", function() {
+test("Delete a new note", function(assert) {
   visit('/brews/1/notes');
   andThen(function() {
-    equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
+    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
     click('div.panel:contains("Notes") button:contains("Delete")') ;
   });
   andThen(function() {
-    equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
+    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
   });
 });

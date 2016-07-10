@@ -26,7 +26,7 @@ export default Ember.Component.extend({
         this.set('propertyName', propertyName);
       }
     });
-  }.observes('property', 'localizedUnit'),
+  }.observes('property', 'localizedUnit').on('init'),
 
   localizedUnit: function() {
     if (this.get('property') === 'waterGrainRatio') {
