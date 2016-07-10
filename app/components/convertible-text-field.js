@@ -69,6 +69,6 @@ export default Ember.Component.extend({
         this.myBinding.connect(this);
       }
     });
-  }.observes('measureSystem', 'convertibleProperty'),
+  }.observes('measureSystem', 'convertibleProperty').on('init'),
 
 });

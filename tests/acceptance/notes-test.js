@@ -1,8 +1,10 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
+import startApp from 'broue/tests/helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
+import Pretender from 'pretender';
 
-var App, server, Stubs;
+var application, server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -11,14 +13,16 @@ var headers = {"Content-Type":"application/json"};
 var nativeConfirm = window.confirm;
 
 module('Acceptance: Notes', {
-  setup: function() {
+  beforeEach: function() {
     window.confirm = function() { return true; };
-    App = startApp();
+    application = startApp();
     Stubs = stubs();
     localStorage.setItem('user', toS(Stubs.userJSON));
 
     server = new Pretender(function() {
-
+      this.get('/api/v1/users/:id', function(req) {
+        return [200, headers, toS({user: Stubs.user})];
+      });
       this.get('/api/v1/brews/:id', function(req) {
         var brewObject = Stubs.brews.findBy('id', parseInt(req.params.id));
         var jsonBody = toS( { brew: brewObject,
@@ -49,12 +53,12 @@ module('Acceptance: Notes', {
       });
     });
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
     window.confirm = nativeConfirm;
     localStorage.removeItem('user');
-    Ember.run(App, 'destroy');
+    Ember.run(application, 'destroy');
     server.shutdown();
   }
 });

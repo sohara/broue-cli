@@ -8,7 +8,14 @@
   {{statbox-item property=totalIBUs unitOfMesure="IBU" faIcon="fa-leaf"
     propertyDescription="Bitterness" colorClass="green"}}
 {{/statbox-group}}
-
-{{render "fermentableAdditions"}}
-{{render "hopAdditions"}}
-{{render "yeastAdditions"}}
+<ul>
+{{#each model.yeastAdditions as |addition|}}
+<li>
+  {{addition.name}}
+</li>
+{{/each}}
+</ul>
+{{!render "fermentableAdditions"}}
+{{!render "hopAdditions"}}
+{{!render "yeastAdditions"}}
+{{yeast-additions additions=model.yeastAdditions canEdit=canEdit}}

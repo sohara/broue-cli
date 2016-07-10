@@ -1,7 +1,7 @@
 {{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-8">
   <form role="form" class="form-horizontal">
-    {{bs-select-field valueProperty=model.fermentable
+    {{bs-select-field model=model property="fermentable"
       optionsContent=fermentables
       optionLabelPath="content.description"
       optionValuePath="content.id"

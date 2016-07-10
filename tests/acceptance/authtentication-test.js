@@ -1,18 +1,20 @@
 import Ember from 'ember';
-import startApp from '../helpers/start-app';
+import { module, test } from 'qunit';
+import startApp from 'broue/tests/helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
+import Pretender from 'pretender';
 
-var App, server, Stubs;
+var application, server, Stubs;
 
-module('Acceptance - Authentication', {
-  setup: function() {
-    App = startApp();
+module('Acceptance | Authentication', {
+  beforeEach: function() {
+    application = startApp();
     Stubs = stubs();
 
     localStorage.removeItem('user');
 
     var toS = JSON.stringify;
-    var headers = {"Content-Type":"application/json"};
+    var headers = {"Content-Type": "application/json"};
 
     server = new Pretender(function() {
       this.get('/api/v1/brews', function(){
@@ -41,13 +43,21 @@ module('Acceptance - Authentication', {
         var jsonBody = toS(requestObject);
         return [200, headers, jsonBody];
       });
+      this.get('/api/v1/users', function(){
+        var response =  [200, headers, toS({users: [Stubs.user]})];
+        return response;
+      });
+      this.get('/api/v1/styles', function(){
+        var response =  [200, headers, toS({styles: Stubs.styles})];
+        return response;
+      });
     });
   },
-  teardown: function() {
+  afterEach: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
-    Ember.run(App, 'destroy');
     server.shutdown();
+    Ember.run(application, 'destroy');
   }
 });
 
@@ -91,7 +101,7 @@ test('Allows a user to view their profile', function() {
     localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');
-  App.testHelpers.wait();
+  // App.testHelpers.wait();
   andThen(function() {
     click('a:contains("View Profile")');
   });

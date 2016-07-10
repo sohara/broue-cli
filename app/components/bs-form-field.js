@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const { computed, defineProperty } = Ember;
 
 export default Ember.Component.extend({
   classNames: ['form-group'],
@@ -6,11 +7,17 @@ export default Ember.Component.extend({
   inputElementId: null,
   appendText: null,
 
+  init () {
+    this._super(...arguments);
+    let property = this.get('property');
+    defineProperty(this, 'valueProperty', computed.alias(`model.${property}`));
+  },
+
   valuePropertyName: function() {
-    var fromPath = this.get('valuePropertyBinding._label') || this.get('valuePropertyBinding.stream.source.key');
-    var splitPath = fromPath.split('.');
+    const propertyName = this.get('property');
+    var splitPath = propertyName.split('.');
     return splitPath[splitPath.length -1];
-  }.property('valuePropertyBinding'),
+  }.property('property'),
 
   // Extract the label text from property of parent view property
   // bound to 'value'
