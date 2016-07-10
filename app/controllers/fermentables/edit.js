@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
 
-export default Ember.ObjectController.extend(WeightConversionMixin, {
+export default Ember.Controller.extend(WeightConversionMixin, {
   needs: ['fermentables', 'application'],
 
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
@@ -26,19 +26,19 @@ export default Ember.ObjectController.extend(WeightConversionMixin, {
     var conversionFactor = this.conversions[key]['factor'];
     if (typeof(value) !== 'undefined') {
       var converted = parseFloat(value) * conversionFactor;
-      this.set(convertedProperty, converted);
+      this.set(`model.${convertedProperty}`, converted);
       return value;
     }
-    if (isNaN(parseFloat(this.get(convertedProperty)))) {
+    if (isNaN(parseFloat(this.get(`model.${convertedProperty}`)))) {
       return undefined;
     } else {
-      return this.get(convertedProperty) / conversionFactor;
+      return this.get(`model.${convertedProperty}`) / conversionFactor;
     }
   },
 
   weightLbs: function(key, value) {
     return this.weightConversion(key, value);
-  }.property('weightOz'),
+  }.property('model.weightOz'),
 
   weightKg: function(key, value) {
     return this.weightConversion(key, value);

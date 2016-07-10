@@ -10,23 +10,23 @@
     <tbody>
       <tr>
         <td>Brew Date</td>
-        <td>{{#if brewDate}}{{brewDate}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>{{#if model.brewDate}}{{model.brewDate}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
       </tr>
       <tr>
         <td>Recorded Original Gravity</td>
-        <td>{{#if recordedOriginalGravity}}{{recordedOriginalGravity}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>{{#if model.recordedOriginalGravity}}{{model.recordedOriginalGravity}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
       </tr>
       <tr>
         <td>Recorded Post-Boil Volume</td>
         <td>{{#if recordedPostBoilVolumePresent}}
-          {{localized-volume model=this measureSystem=measureSystem property="recordedPostBoilVolume"}}
+          {{localized-volume model=model measureSystem=measureSystem property="recordedPostBoilVolume"}}
           {{else}}
             <span class="text-muted">—</span>{{/if}}
           </td>
       </tr>
       <tr>
         <td>Recorded Final Gravity</td>
-        <td>{{#if recordedFinalGravity}}{{recordedFinalGravity}} litres{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>{{#if model.recordedFinalGravity}}{{model.recordedFinalGravity}} litres{{else}}<span class="text-muted">—</span>{{/if}}</td>
       </tr>
     </tbody>
   </table>

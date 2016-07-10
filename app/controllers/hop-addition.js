@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   needs: [ 'brew', 'application' ],
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
-  name: Ember.computed.alias('hop.name'),
-  batchSizeLitres: Ember.computed.alias('controllers.brew.batchSizeLitres'),
+  name: Ember.computed.alias('model.hop.name'),
+  batchSizeLitres: Ember.computed.alias('controllers.brew.model.batchSizeLitres'),
   gravityFactor: Ember.computed.alias('controllers.brew.gravityFactor'),
   canEdit: Ember.computed.alias('controllers.brew.canEdit'),
 
@@ -17,15 +17,15 @@ export default Ember.ObjectController.extend({
   }.property('alphaAcidUnits', 'utilization', 'batchSizeLitres'),
 
   alphaAcidUnits: function() {
-    return this.get('weightGrams') * this.get('alphaAcids');
-  }.property('alphaAcids', 'weightGrams'),
+    return this.get('model.weightGrams') * this.get('model.alphaAcids');
+  }.property('model.alphaAcids', 'model.weightGrams'),
 
   utilization: function() {
     return this.get("gravityFactor") * this.get("timeFactor");
   }.property('gravityFactor', 'timeFactor'),
 
   timeFactor: function() {
-    return (1 - Math.exp(-0.04 * this.get('boilTime'))) / 4.15;
-  }.property('boilTime')
+    return (1 - Math.exp(-0.04 * this.get('model.boilTime'))) / 4.15;
+  }.property('model.boilTime')
 
 });

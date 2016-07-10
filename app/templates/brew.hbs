@@ -1,20 +1,20 @@
 <div class="row">
   <div class='col-md-8'>
-    <h2>{{name}} <small>{{style.subcategoryName}}</small></h2>
-    <h3>by {{user.username}}</h3>
+    <h2>{{model.name}} <small>{{model.style.subcategoryName}}</small></h2>
+    <h3>by {{model.user.username}}</h3>
   </div>
   <div class='col-md-4 text-right brew-actions'>
     {{#if canEdit}}
-      {{link-to 'Edit' 'brews.edit' this class="btn btn-primary"}} <button {{action 'destroyBrew' this}} class="btn btn-danger">Destroy</button>
+      {{link-to 'Edit' 'brews.edit' model class="btn btn-primary"}} <button {{action 'destroyBrew' model}} class="btn btn-danger">Destroy</button>
     {{/if}}
   </div>
 </div>
 
 <ul class="nav nav-tabs nav-justified">
-  {{#link-to 'recipe' this tagName="li"}}<a>Recipe</a>{{/link-to}}
-  {{#link-to 'specs' this tagName="li"}}<a>Specs</a>{{/link-to}}
-  {{#link-to 'brew_day' this tagName="li"}}<a>Brew Day</a>{{/link-to}}
-  {{#link-to 'notes' this tagName="li"}}<a>Notes</a>{{/link-to}}
+  {{#link-to 'recipe' tagName="li"}}<a>Recipe</a>{{/link-to}}
+  {{#link-to 'specs' tagName="li"}}<a>Specs</a>{{/link-to}}
+  {{#link-to 'brew_day' tagName="li"}}<a>Brew Day</a>{{/link-to}}
+  {{#link-to 'notes' tagName="li"}}<a>Notes</a>{{/link-to}}
 </ul>
 
 {{outlet}}

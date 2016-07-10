@@ -8,25 +8,25 @@
   </div>
   <div class="panel-body">
     <ul class="list-unstyled">
-      {{#each}}
-      <li class="well recede-background">
-      {{simple-format text}}
-      <div class="row">
-        <div class="col-md-8">
-          <p class="small text-muted">{{formatted-date createdAt}}</p>
-        </div>
-        <div class="col-md-4 text-right">
-          {{#if controller.canEdit}}
-          <button {{action 'destroyRecord' this}} class="btn btn-default btn-xs" title="Delete">
-            <span class="glyphicon glyphicon-trash"></span> Delete
-          </button>
-          {{#link-to 'notes.edit' this class="btn btn-default btn-xs"}}
-          <span class="glyphicon glyphicon-edit"></span> Edit
-          {{/link-to}}
-          {{/if}}
-        </div>
-      </div>
-      </li>
+      {{#each content as |note|}}
+        <li class="well recede-background">
+          {{simple-format note.text}}
+          <div class="row">
+            <div class="col-md-8">
+              <p class="small text-muted">{{formatted-date note.createdAt}}</p>
+            </div>
+            <div class="col-md-4 text-right">
+              {{#if controller.canEdit}}
+                <button {{action 'destroyRecord' note}} class="btn btn-default btn-xs" title="Delete">
+                  <span class="glyphicon glyphicon-trash"></span> Delete
+                </button>
+                {{#link-to 'notes.edit' note class="btn btn-default btn-xs"}}
+                  <span class="glyphicon glyphicon-edit"></span> Edit
+                {{/link-to}}
+              {{/if}}
+            </div>
+          </div>
+        </li>
       {{/each}}
     </ul>
   </div>

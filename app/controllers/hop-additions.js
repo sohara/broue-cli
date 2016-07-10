@@ -11,8 +11,8 @@ export default Ember.ArrayController.extend({
   // Positive additions are those whose weight is greater
   // than zero, and can therefore be included in calculations
   // (filtering to avoid NaN results)
-  positive: Ember.computed.filter('@this.@each.weightGrams', function(addition) {
-    return addition.get('weightGrams') > 0;
+  positive: Ember.computed.filter('@this.@each.model.weightGrams', function(addition) {
+    return addition.get('model.weightGrams') > 0;
   }),
 
   totalIBUs: function() {
@@ -24,15 +24,15 @@ export default Ember.ArrayController.extend({
 
   weightGrams: function() {
     var weightGrams = this.get('positive').reduce(function(accum, addition) {
-      return accum + parseFloat(addition.get('weightGrams'));
+      return accum + parseFloat(addition.get('model.weightGrams'));
     }, 0);
     return weightGrams;
-  }.property('positive.@each.weightGrams'),
+  }.property('positive.@each.model.weightGrams'),
 
   weightOz: function() {
     var weightOz = this.get('positive').reduce(function(accum, addition) {
-      return accum + parseFloat(addition.get('weightOz'));
+      return accum + parseFloat(addition.get('model.weightOz'));
     }, 0);
     return weightOz;
-  }.property('@each.weightOz'),
+  }.property('@each.model.weightOz'),
 });

@@ -47,7 +47,9 @@ export default Ember.Component.extend({
   }.property('measureSystem'),
 
   label: function() {
-    return this.get('convertibleProperty')
+    const propertyParts = this.get('convertibleProperty').split('.');
+    const propertyString = propertyParts[propertyParts.length -1];
+    return propertyString
       .decamelize()
       .split("_")
       .map(Ember.String.capitalize)

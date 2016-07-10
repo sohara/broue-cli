@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
 
-export default Ember.ObjectController.extend(WeightConversionMixin, {
+export default Ember.Controller.extend(WeightConversionMixin, {
   needs: ['hops', 'application'],
 
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),

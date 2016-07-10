@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   needs: ['application'],
   recentBrews: [],
   currentUser: Ember.computed.alias('controllers.application.user'),

@@ -11,8 +11,8 @@ export default Ember.ArrayController.extend({
   // Positive additions are those whose weight is greater
   // than zero, and can therefore be included in calculations
   // (filtering to avoid NaN results)
-  positive: Ember.computed.filter('@this.@each.{weightGrams}', function(addition) {
-    return addition.get('weightGrams') > 0;
+  positive: Ember.computed.filter('@this.@each.{model.weightGrams}', function(addition) {
+    return addition.get('model.weightGrams') > 0;
   }),
 
   mashable: Ember.computed.filterBy('positive', 'mashable', true),
@@ -37,31 +37,31 @@ export default Ember.ArrayController.extend({
 
   weightGrams: function() {
     var weightGrams = this.get('positive').reduce(function(accum, addition) {
-      return accum + parseFloat(addition.get('weightGrams'));
+      return accum + parseFloat(addition.get('model.weightGrams'));
     }, 0);
     return weightGrams;
-  }.property('@each.weightGrams'),
+  }.property('@each.model.weightGrams'),
 
   weightOz: function() {
     var weightOz = this.get('positive').reduce(function(accum, addition) {
-      return accum + parseFloat(addition.get('weightOz'));
+      return accum + parseFloat(addition.get('model.weightOz'));
     }, 0);
     return weightOz;
-  }.property('@each.weightOz'),
+  }.property('@each.model.weightOz'),
 
   totalMashedAdditionsWeightGrams: function() {
     var totalWeightGrams = this.get('mashable').reduce(function(accum, addition) {
-      return accum + parseFloat(addition.get('weightGrams'));
+      return accum + parseFloat(addition.get('model.weightGrams'));
     }, 0);
     return totalWeightGrams;
-  }.property('mashable.@each.weightGrams'),
+  }.property('mashable.@each.model.weightGrams'),
 
   maltColorUnits: function() {
     return this.get('positive').reduce(function(accum, addition) {
-      var weightLbs = addition.get('weightGrams') * 0.0022046226;
+      var weightLbs = addition.get('model.weightGrams') * 0.0022046226;
       var additionUnits = weightLbs * addition.get('color');
       return accum + additionUnits;
     }, 0);
-  }.property('positive.@each.color', 'positive.@each.weightGrams')
+  }.property('positive.@each.color', 'positive.@each.model.weightGrams')
 
 });

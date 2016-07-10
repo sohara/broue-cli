@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ObjectController.extend({
+export default Ember.Controller.extend({
   needs: ['fermentableAdditions', 'hopAdditions', 'application'],
   measureSystem: Ember.computed.alias('controllers.application.measureSystem'),
 
@@ -18,43 +18,42 @@ export default Ember.ObjectController.extend({
   currentUser: Ember.computed.alias('controllers.application.user'),
 
   canEdit: function() {
-    return this.get('currentUser.id') === this.get('user.id');
-  }.property('currentUser.id', 'user.id'),
+    return this.get('currentUser.id') === this.get('model.user.id');
+  }.property('currentUser.id', 'model.user.id'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
     var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
-    var efficiency = this.get("efficiency");
-    var batchSizeLitres = this.get("batchSizeLitres");
+    var efficiency = this.get("model.efficiency");
+    var batchSizeLitres = this.get("model.batchSizeLitres");
     var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / batchSizeLitres);
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / batchSizeLitres);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
+  }.property("model.efficiency", "model.batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
 
   boilVolume: function() {
-    var boilVolume = parseFloat(this.get("batchSizeLitres")) + parseFloat(this.get("boilLossLitres"));
+    var boilVolume = parseFloat(this.get("model.batchSizeLitres")) + parseFloat(this.get("model.boilLossLitres"));
     return Math.round(boilVolume * 100) / 100;
-  }.property("batchSizeLitres", "boilLossLitres"),
+  }.property("model.batchSizeLitres", "model.boilLossLitres"),
 
   preBoilGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
     var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
-    var efficiency = this.get("efficiency");
+    var efficiency = this.get("model.efficiency");
     var boilVolume = this.get("boilVolume");
     var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / boilVolume);
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / boilVolume);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "batchSize", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits"),
+  }.property("model.efficiency", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits"),
 
   colorSRM: function() {
-    // var batchSizeGallons = this.get("batchSizeLitres") * 0.26417205;
-    var batchSizeGallons = this.get("batchSizeGallons");
+    var batchSizeGallons = this.get("model.batchSizeGallons");
     var maltColorUnits = this.get("maltColorUnits");
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
     return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100;
-  }.property("maltColorUnits", "batchSize"),
+  }.property("maltColorUnits", "model.batchSizeGallons"),
 
   gravityFactor: function() {
     var preBoilGravity = this.get("preBoilGravity");
@@ -68,9 +67,9 @@ export default Ember.ObjectController.extend({
 
   strikeWaterVolumeMetric: function() {
     var totalMashedAdditionsWeightGrams = this.get('totalMashedAdditionsWeightGrams');
-    var waterGrainRatioMetric = this.get('waterGrainRatioMetric');
+    var waterGrainRatioMetric = this.get('model.waterGrainRatioMetric');
     return (totalMashedAdditionsWeightGrams * waterGrainRatioMetric) / 1000;
-  }.property("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric"),
+  }.property("totalMashedAdditionsWeightGrams", "model.waterGrainRatioMetric"),
 
   strikeWaterVolumeUs: function() {
     return ( this.get('strikeWaterVolumeMetric') / 3.7854118 ).toFixed(2);
@@ -94,19 +93,19 @@ export default Ember.ObjectController.extend({
   }.property('strikeWaterTempC'),
 
   strikeWaterTempC: function() {
-    var waterGrainRatioMetric = parseFloat(this.get('waterGrainRatioMetric'));
-    var grainTemp = parseFloat(this.get('grainTempC'));
-    var targetMashTemp = parseFloat(this.get('targetMashTempC'));
+    var waterGrainRatioMetric = parseFloat(this.get('model.waterGrainRatioMetric'));
+    var grainTemp = parseFloat(this.get('model.grainTempC'));
+    var targetMashTemp = parseFloat(this.get('model.targetMashTempC'));
     var strikeTemp = ((0.2 / (waterGrainRatioMetric / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
     return Math.round(strikeTemp * 100) / 100;
-  }.property("waterGrainRatioMetric", "targetMashTempC", "grainTempC"),
+  }.property("model.waterGrainRatioMetric", "model.targetMashTempC", "model.grainTempC"),
 
   recordedEfficiency: function() {
-    var recordedOriginalGravity = this.get('recordedOriginalGravity');
+    var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
     if (typeof(recordedOriginalGravity) !== "undefined") {
       var totalExtractUnits = this.get('totalExtractUnits');
-      var batchSize = this.get("batchSizeLitres");
-      var recordedPostBoilVolume = this.get("recordedPostBoilVolumeLitres");
+      var batchSize = this.get("model.batchSizeLitres");
+      var recordedPostBoilVolume = this.get("model.recordedPostBoilVolumeLitres");
       var volume = recordedPostBoilVolume > 0 ? recordedPostBoilVolume : batchSize;
       var maximumOG = ((totalExtractUnits * 0.3865) / volume);
       var efficiency = ((recordedOriginalGravity - 1) / maximumOG) * 100;
@@ -115,28 +114,28 @@ export default Ember.ObjectController.extend({
     else {
       return "N/A";
     }
-  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres"),
+  }.property("totalExtractUnits", "model.recordedOriginalGravity", "model.batchSizeLitres", "model.recordedPostBoilVolumeLitres"),
 
   apparentAttenuation: function() {
-    var recordedOriginalGravity = this.get('recordedOriginalGravity');
-    var recordedFinalGravity = this.get('recordedFinalGravity');
+    var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
+    var recordedFinalGravity = this.get('model.recordedFinalGravity');
     if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
       var aa = (recordedOriginalGravity - recordedFinalGravity) / (recordedOriginalGravity - 1);
       return (aa * 100).toFixed(1);
     } else {
       return "N/A";
     }
-  }.property("recordedOriginalGravity", "recordedFinalGravity"),
+  }.property("model.recordedOriginalGravity", "model.recordedFinalGravity"),
 
 
   alcoholByVolume: function() {
-    var recordedOriginalGravity = this.get('recordedOriginalGravity');
-    var recordedFinalGravity = this.get('recordedFinalGravity');
+    var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
+    var recordedFinalGravity = this.get('model.recordedFinalGravity');
     if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
       var abv = ((1.05 * (recordedOriginalGravity - recordedFinalGravity) / recordedFinalGravity) / 0.79);
       return (abv * 100).toFixed(1);
     } else {
       return "N/A";
     }
-  }.property("recordedOriginalGravity", "recordedFinalGravity")
+  }.property("model.recordedOriginalGravity", "model.recordedFinalGravity")
 });

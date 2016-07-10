@@ -6,17 +6,17 @@
   <div class="panel-body">
     <div class="col-md-6">
       <form role="form" class="form-horizontal">
-        {{bs-textarea-field valueProperty=text label=false rows="20"
+        {{bs-textarea-field valueProperty=model.text label=false rows="20"
         inputDivClass="col-mod-12"}}
-        <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
-        <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
+        <button class="btn btn-primary" type="submit" {{action 'save' model}}>Save</button>
+        <button class="btn btn-default" type="submit" {{action 'cancel'}}>Cancel</button>
       </form>
     </div>
     <div class="col-md-6">
-      {{#if text}}
-      <div class="well recede-background">
-        {{simple-format text}}
-      </div>
+      {{#if model.text}}
+        <div class="well recede-background">
+          {{simple-format model.text}}
+        </div>
       {{/if}}
     </div>
   </div>

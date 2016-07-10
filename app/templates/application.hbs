@@ -17,10 +17,10 @@
         <span class="glyphicon glyphicon-plus-sign"></span> New Brew
       {{/link-to}}
       <div class="btn-group">
-        <button type="button" {{bind-attr class=":btn :btn-default isUS:active"}} {{action setMeasureSystem 'us'}}>
+        <button type="button" {{bind-attr class=":btn :btn-default isUS:active"}} {{action "setMeasureSystem" "us"}}>
           U.S.
         </button>
-        <button type="button" {{bind-attr class=":btn :btn-default isMetric:active"}} {{action setMeasureSystem 'metric'}}>
+        <button type="button" {{bind-attr class=":btn :btn-default isMetric:active"}} {{action "setMeasureSystem" "metric"}}>
           Metric
         </button>
       </div>
@@ -56,4 +56,3 @@
      <p>Questions? Comments? Email <a href="mailto:sohara@sohara.com">sohara@sohara.com</a>.</p>
    </div>
  </div>
-

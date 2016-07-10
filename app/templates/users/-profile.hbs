@@ -3,19 +3,19 @@
   <div class="col-md-4">
     <div class="well recede-background">
       <h1>
-        {{username}}
+        {{model.username}}
       </h1>
-      {{#if image}}
-      <img {{bind-attr src=image}}>
+      {{#if model.image}}
+        <img {{bind-attr src=model.image}}>
       {{/if}}
       {{#if bio}}
         <blockquote>
-          <p>{{bio}}</p>
+          <p>{{model.bio}}</p>
         </blockquote>
       {{/if}}
 
       {{#if isCurrentUser}}
-        <p>Email: {{email}}</p>
+        <p>Email: {{model.email}}</p>
 
         {{#link-to 'profile.edit' class="btn btn-primary"}}
           <i class="glyphicon glyphicon-edit"></i> Edit Profile
@@ -25,7 +25,7 @@
   </div>
 
   <div class="col-md-8">
-    <h2>{{username}}'s Recent Brews</h2>
+    <h2>{{model.username}}'s Recent Brews</h2>
     <ul class="brews-list list-unstyled">
       {{#each brew in recentBrews}}
         {{partial "brew/brew-card"}}

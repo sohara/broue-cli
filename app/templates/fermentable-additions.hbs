@@ -24,10 +24,10 @@
           <td>{{addition.name}}</td>
           <td>{{addition.color}}</td>
           <td>{{addition.percentExtract}}</td>
-          <td>{{localized-weight model=addition measureSystem=measureSystem magnitude="high"}}</td>
+          <td>{{localized-weight model=addition.model measureSystem=measureSystem magnitude="high"}}</td>
           {{#if canEdit}}
             <td>
-              {{#link-to 'fermentables.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              {{#link-to 'fermentables.edit' addition.model class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
                   <span class="glyphicon glyphicon-edit"></span>
                 {{/link-to}}
             </td>

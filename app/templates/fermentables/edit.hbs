@@ -1,7 +1,7 @@
 {{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
 <div class="col-md-8">
   <form role="form" class="form-horizontal">
-    {{bs-select-field valueProperty=fermentable
+    {{bs-select-field valueProperty=model.fermentable
       optionsContent=fermentables
       optionLabelPath="content.description"
       optionValuePath="content.id"
@@ -23,19 +23,19 @@
       <tbody>
         <tr>
           <td>Name:</td>
-          <td>{{fermentable.name}}</td>
+          <td>{{model.fermentable.name}}</td>
         </tr>
         <tr>
           <td>Supplier:</td>
-          <td>{{fermentable.supplier}}</td>
+          <td>{{model.fermentable.supplier}}</td>
         </tr>
         <tr>
           <td>Yield:</td>
-          <td>{{fermentable.totalYield}} %</td>
+          <td>{{model.fermentable.totalYield}} %</td>
         </tr>
         <tr>
           <td>Color:</td>
-          <td>{{fermentable.color}} °L</td>
+          <td>{{model.fermentable.color}} °L</td>
         </tr>
       </tbody>
     </table>
