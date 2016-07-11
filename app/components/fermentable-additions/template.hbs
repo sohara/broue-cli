@@ -1,0 +1,50 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    {{#if canEdit}}
+      {{#link-to 'fermentables.new' class="btn btn-default btn-xs pull-right" title="New"}}
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Add Fermentable
+      {{/link-to}}
+    {{/if}}
+    <h2 class="panel-title">Fermentable Additions</h2>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>% Extract</th>
+        <th {{bind-attr colspan=view.computedColspan}}>Weight</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each addition in decoratedAdditions}}
+        <tr>
+          <td>{{addition.fermentable.name}}</td>
+          <td>{{addition.color}}</td>
+          <td>{{addition.percentExtract}}</td>
+          <td>{{localized-weight model=addition.model measureSystem=measureSystem magnitude="high"}}</td>
+          {{#if canEdit}}
+            <td>
+              {{#link-to 'fermentables.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+                  <span class="glyphicon glyphicon-edit"></span>
+                {{/link-to}}
+            </td>
+            <td>
+              <button {{action 'destroyRecord' addition}} class="btn btn-default btn-xs" title="Delete">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          {{/if}}
+        </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3">Total</td>
+        <td {{bind-attr colspan=view.computedColspan}}>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

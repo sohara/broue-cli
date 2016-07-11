@@ -5,7 +5,7 @@ export default Ember.Route.extend({
     this._super(controller, model);
     this.controllerFor('fermentableAdditions').set('model', model.get('fermentableAdditions'));
     this.controllerFor('hopAdditions').set('model', model.get('hopAdditions'));
-    this.controllerFor('yeastAdditions').set('model', model.get('yeastAdditions'));
+    // this.controllerFor('yeastAdditions').set('model', model.get('yeastAdditions'));
   },
 
   actions: {
