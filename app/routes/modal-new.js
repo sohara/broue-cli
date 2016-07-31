@@ -5,15 +5,17 @@ export default ModalEditRoute.extend({
   controllerName: null,
 
   model: function() {
-    var brew = this.modelFor('brew');
-    var belongsTo = '%@1Additions'.fmt(this.parentResource);
-    var child = this.store.createRecord('%@1Addition'.fmt(this.parentResource));
+    let brew = this.modelFor('brew');
+    let parentResource = this.get('parentResource');
+    let belongsTo = `${parentResource}Additions`;
+    var child = this.store.createRecord(`${parentResource}Addition`);
     brew.get(belongsTo).pushObject(child);
     return child;
   },
 
   renderTemplate: function() {
-    this.render('%@1s/edit'.fmt(this.parentResource), {
+    let parentResource = this.get('parentResource');
+    this.render(`${parentResource}s/edit`, {
       into: 'application',
       outlet: 'modal'
     });

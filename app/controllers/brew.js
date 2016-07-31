@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
 
   strikeWaterVolume: function() {
     var measureSystemSuffix = this.get('measureSystem').capitalize();
-    return this.get('model.strikeWaterVolume%@1'.fmt(measureSystemSuffix));
+    return this.get(`model.strikeWaterVolume${measureSystemSuffix}`);
   }.property('model.strikeWaterVolumeMetric', 'model.strikeWaterVolumeUs', 'measureSystem'),
 
   unitOfMesure: function() {

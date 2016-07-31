@@ -15,6 +15,8 @@ export default DS.Model.extend({
 
 
   description: function() {
-    return "%@1 - %@2".fmt(this.get('productId'), this.get('name'));
+    let productId = this.get('productId');
+    let name = this.get('name');
+    return `${productId} - ${name}`;
   }.property('productId', 'name')
 });

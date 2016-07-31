@@ -19,8 +19,9 @@ export default Ember.Component.extend({
   }.property('measureSystem'),
 
   localizedWeight: function() {
-    return this.get('model.weight%@1'.fmt(this.get('localizedUnit')));
-  }.property('model.weightGrams', 'model.weightOz', 'measureSystem'),
+    let localizedUnit = this.get('localizedUnit');
+    return this.get(`model.weight${localizedUnit}`);
+  }.property('model.weightGrams', 'model.weightOz', 'localizedUnit'),
 
   localizedDivisor: function() {
     return this.get('measureSystem') === 'metric' ? 1000 : 16;
@@ -32,7 +33,9 @@ export default Ember.Component.extend({
   }.property('localizedWeight', 'magnitude'),
 
   displayUnit: function() {
-    return this.get('units.%@1.%@2'.fmt(this.get('measureSystem'), this.get('magnitude')));
+    let measureSystem = this.get('measureSystem');
+    let magnitude = this.get('magnitude');
+    return this.get(`units.${measureSystem}.${magnitude}`);
   }.property('measureSystem', 'magnitude'),
 
   roundedToTwo: function(value) {

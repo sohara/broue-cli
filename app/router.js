@@ -6,41 +6,41 @@ import config from './config/environment';
  });
 
 Router.map(function() {
-  this.resource('login');
-  this.resource('signup');
-  this.resource('profile', function() {
+  this.route('login');
+  this.route('signup');
+  this.route('profile', function() {
     this.route('show', { path: "" });
     this.route('edit', { path: "edit" });
   });
-  this.resource('user', {path: "users/:user_id"});
-  this.resource('brews', {path: "my-brews"}, function() {
+  this.route('user', {path: "users/:user_id"});
+  this.route('brews', {path: "my-brews"}, function() {
     this.route('new');
     this.route('edit', {path: ':brew_id/edit'});
     });
-  this.resource('brew', { path: "/brews/:brew_id" }, function() {
+  this.route('brew', { path: "/brews/:brew_id" }, function() {
     // Make 'recipe' the default route for viewing a brew
     // at '/brews/:brew_id
-    this.resource('recipe', { path: "" }, function() {
-      this.resource('fermentables', function() {
+    this.route('recipe', { path: "", resetNamespace: true }, function() {
+      this.route('fermentables', {resetNamespace: true}, function() {
         this.route('edit', { path: ':resource_id/edit' });
         this.route('new');
       });
-      this.resource('hops', function() {
+      this.route('hops', {resetNamespace: true}, function() {
         this.route('edit', { path: ':resource_id/edit' });
         this.route('new');
       });
-      this.resource('yeasts', function() {
+      this.route('yeasts', {resetNamespace: true}, function() {
         this.route('edit', { path: ':resource_id/edit' });
         this.route('new');
       });
     });
-    this.resource('specs', function() {
+    this.route('specs', {resetNamespace: true}, function() {
       this.route('edit', { path: "edit" });
     });
-    this.resource('brew_day', function() {
+    this.route('brew_day', {resetNamespace: true}, function() {
       this.route('edit', { path: "edit" });
     });
-    this.resource('notes', function() {
+    this.route('notes', {resetNamespace: true}, function() {
       this.route('edit', { path: ':resource_id/edit' });
       this.route('new');
     });

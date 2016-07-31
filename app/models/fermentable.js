@@ -10,6 +10,6 @@ export default DS.Model.extend({
 
 
   description: function() {
-    return "%@ (%@)".fmt(this.get('name'), this.get('supplier'));
+    return `${this.get('name')} ${this.get('supplier')}`;
   }.property("name", "supplier")
 });

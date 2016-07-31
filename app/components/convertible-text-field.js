@@ -33,7 +33,8 @@ export default Ember.Component.extend({
   },
 
   appendText: function() {
-    var result = this.get('appendTexts.%@1'.fmt(this.get('suffix')));
+    let suffix = this.get('suffix');
+    let result = this.get('appendTexts')[suffix];
     if (typeof result !== 'undefined') {
       return result;
     } else {
@@ -42,9 +43,12 @@ export default Ember.Component.extend({
   }.property('suffix'),
 
   suffix: function() {
-    var suffix = this.get('types.%@1.%@2'.fmt(this.get('type'), this.get('measureSystem')));
+    let type = this.get('type');
+    let measureSystem = this.get('measureSystem');
+    let path = `types.${type}.${measureSystem}`;
+    let suffix = this.get(path);
     return suffix;
-  }.property('measureSystem'),
+  }.property('measureSystem', 'type'),
 
   label: function() {
     const propertyParts = this.get('convertibleProperty').split('.');
@@ -58,9 +62,9 @@ export default Ember.Component.extend({
 
   propertyDidChange: function() {
     Ember.run.once(this, function() {
-      var suffix = this.get('suffix');
-      var propName = this.get('convertibleProperty');
-      var fromPath = 'object.%@1%@2'.fmt(propName, suffix);
+      let suffix = this.get('suffix');
+      let propName = this.get('convertibleProperty');
+      let fromPath = `object.${propName}${suffix}`;
       if (typeof(this.myBinding) !== 'undefined' &&  this.myBinding._from !== fromPath ) {
         this.myBinding.disconnect(this);
       }

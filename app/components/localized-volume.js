@@ -1,8 +1,8 @@
 import Ember from 'ember';
+const { computed } = Ember;
 
 export default Ember.Component.extend({
   property: null,
-  propertyName: null,
 
   units: {
     volume: {
@@ -19,14 +19,11 @@ export default Ember.Component.extend({
     }
   },
 
-  propertyDidChange: function() {
-    Ember.run.once(this, function() {
-      if ( this.get('property') !== null ) {
-        var propertyName =  '%@1%@2'.fmt(this.get('property'), this.get('localizedUnit'));
-        this.set('propertyName', propertyName);
-      }
-    });
-  }.observes('property', 'localizedUnit').on('init'),
+  propertyName: computed('property', 'localizedUnit', function () {
+    let property = this.get('property');
+    let localizedUnit = this.get('localizedUnit');
+    return property + localizedUnit;
+  }),
 
   localizedUnit: function() {
     if (this.get('property') === 'waterGrainRatio') {
@@ -40,18 +37,19 @@ export default Ember.Component.extend({
 
   displayVolume: function() {
     if ( this.get('propertyName') !== null ) {
-      var propertyName = this.get('propertyName');
-      return this.roundedToTwo(this.get('model.%@1'.fmt(propertyName)));
+      let propertyName = this.get('propertyName');
+      return this.roundedToTwo(this.get(`model.${propertyName}`));
     }
   }.property('propertyName', 'model', 'localizedUnit'),
 
   displayUnit: function() {
+    let measureSystem = this.get('measureSystem');
     if (this.get('property') === 'waterGrainRatio') {
-      return this.get('units.ratio.%@1'.fmt(this.get('measureSystem')));
+      return this.get(`units.ratio.${measureSystem}`);
     } else if (this.get('property').indexOf('Temp') > -1) {
-      return this.get('units.temp.%@1'.fmt(this.get('measureSystem')));
+      return this.get(`units.temp.${measureSystem}`);
     } else {
-      return this.get('units.volume.%@1'.fmt(this.get('measureSystem')));
+      return this.get(`units.volume.${measureSystem}`);
     }
   }.property('measureSystem'),
 

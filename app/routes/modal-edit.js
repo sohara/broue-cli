@@ -15,7 +15,8 @@ export default Ember.Route.extend({
   },
 
   model: function(params) {
-    return this.store.find('%@1-addition'.fmt(this.get('parentResource')), params.resource_id);
+    let parentResource = this.get('parentResource');
+    return this.store.find(`${parentResource}-addition`, params.resource_id);
   },
 
   setupController: function(controller, model) {
