@@ -1,7 +1,7 @@
 import FlashService from '../services/flash';
 export default {
   name: "flash",
-  initialize: function(container, application) {
+  initialize: function(application) {
     application.register('service:flash', FlashService, {
       singleton: true
     });

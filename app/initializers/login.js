@@ -1,6 +1,6 @@
 export default {
   name: "login",
-  initialize: function(container, application) {
+  initialize: function( application) {
     application.inject('adapter', 'login', 'controller:login');
   }
 };

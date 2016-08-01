@@ -57,7 +57,7 @@ export default DS.Model.extend({
       var additionUnits = weightLbs * addition.get('color');
       return accum + additionUnits;
     }, 0);
-  }.property('positiveFermentableAdditions.@each.color', 'positiveFermentableAdditions.@each.model.weightGrams'),
+  }.property('positiveFermentableAdditions.@each.color', 'positiveFermentableAdditions.@each.weightGrams'),
 
   originalGravity: function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
@@ -145,7 +145,7 @@ export default DS.Model.extend({
       return accum + parseFloat(addition.get('weightGrams'));
     }, 0);
     return totalWeightGrams;
-  }.property('mashable.@each.model.weightGrams'),
+  }.property('mashable.@each.weightGrams'),
 
   totalMashedExtractUnits: function() {
     return this.get('mashable').reduce(function(accum, addition) {
