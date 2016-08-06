@@ -56,6 +56,7 @@ module('Acceptance | Authentication', {
   afterEach: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
+    Ember.$('body').removeClass('modal-open');
     server.shutdown();
     Ember.run(application, 'destroy');
   }

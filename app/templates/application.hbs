@@ -1,6 +1,5 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
@@ -11,7 +10,6 @@
       {{#link-to 'index' class="navbar-brand"}}Broue.io{{/link-to}}
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       {{#link-to 'brews.new' class="btn btn-default navbar-btn" }}
         <span class="glyphicon glyphicon-plus-sign"></span> New Brew
@@ -27,32 +25,32 @@
 
       <ul class="nav navbar-nav navbar-right">
         {{#if user.username}}
-        {{#link-to "brews" tagName="li"}}<a>My Brews</a>{{/link-to}}
-        <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li>{{link-to "View Profile" 'profile.show'}}</li>
-            <li class="divider"></li>
-            <li><a href {{action "logout"}}>Logout</a></li>
-          </ul>
-        </li>
+          {{#link-to "brews" tagName="li"}}<a>My Brews</a>{{/link-to}}
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li>{{link-to "View Profile" 'profile.show'}}</li>
+              <li class="divider"></li>
+              <li><a href {{action "logout"}}>Logout</a></li>
+            </ul>
+          </li>
         {{else}}
-        {{#link-to "login" tagName="li"}}<a>Login</a>{{/link-to}}
-        {{#link-to "signup" tagName="li"}}<a>Sign Up</a>{{/link-to}}
+          {{#link-to "login" tagName="li"}}<a>Login</a>{{/link-to}}
+          {{#link-to "signup" tagName="li"}}<a>Sign Up</a>{{/link-to}}
         {{/if}}
       </ul>
 
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
 
 <div class="container">
   {{flash-messages}}
   {{outlet}}
- </div>
-   {{outlet "modal"}}
- <div class="footer">
-   <div class="container">
-     <p>Questions? Comments? Email <a href="mailto:sohara@sohara.com">sohara@sohara.com</a>.</p>
-   </div>
- </div>
+</div>
+{{outlet "modal"}}
+<div class="footer">
+  <div class="container">
+    <p>Questions? Comments? Email <a href="mailto:sohara@sohara.com">sohara@sohara.com</a>.</p>
+  </div>
+</div>

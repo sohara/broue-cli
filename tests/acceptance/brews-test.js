@@ -82,6 +82,7 @@ module('Acceptance: Brews', {
   teardown: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
+    Ember.$('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
     Ember.run(App, 'destroy');
@@ -164,7 +165,7 @@ test('edit brew day records', function(assert) {
     click('button:contains("Save")');
     andThen(function() {
       assert.equal(currentPath(), 'brew.brew_day.index');
-      assert.equal(find('table tr:first td:last').text(), '2014-06-25');
+      assert.equal(find('table tr:first td:last').text().trim(), '2014-06-25');
     });
   });
 });

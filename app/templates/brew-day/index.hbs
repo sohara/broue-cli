@@ -1,8 +1,9 @@
-
 <div class="panel panel-primary">
   <div class="panel-heading">
     {{#if canEdit}}
-      {{#link-to 'brew_day.edit' class="btn btn-default btn-xs pull-right edit-specs"}}<i class="glyphicon glyphicon-edit"></i> Edit{{/link-to}}
+      {{#link-to 'brew_day.edit' class="btn btn-default btn-xs pull-right edit-specs"}}
+        <i class="glyphicon glyphicon-edit"></i> Edit
+      {{/link-to}}
     {{/if}}
     <h2 class="panel-title">Brew Day</h2>
   </div>
@@ -10,23 +11,43 @@
     <tbody>
       <tr>
         <td>Brew Date</td>
-        <td>{{#if model.brewDate}}{{model.brewDate}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>
+          {{#if model.brewDate}}
+            {{model.brewDate}}
+          {{else}}
+            <span class="text-muted">—</span>
+          {{/if}}
+        </td>
       </tr>
       <tr>
         <td>Recorded Original Gravity</td>
-        <td>{{#if model.recordedOriginalGravity}}{{model.recordedOriginalGravity}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>
+          {{#if model.recordedOriginalGravity}}
+            {{model.recordedOriginalGravity}}
+          {{else}}
+            <span class="text-muted">—</span>
+          {{/if}}
+        </td>
       </tr>
       <tr>
         <td>Recorded Post-Boil Volume</td>
-        <td>{{#if recordedPostBoilVolumePresent}}
-          {{localized-volume model=model measureSystem=measureSystem property="recordedPostBoilVolume"}}
+        <td>
+          {{#if recordedPostBoilVolumePresent}}
+            {{localized-volume model=model measureSystem=measureSystem property="recordedPostBoilVolume"}}
           {{else}}
-            <span class="text-muted">—</span>{{/if}}
-          </td>
+            <span class="text-muted">—</span>
+          {{/if}}
+        </td>
       </tr>
       <tr>
         <td>Recorded Final Gravity</td>
-        <td>{{#if model.recordedFinalGravity}}{{model.recordedFinalGravity}} litres{{else}}<span class="text-muted">—</span>{{/if}}</td>
+        <td>
+          {{#if model.recordedFinalGravity}}
+            {{model.recordedFinalGravity}} litres
+          {{else}}
+            <span class="text-muted">—</span>
+          {{/if}}
+        </td>
       </tr>
     </tbody>
   </table>

@@ -1,47 +1,47 @@
 {{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
-<div class="col-md-8">
-  <form role="form" class="form-horizontal">
-    {{bs-select-field model=model property="fermentable"
-      optionsContent=fermentables
-      optionLabelPath="description"
-      prompt="Please select a fermentable" }}
-    {{convertible-text-field object=this convertibleProperty='weight' type="weightScaled" measureSystem=measureSystem}}
-  </form>
-</div>
-<div class="col-md-4">
-  <div class="well">
-    <table class="table">
-      <thead>
-        <tr>
-          <th colspan=2">
-            Fermentable Details
-          </th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>ID:</td>
-          <td>{{model.fermentable.id}}</td>
-        </tr>
-        <tr>
-          <td>Name:</td>
-          <td>{{model.fermentable.name}}</td>
-        </tr>
-        <tr>
-          <td>Supplier:</td>
-          <td>{{model.fermentable.supplier}}</td>
-        </tr>
-        <tr>
-          <td>Yield:</td>
-          <td>{{model.fermentable.totalYield}} %</td>
-        </tr>
-        <tr>
-          <td>Color:</td>
-          <td>{{model.fermentable.color}} °L</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="col-md-8">
+    <form role="form" class="form-horizontal">
+      {{bs-select-field model=model property="fermentable"
+        optionsContent=fermentables
+        optionLabelPath="description"
+        prompt="Please select a fermentable" }}
+      {{convertible-text-field object=this convertibleProperty='weight' type="weightScaled" measureSystem=measureSystem}}
+    </form>
   </div>
-</div>
+  <div class="col-md-4">
+    <div class="well">
+      <table class="table">
+        <thead>
+          <tr>
+            <th colspan=2">
+              Fermentable Details
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>ID:</td>
+            <td>{{model.fermentable.id}}</td>
+          </tr>
+          <tr>
+            <td>Name:</td>
+            <td>{{model.fermentable.name}}</td>
+          </tr>
+          <tr>
+            <td>Supplier:</td>
+            <td>{{model.fermentable.supplier}}</td>
+          </tr>
+          <tr>
+            <td>Yield:</td>
+            <td>{{model.fermentable.totalYield}} %</td>
+          </tr>
+          <tr>
+            <td>Color:</td>
+            <td>{{model.fermentable.color}} °L</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 {{/modal-dialog}}

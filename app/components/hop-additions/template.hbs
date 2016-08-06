@@ -31,17 +31,17 @@
           <td>{{addition.alphaAcids}}</td>
           <td>{{addition.ibus}}</td>
           {{#if canEdit}}
-          <td>
-            {{#link-to 'hops.edit' addition.content class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+            <td>
+              {{#link-to 'hops.edit' addition.content class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
                 <span class="glyphicon glyphicon-edit"></span>
               {{/link-to}}
-          </td>
-          <td>
-            <button {{action 'remove' addition.content}} class="btn btn-default btn-xs" title="Delete">
-              <span class="glyphicon glyphicon-trash"></span>
-            </button>
-          </td>
-        {{/if}}
+            </td>
+            <td>
+              <button {{action 'remove' addition.content}} class="btn btn-default btn-xs" title="Delete">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>

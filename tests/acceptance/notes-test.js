@@ -56,6 +56,7 @@ module('Acceptance: Notes', {
   afterEach: function() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
+    Ember.$('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
     Ember.run(application, 'destroy');
