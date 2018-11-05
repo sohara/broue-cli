@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import { getOwner } from '@ember/application';
 const { computed } = Ember;
 
 
@@ -93,7 +94,9 @@ export default DS.Model.extend({
 
   decoratedFermentableAdditions: computed('fermentableAdditions.[]', function () {
     const brew = this;
-    const fermentableAdditionDecoratorModel = this.store.modelFor('fermentable-addition-decorator');
+    let owner = getOwner(this);
+
+    const fermentableAdditionDecoratorModel = owner.factoryFor('model:fermentable-addition-decorator');
     return this.get('fermentableAdditions').map(addition => {
       return fermentableAdditionDecoratorModel.create({
         brew,
@@ -104,7 +107,8 @@ export default DS.Model.extend({
 
   decoratedHopAdditions: computed('hopAdditions.[]', function () {
     const brew = this;
-    const hopAdditionDecoratorModel = this.store.modelFor('hop-addition-decorator');
+    let owner = getOwner(this);
+    const hopAdditionDecoratorModel = owner.factoryFor('model:hop-addition-decorator');
     return this.get('hopAdditions').map(addition => {
       return hopAdditionDecoratorModel.create({
         brew,

@@ -41,7 +41,7 @@ export default Ember.Controller.extend({
       this.transitionToRoute('index');
       this.get('flash').render("Successfully logged out");
       Ember.run.next(this, function() {
-        this.clearStore();
+        // this.clearStore();
       });
     },
     setMeasureSystem: function(measureSystem) {
