@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import startApp from '../helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
@@ -18,8 +19,8 @@ function fillSelectFromValue(selector, value) {
   fillIn(selector, optionValue);
 }
 
-module('Acceptance: Brews', {
-  setup: function() {
+moduleForAcceptance('Acceptance: Brews', {
+  beforeEach() {
     window.confirm = function() { return true; };
     App = startApp();
     Stubs = stubs();
@@ -79,7 +80,7 @@ module('Acceptance: Brews', {
       });
     });
   },
-  teardown: function() {
+  afterEach() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
     Ember.$('body').removeClass('modal-open');

@@ -1,13 +1,14 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import startApp from 'broue/tests/helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
 
 var application, server, Stubs;
 
-module('Acceptance | Authentication', {
-  beforeEach: function() {
+moduleForAcceptance('Acceptance | Authentication', {
+  beforeEach() {
     application = startApp();
     Stubs = stubs();
 
@@ -53,7 +54,7 @@ module('Acceptance | Authentication', {
       });
     });
   },
-  afterEach: function() {
+  afterEach() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
     Ember.$('body').removeClass('modal-open');
@@ -161,4 +162,3 @@ test('Displays login error when logging in with bad credentials', function(asser
     });
   });
 });
-

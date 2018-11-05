@@ -1,5 +1,6 @@
 import Ember from 'ember';
-import { module, test } from 'qunit';
+import { test } from 'qunit';
+import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import Pretender from 'pretender';
 import startApp from '../helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
@@ -13,8 +14,8 @@ var headers = {"Content-Type":"application/json"};
 
 var nativeConfirm = window.confirm;
 
-module('Acceptance: Recipes', {
-  setup: function() {
+moduleForAcceptance('Acceptance: Recipes', {
+  beforeEach() {
     window.confirm = function() { return true; };
     App = startApp();
     Stubs = stubs();
@@ -105,7 +106,7 @@ module('Acceptance: Recipes', {
       });
     });
   },
-  teardown: function() {
+  afterEach() {
     Ember.$('.modal').hide();
     Ember.$('.modal-backdrop').remove();
     Ember.$('body').removeClass('modal-open');
