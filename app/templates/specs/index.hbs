@@ -1,7 +1,12 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     {{#if canEdit}}
-      {{#link-to 'specs.edit' class="btn btn-default btn-xs pull-right edit-specs"}}<i class="glyphicon glyphicon-edit"></i> Edit{{/link-to}}
+      {{#link-to
+        "specs.edit"
+        class="btn btn-default btn-xs pull-right edit-specs"
+      }}
+        <i class="glyphicon glyphicon-edit"></i> Edit
+      {{/link-to}}
     {{/if}}
     <h2 class="panel-title">Specs</h2>
   </div>
@@ -9,11 +14,23 @@
     <tbody>
       <tr>
         <td>Batch Size</td>
-        <td>{{localized-volume model=model measureSystem=measureSystem property="batchSize"}}</td>
+        <td>
+          {{localized-volume
+            model=model
+            measureSystem=measureSystem
+            property="batchSize"
+          }}
+        </td>
       </tr>
       <tr>
         <td>Boil Loss</td>
-        <td>{{localized-volume model=model measureSystem=measureSystem property="boilLoss"}}</td>
+        <td>
+          {{localized-volume
+            model=model
+            measureSystem=measureSystem
+            property="boilLoss"
+          }}
+        </td>
       </tr>
       <tr>
         <td>Efficiency</td>
@@ -21,15 +38,33 @@
       </tr>
       <tr>
         <td>Target Mash Temperature</td>
-        <td>{{localized-volume model=model measureSystem=measureSystem property="targetMashTemp"}}</td>
+        <td>
+          {{localized-volume
+            model=model
+            measureSystem=measureSystem
+            property="targetMashTemp"
+          }}
+        </td>
       </tr>
       <tr>
         <td>Water/Grain Ratio</td>
-        <td>{{localized-volume model=model measureSystem=measureSystem property="waterGrainRatio"}}</td>
+        <td>
+          {{localized-volume
+            model=model
+            measureSystem=measureSystem
+            property="waterGrainRatio"
+          }}
+        </td>
       </tr>
       <tr>
         <td>Grain Temperature</td>
-        <td>{{localized-volume model=model measureSystem=measureSystem property="grainTemp"}}</td>
+        <td>
+          {{localized-volume
+            model=model
+            measureSystem=measureSystem
+            property="grainTemp"
+          }}
+        </td>
       </tr>
     </tbody>
   </table>

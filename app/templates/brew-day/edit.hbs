@@ -1,16 +1,29 @@
 <form role="form" class="form-horizontal">
-  {{bs-text-field model=model property="brewDate" appendText="litres"}}
+  {{bs-text-field
+    model=model
+    property="brewDate"
+    appendText="litres"
+  }}
 
-  {{bs-text-field model=model property="recordedOriginalGravity" appendText="S.G."}}
+  {{bs-text-field
+    model=model
+    property="recordedOriginalGravity"
+    appendText="S.G."
+  }}
 
-  {{convertible-text-field object=model convertibleProperty='recordedPostBoilVolume' type="volume" measureSystem=measureSystem}}
+  {{convertible-text-field
+    object=model
+    convertibleProperty="recordedPostBoilVolume"
+    type="volume"
+    measureSystem=measureSystem
+  }}
 
   {{bs-text-field model=model property="recordedFinalGravity" appendText="S.G."}}
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <button class="btn btn-primary" type="submit" {{action 'save' model}}>Save</button>
-      <button class="btn btn-default" type="submit" {{action 'cancel'}}>Cancel</button>
+      <button class="btn btn-primary" type="submit" {{action "save" model}}>Save</button>
+      <button class="btn btn-default" type="submit" {{action "cancel"}}>Cancel</button>
     </div>
   </div>
 </form>

@@ -1,7 +1,11 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     {{#if canEdit}}
-      {{#link-to 'fermentables.new' class="btn btn-default btn-xs pull-right" title="New"}}
+      {{#link-to
+        "fermentables.new"
+        class="btn btn-default btn-xs pull-right"
+        title="New"
+      }}
         <span class="glyphicon glyphicon-plus-sign"></span>
         Add Fermentable
       {{/link-to}}
@@ -27,12 +31,22 @@
           <td>{{localized-weight model=addition measureSystem=measureSystem magnitude="high"}}</td>
           {{#if canEdit}}
             <td>
-              {{#link-to 'fermentables.edit' addition.content class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              {{#link-to
+                "fermentables.edit"
+                addition.content
+                class="btn btn-default btn-xs"
+                title="Edit"
+                data-toggle="tooltip"
+              }}
                 <span class="glyphicon glyphicon-edit"></span>
               {{/link-to}}
             </td>
             <td>
-              <button {{action remove addition.content}} class="btn btn-default btn-xs" title="Delete">
+              <button
+                class="btn btn-default btn-xs"
+                title="Delete"
+                {{action remove addition.content}}
+              >
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>

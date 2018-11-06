@@ -2,5 +2,9 @@
 'use strict';
 
 module.exports = {
-  extends: 'recommended'
+  extends: 'recommended',
+  rules: {
+    'no-invalid-interactive': false,
+    'no-partial': false
+  }
 };

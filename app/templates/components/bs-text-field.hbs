@@ -1,13 +1,13 @@
-<label for={{inputElementId}} class="col-md-2 control-label" >
+<label for={{inputElementId}} class="col-md-2 control-label">
   {{labelText}}
 </label>
 <div class="col-md-10">
   {{#if appendText}}
     <div class="input-group">
-      {{input value=valueProperty class='form-control' viewName=inputName}}
+      {{input value=valueProperty class="form-control" viewName=inputName}}
       <span class="input-group-addon">{{appendText}}</span>
     </div>
   {{else}}
-    {{input value=valueProperty class='form-control' viewName=inputName}}
+    {{input value=valueProperty class="form-control" viewName=inputName}}
   {{/if}}
 </div>
