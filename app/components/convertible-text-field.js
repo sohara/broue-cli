@@ -1,8 +1,6 @@
-import { once } from '@ember/runloop';
 import { capitalize } from '@ember/string';
 import Component from '@ember/component';
-import { computed, get, observer } from '@ember/object';
-import Ember from 'ember';
+import { computed, get } from '@ember/object';
 
 const TYPES = {
   volume: {
@@ -61,28 +59,6 @@ export default Component.extend({
       .split("_")
       .map(capitalize)
       .join(" ");
-  }),
-
-  connectBindings() {
-    let suffix = this.get('suffix');
-    let propName = this.get('convertibleProperty');
-    let fromPath = `object.${propName}${suffix}`;
-    if (typeof (this.myBinding) !== 'undefined' && this.myBinding._from !== fromPath) {
-      this.myBinding.disconnect(this);
-    }
-    if (typeof (this.myBinding) === 'undefined' || this.myBinding._from !== fromPath) {
-      this.myBinding = Ember.Binding.from(fromPath).to('valueProperty');
-      this.myBinding.connect(this);
-    }
-  },
-
-  propertyDidChange: observer('measureSystem', 'convertibleProperty', function() {
-    once(this, this.connectBindings);
-  }),
-
-  init() {
-    this._super(...arguments);
-    this.connectBindings();
-  }
+  })
 
 });

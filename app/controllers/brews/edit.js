@@ -73,7 +73,7 @@ export default Controller.extend({
   }),
 
   synchronizeUnits: function(keyName) {
-    if (this.get('content') !== null) {
+    if (this.get('model') !== null) {
       var toStrip = (keyName.indexOf('Gallons') > 1) ? 'Gallons' : 'Litres';
       var key = keyName.replace(toStrip, '');
       var volumeGallons = parseFloat(this.get(keyName)) || 0;
