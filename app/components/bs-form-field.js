@@ -3,6 +3,7 @@ import { capitalize } from '@ember/string';
 import Component from '@ember/component';
 import { defineProperty } from '@ember/object';
 import { run } from '@ember/runloop';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   classNames: ['form-group'],
@@ -16,15 +17,15 @@ export default Component.extend({
     defineProperty(this, 'valueProperty', alias(`model.${property}`));
   },
 
-  valuePropertyName: function() {
+  valuePropertyName: computed('property', function() {
     const propertyName = this.get('property');
     var splitPath = propertyName.split('.');
     return splitPath[splitPath.length -1];
-  }.property('property'),
+  }),
 
   // Extract the label text from property of parent view property
   // bound to 'value'
-  labelText: function() {
+  labelText: computed('valuePropertyName', function() {
     if (typeof(this.get('label')) !== "undefined") {
       return this.get('label');
     } else {
@@ -34,21 +35,22 @@ export default Component.extend({
         .map(capitalize)
         .join(" ");
     }
-  }.property('valuePropertyName'),
 
-  inputName: function() {
+  }),
+
+  inputName: computed('valuePropertyName', function() {
     return this.get('valuePropertyName') + "Input";
-  }.property('valuePropertyName'),
+  }),
 
   // For acceptance tests... apply a classname to make it easy to
   // target input with a selector
-  labelDasherized: function() {
+  labelDasherized: computed('labelText', function() {
     var text = this.get('labelText') || this.get('valuePropertyName');
     return text
       .decamelize()
       .split(" ")
       .join("-");
-  }.property('labelText'),
+  }),
 
   didInsertElement: function() {
     this._super();

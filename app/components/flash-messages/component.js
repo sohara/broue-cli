@@ -1,4 +1,5 @@
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -32,17 +33,17 @@ export default Component.extend({
     this.$().fadeOut(600);
   },
 
-  alertSuccess: function() {
+  alertSuccess: computed('flash.type', function() {
     return this.get('flash.type') === 'success';
-  }.property('flash.type'),
+  }),
 
-  alertWarning: function() {
+  alertWarning: computed('flash.type', function() {
     return this.get('flash.type') === 'warning';
-  }.property('flash.type'),
+  }),
 
-  alertDanger: function() {
+  alertDanger: computed('flash.type', function() {
     return this.get('flash.type') ==='danger';
-  }.property('flash.type'),
+  }),
 
   actions: {
     hide: function() {

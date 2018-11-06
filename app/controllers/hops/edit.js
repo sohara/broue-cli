@@ -9,7 +9,17 @@ export default Controller.extend(WeightConversionMixin, {
   measureSystem: alias('applicationController.measureSystem'),
   hops: oneWay('hopsController.model'),
 
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   forms: [ "Whole", "Pellet", "Plug" ],
-  uses: [ "Boil", "Mash", "First Wort", "Aroma", "Dry Hop" ]
+  uses: [ "Boil", "Mash", "First Wort", "Aroma", "Dry Hop" ],
+
+  actions: {
+    close() {
+      this.send('closeModal');
+    },
+    saveModel(model) {
+      this.send('save', model);
+    }
+  }
 
 });

@@ -1,9 +1,10 @@
 import ActiveModelAdapter from 'active-model-adapter';
+import { computed } from '@ember/object';
 
 export default ActiveModelAdapter.extend({
   namespace: 'api/v1',
   coalesceFindRequests: true,
-  headers: function() {
+  headers: computed('login.session', function () {
     var session = this.login.get('session');
     if (session !== null) {
       return {
@@ -11,7 +12,7 @@ export default ActiveModelAdapter.extend({
         'auth-email': session.email
       };
     } else { return {}; }
-  }.property("login.session"),
+  }),
   shouldReloadAll () {
     return false;
   }

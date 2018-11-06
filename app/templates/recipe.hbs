@@ -12,11 +12,11 @@
 {{fermentable-additions brew=model
   canEdit=canEdit
   measureSystem=measureSystem
-  remove="destroyRecord"}}
+  remove=(action "destroyRecord")}}
 {{hop-additions brew=model
   canEdit=canEdit
   measureSystem=measureSystem
-  remove="destroyRecord"}}
+  remove=(action "destroyRecord")}}
 {{yeast-additions additions=model.yeastAdditions
   canEdit=canEdit
-  remove="destroyRecord"}}
+  remove=(action "destroyRecord")}}

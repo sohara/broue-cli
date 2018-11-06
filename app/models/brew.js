@@ -30,7 +30,7 @@ export default DS.Model.extend({
   notes: DS.hasMany('Note', {async: true}),
   user: DS.belongsTo('user', {async: true}),
 
-  recordedEfficiency: function() {
+  recordedEfficiency: computed("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres", function() {
     var recordedOriginalGravity = this.get('recordedOriginalGravity');
     if (typeof(recordedOriginalGravity) !== "undefined") {
       var totalExtractUnits = this.get('totalExtractUnits');
@@ -44,23 +44,24 @@ export default DS.Model.extend({
     else {
       return "N/A";
     }
-  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres"),
-  colorSRM: function() {
+  }),
+
+  colorSRM: computed("maltColorUnits", "batchSizeGallons", function() {
     var batchSizeGallons = this.get("batchSizeGallons");
     var maltColorUnits = this.get("maltColorUnits");
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
     return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100;
-  }.property("maltColorUnits", "batchSizeGallons"),
+  }),
 
-  maltColorUnits: function() {
+  maltColorUnits: computed('positiveFermentableAdditions.{@each.color,@each.weightGrams}', function() {
     return this.get('positiveFermentableAdditions').reduce(function(accum, addition) {
       var weightLbs = addition.get('weightGrams') * 0.0022046226;
       var additionUnits = weightLbs * addition.get('color');
       return accum + additionUnits;
     }, 0);
-  }.property('positiveFermentableAdditions.@each.color', 'positiveFermentableAdditions.@each.weightGrams'),
+  }),
 
-  originalGravity: function() {
+  originalGravity: computed("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits", function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
     var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
     var efficiency = this.get("efficiency");
@@ -69,14 +70,14 @@ export default DS.Model.extend({
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / batchSizeLitres);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
+  }),
 
-  gravityFactor: function() {
+  gravityFactor: computed("preBoilGravity", function() {
     var preBoilGravity = this.get("preBoilGravity");
     return (1.65 * (Math.pow(0.000125, preBoilGravity - 1)));
-  }.property("preBoilGravity"),
+  }),
 
-  preBoilGravity: function() {
+  preBoilGravity: computed("efficiency", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits", function() {
     var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
     var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
     var efficiency = this.get("efficiency");
@@ -85,12 +86,12 @@ export default DS.Model.extend({
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / boilVolume);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits"),
+  }),
 
-  boilVolume: function() {
+  boilVolume: computed("batchSizeLitres", "boilLossLitres", function() {
     var boilVolume = parseFloat(this.get("batchSizeLitres")) + parseFloat(this.get("boilLossLitres"));
     return Math.round(boilVolume * 100) / 100;
-  }.property("batchSizeLitres", "boilLossLitres"),
+  }),
 
   decoratedFermentableAdditions: computed('fermentableAdditions.[]', function () {
     const brew = this;
@@ -127,44 +128,44 @@ export default DS.Model.extend({
     return addition.get('weightGrams') > 0;
   }),
 
-  strikeWaterVolumeMetric: function() {
+  strikeWaterVolumeMetric: computed("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric", function() {
     var totalMashedAdditionsWeightGrams = this.get('totalMashedAdditionsWeightGrams');
     var waterGrainRatioMetric = this.get('waterGrainRatioMetric');
     return (totalMashedAdditionsWeightGrams * waterGrainRatioMetric) / 1000;
-  }.property("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric"),
+  }),
 
-  strikeWaterVolumeUs: function() {
+  strikeWaterVolumeUs: computed('strikeWaterVolumeMetric', function() {
     return ( this.get('strikeWaterVolumeMetric') / 3.7854118 ).toFixed(2);
-  }.property('strikeWaterVolumeMetric'),
+  }),
 
-  totalIBUs: function() {
+  totalIBUs: computed('positiveHopAdditions.@each.ibus', function() {
     var totalIBUs = this.get('positiveHopAdditions').reduce(function(accum, addition) {
       return accum + addition.get('ibus');
     }, 0);
     return Math.round(totalIBUs * 10) / 10;
-  }.property('positiveHopAdditions.@each.ibus'),
+  }),
 
-  totalMashedAdditionsWeightGrams: function() {
+  totalMashedAdditionsWeightGrams: computed('mashable.@each.weightGrams', function() {
     var totalWeightGrams = this.get('mashable').reduce(function(accum, addition) {
       return accum + parseFloat(addition.get('weightGrams'));
     }, 0);
     return totalWeightGrams;
-  }.property('mashable.@each.weightGrams'),
+  }),
 
-  totalMashedExtractUnits: function() {
+  totalMashedExtractUnits: computed('mashable.@each.extractUnits', function() {
     return this.get('mashable').reduce(function(accum, addition) {
       return accum + addition.get('extractUnits');
     }, 0);
-  }.property('mashable.@each.extractUnits'),
+  }),
 
-  totalUnmashedExtractUnits: function() {
+  totalUnmashedExtractUnits: computed('unmashable.@each.extractUnits', function() {
     return this.get('unmashable').reduce(function(accum, addition) {
       return accum + addition.get('extractUnits');
     }, 0);
-  }.property('unmashable.@each.extractUnits'),
+  }),
 
-  totalExtractUnits: function() {
+  totalExtractUnits: computed('totalMashedExtractUnits', 'totalUnmashedExtractUnits', function() {
     var sum = this.get('totalMashedExtractUnits') + this.get('totalUnmashedExtractUnits');
     return Math.round(sum * 100) / 100;
-  }.property('totalMashedExtractUnits', 'totalUnmashedExtractUnits'),
+  })
 });

@@ -1,25 +1,21 @@
 import Component from '@ember/component';
 import EditTableView from '../../mixins/edit-table-view';
+import { computed } from '@ember/object';
 
 export default Component.extend(EditTableView, {
 
-  weightGrams: function() {
+  weightGrams: computed('brew.positiveFermentableAdditions.@each.weightGrams', function() {
     var weightGrams = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {
       return accum + parseFloat(addition.get('weightGrams'));
     }, 0);
     return weightGrams;
-  }.property('brew.positiveFermentableAdditions.@each.weightGrams'),
+  }),
 
-  weightOz: function() {
+  weightOz: computed('brew.positiveFermentableAdditions.@each.weightOz', function() {
     var weightOz = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {
       return accum + parseFloat(addition.get('weightOz'));
     }, 0);
     return weightOz;
-  }.property('brew.positiveFermentableAdditions.@each.weightOz'),
+  })
 
-  actions: {
-    remove (model) {
-      this.sendAction('remove', model);
-    }
-  }
 });

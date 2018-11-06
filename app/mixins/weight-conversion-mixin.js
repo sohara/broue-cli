@@ -1,11 +1,12 @@
 import { once } from '@ember/runloop';
+import { observer } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
 
-  weightChanged: function(object, keyName) {
+  weightChanged: observer('model.weightGrams', 'model.weightOz', function(object, keyName) {
     once(this, 'synchronizeUnits', keyName);
-  }.observes('model.weightGrams', 'model.weightOz'),
+  }),
 
   synchronizeUnits: function(keyName) {
     if (this.get('model') !== null) {

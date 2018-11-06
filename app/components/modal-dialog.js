@@ -9,7 +9,7 @@ export default Component.extend({
 
     $modal.on('hidden.bs.modal', function () {
       if ($('#ember-testing-container').length === 0) {
-        this.sendAction('close');
+        this.get('close')();
       }
     }.bind(this));
   },
@@ -17,9 +17,6 @@ export default Component.extend({
   actions: {
     cancel: function() {
       this.$().modal('hide');
-    },
-    save: function(param) {
-      this.sendAction('save', param);
-    },
+    }
   }
 });

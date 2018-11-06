@@ -54,6 +54,15 @@ export default Controller.extend(WeightConversionMixin, {
     set (key, value) {
       return this.weightConversion(key, value);
     }
-  })
+  }),
+
+  actions: {
+    close() {
+      this.send('closeModal');
+    },
+    saveModel(model) {
+      this.send('save', model);
+    }
+  }
 
 });

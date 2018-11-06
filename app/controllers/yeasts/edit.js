@@ -6,6 +6,7 @@ export default Controller.extend({
 
   yeasts: oneWay('yeastsController.model'),
 
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   units: [
     "vial(s) of liquid yeast",
     "pack(s) of liquid yeast",
@@ -13,6 +14,15 @@ export default Controller.extend({
     "11.5g dry yeast pack(s)",
     "grams of dry yeast",
     "millilitres of slurry"
-  ]
+  ],
+
+  actions: {
+    close() {
+      this.send('closeModal');
+    },
+    saveModel(model) {
+      this.send('save', model);
+    }
+  }
 
 });

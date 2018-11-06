@@ -1,4 +1,4 @@
-{{#modal-dialog param=this.model title="Edit Yeast" close='closeModal' cancel='cancel' save='save'}}
+{{#modal-dialog param=this.model title="Edit Yeast" close=(action 'close') cancel='cancel' save=(action 'saveModel')}}
   <div class="col-md-8">
     <form role="form" class="form-horizontal">
       {{bs-select-field model=model property="yeast"

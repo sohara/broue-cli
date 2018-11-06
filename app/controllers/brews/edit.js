@@ -1,4 +1,5 @@
 import Controller, { inject as controller } from '@ember/controller';
+import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
@@ -7,6 +8,7 @@ export default Controller.extend({
   measureSystem: alias('applicationController.measureSystem'),
   styles: alias('stylesController.model'),
 
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   defaults: {
     us: {
       batchSizeGallons: 5,
@@ -24,20 +26,26 @@ export default Controller.extend({
     }
   },
 
-  synchronizeAll: function() {
+  synchronizeAll: observer('model', 'measureSystem', function() {
     if (this.get('model.isNew')) {
       var defaults = this.get('defaults.' + this.get('measureSystem'));
       this.get('model').setProperties(defaults);
     }
-  }.observes('model', 'measureSystem'),
+  }),
 
-  volumeChanged: function(object, keyName) {
-    this.synchronizeUnits(keyName);
-  }.observes('model.batchSizeLitres', 'model.batchSizeGallons', 'model.boilLossLitres', 'model.boilLossGallons', 'model.recordedPostBoilVolumeLitres', 'model.recordedPostBoilVolumeGallons').on('init'),
+  volumeChanged: observer('model.batchSizeLitres',
+    'model.batchSizeGallons',
+    'model.boilLossLitres',
+    'model.boilLossGallons',
+    'model.recordedPostBoilVolumeLitres',
+    'model.recordedPostBoilVolumeGallons',
+    function(object, keyName) {
+      this.synchronizeUnits(keyName);
+    }),
 
-  tempChanged: function(object, keyName) {
+  tempChanged: observer('model.targetMashTempC', 'model.targetMashTempF', 'model.grainTempC', 'model.grainTempF', function(object, keyName) {
     this.synchronizeTemp(keyName);
-  }.observes('model.targetMashTempC', 'model.targetMashTempF', 'model.grainTempC', 'model.grainTempF'),
+  }),
 
   synchronizeTemp: function(keyName) {
     if (this.get('model') !== null) {
@@ -60,9 +68,9 @@ export default Controller.extend({
     }
   },
 
-  mashRatioChanged: function(object, keyName) {
+  mashRatioChanged: observer('model.waterGrainRatioMetric', 'model.waterGrainRatioUs', function(object, keyName) {
     this.synchronizeRatio(keyName);
-  }.observes('model.waterGrainRatioMetric', 'model.waterGrainRatioUs'),
+  }),
 
   synchronizeUnits: function(keyName) {
     if (this.get('content') !== null) {

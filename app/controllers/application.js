@@ -8,12 +8,13 @@ export default Controller.extend({
   session: alias('loginController.session'),
   measureSystem: 'us',
 
-  isMetric: function() {
+  isMetric: computed('measureSystem', function() {
     return this.get('measureSystem') === 'metric';
-  }.property('measureSystem'),
-  isUS: function() {
+  }),
+
+  isUS: computed('measureSystem', function() {
     return this.get('measureSystem') === 'us';
-  }.property('measureSystem'),
+  }),
 
   user: computed('session', {
     get: function () {
