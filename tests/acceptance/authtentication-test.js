@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import $ from 'jquery';
 import { test } from 'qunit';
 import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import startApp from 'broue/tests/helpers/start-app';
@@ -55,11 +56,11 @@ moduleForAcceptance('Acceptance | Authentication', {
     });
   },
   afterEach() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     server.shutdown();
-    Ember.run(application, 'destroy');
+    run(application, 'destroy');
   }
 });
 
@@ -99,7 +100,7 @@ test('Allows a guest to sign up for an account', function(assert) {
 
 test('Allows a user to view their profile', function(assert) {
   assert.expect(2);
-  Ember.run(function() {
+  run(function() {
     window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');
@@ -115,7 +116,7 @@ test('Allows a user to view their profile', function(assert) {
 
 test('A user can edit their profile', function(assert) {
   assert.expect(3);
-  Ember.run(function() {
+  run(function() {
     window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/profile');
@@ -136,7 +137,7 @@ test('A user can edit their profile', function(assert) {
 
 test('Allows a logged in user to log out', function(assert) {
   assert.expect(2);
-  Ember.run(function() {
+  run(function() {
     window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
   });
   visit('/');

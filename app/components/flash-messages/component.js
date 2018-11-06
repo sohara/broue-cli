@@ -1,8 +1,8 @@
-import Ember from 'ember';
-const { inject } = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  flash: inject.service(),
+export default Component.extend({
+  flash: service(),
   classNames: 'alert',
   classNameBindings: ['alertSuccess', 'alertWarning', 'alertDanger'],
 

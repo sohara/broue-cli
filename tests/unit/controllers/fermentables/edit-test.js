@@ -1,5 +1,6 @@
+import { run } from '@ember/runloop';
+import EmberObject from '@ember/object';
 import { test, moduleFor } from 'ember-qunit';
-import Ember from 'ember';
 
 moduleFor('controller:fermentables/edit', 'FermentableEditController', {
   // Specify the other units that are required for this test.
@@ -8,8 +9,8 @@ moduleFor('controller:fermentables/edit', 'FermentableEditController', {
 
 test('it updates weightOz when weightGrams is changed', function(assert) {
   var controller = this.subject();
-  var model = Ember.Object.create({weightGrams: 0, weightOz: 0});
-  Ember.run(function() {
+  var model = EmberObject.create({weightGrams: 0, weightOz: 0});
+  run(function() {
     controller.set('measureSystem', 'metric');
     controller.set('model', model);
     controller.set('model.weightGrams', 20);
@@ -20,8 +21,8 @@ test('it updates weightOz when weightGrams is changed', function(assert) {
 
 test('it updates weightGrams when weightOz is changed', function(assert) {
   var controller = this.subject();
-  var model = Ember.Object.create({weightGrams: 0, weightOz: 0});
-  Ember.run(function() {
+  var model = EmberObject.create({weightGrams: 0, weightOz: 0});
+  run(function() {
     controller.set('measureSystem', 'us');
     controller.set('model', model);
     controller.set('model.weightOz', 20);
@@ -32,8 +33,8 @@ test('it updates weightGrams when weightOz is changed', function(assert) {
 
 test('it returns undefined for weightLbs when weightOz is undefined', function(assert) {
   var controller = this.subject();
-  var model = Ember.Object.create();
-  Ember.run(function() {
+  var model = EmberObject.create();
+  run(function() {
     controller.set('model', model);
     assert.equal(controller.get('model.weightLbs'), undefined);
   });
@@ -41,8 +42,8 @@ test('it returns undefined for weightLbs when weightOz is undefined', function(a
 
 test('it returns undefined for weightKg when weightGrams is undefined', function(assert) {
   var controller = this.subject();
-  var model = Ember.Object.create();
-  Ember.run(function() {
+  var model = EmberObject.create();
+  run(function() {
     controller.set('model', model);
     assert.equal(controller.get('weightKg'), undefined);
   });
@@ -50,8 +51,8 @@ test('it returns undefined for weightKg when weightGrams is undefined', function
 
 test('it does not reset weightLbs when when setting weightLbs with 3 or more decimals', function(assert) {
   var controller = this.subject();
-  var model = Ember.Object.create();
-  Ember.run(function() {
+  var model = EmberObject.create();
+  run(function() {
     controller.set('model', model);
     controller.set('weightLbs', '0.3456');
     var weightLbs = controller.get('weightLbs');

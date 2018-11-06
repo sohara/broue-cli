@@ -1,7 +1,10 @@
-import Ember from 'ember';
-const { computed, defineProperty, run } = Ember;
+import { alias } from '@ember/object/computed';
+import { capitalize } from '@ember/string';
+import Component from '@ember/component';
+import { defineProperty } from '@ember/object';
+import { run } from '@ember/runloop';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['form-group'],
   classNameBindings: ['labelDasherized'],
   inputElementId: null,
@@ -10,7 +13,7 @@ export default Ember.Component.extend({
   init () {
     this._super(...arguments);
     let property = this.get('property');
-    defineProperty(this, 'valueProperty', computed.alias(`model.${property}`));
+    defineProperty(this, 'valueProperty', alias(`model.${property}`));
   },
 
   valuePropertyName: function() {
@@ -28,7 +31,7 @@ export default Ember.Component.extend({
       return this.get('valuePropertyName')
         .decamelize()
         .split("_")
-        .map(Ember.String.capitalize)
+        .map(capitalize)
         .join(" ");
     }
   }.property('valuePropertyName'),

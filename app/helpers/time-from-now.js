@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function timeFromNow(params) {
   return window.moment(params[0]).fromNow();
 }
 
-export default Ember.Helper.helper(timeFromNow);
+export default buildHelper(timeFromNow);

@@ -1,7 +1,7 @@
+import { filter, filterBy } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
-import Ember from 'ember';
 import { getOwner } from '@ember/application';
-const { computed } = Ember;
 
 
 export default DS.Model.extend({
@@ -117,13 +117,13 @@ export default DS.Model.extend({
     });
   }),
 
-  positiveFermentableAdditions: computed.filter('decoratedFermentableAdditions.@each.weightGrams', function(addition) {
+  positiveFermentableAdditions: filter('decoratedFermentableAdditions.@each.weightGrams', function(addition) {
     return addition.get('weightGrams') > 0;
   }),
-  mashable: computed.filterBy('positiveFermentableAdditions', 'mashable', true),
-  unmashable: computed.filterBy('positiveFermentableAdditions', 'mashable', false),
+  mashable: filterBy('positiveFermentableAdditions', 'mashable', true),
+  unmashable: filterBy('positiveFermentableAdditions', 'mashable', false),
 
-  positiveHopAdditions: computed.filter('decoratedHopAdditions.@each.weightGrams', function(addition) {
+  positiveHopAdditions: filter('decoratedHopAdditions.@each.weightGrams', function(addition) {
     return addition.get('weightGrams') > 0;
   }),
 

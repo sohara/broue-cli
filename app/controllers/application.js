@@ -1,9 +1,10 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias } = computed;
+import { next } from '@ember/runloop';
+import Controller, { inject as controller } from '@ember/controller';
+import { alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
-export default Ember.Controller.extend({
-  loginController: inject.controller('login'),
+export default Controller.extend({
+  loginController: controller('login'),
   session: alias('loginController.session'),
   measureSystem: 'us',
 
@@ -40,7 +41,7 @@ export default Ember.Controller.extend({
       this.setProperties({ session: null, user: null });
       this.transitionToRoute('index');
       this.get('flash').render("Successfully logged out");
-      Ember.run.next(this, function() {
+      next(this, function() {
         // this.clearStore();
       });
     },

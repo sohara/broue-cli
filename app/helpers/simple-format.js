@@ -1,3 +1,4 @@
+import { helper as buildHelper } from '@ember/component/helper';
 import Ember from 'ember';
 
 export function simpleFormat(params) {
@@ -15,4 +16,4 @@ export function simpleFormat(params) {
   }
 }
 
-export default Ember.Helper.helper(simpleFormat);
+export default buildHelper(simpleFormat);

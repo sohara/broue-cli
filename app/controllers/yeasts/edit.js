@@ -1,9 +1,8 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { oneWay } = computed;
+import Controller, { inject as controller } from '@ember/controller';
+import { oneWay } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  yeastsController: inject.controller('yeasts'),
+export default Controller.extend({
+  yeastsController: controller('yeasts'),
 
   yeasts: oneWay('yeastsController.model'),
 

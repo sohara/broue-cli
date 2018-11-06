@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import $ from 'jquery';
 import { test } from 'qunit';
 import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import Pretender from 'pretender';
@@ -107,12 +108,12 @@ moduleForAcceptance('Acceptance: Recipes', {
     });
   },
   afterEach() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
     server.shutdown();
   }
 });

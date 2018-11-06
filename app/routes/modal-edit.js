@@ -1,6 +1,9 @@
+import { once } from '@ember/runloop';
+import $ from 'jquery';
+import Route from '@ember/routing/route';
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+export default Route.extend({
   // Reusable route for editing additions, e.g. a parentResource
   // property of 'fermentable' edits a fermentable addition and sets
   // the content of the fermentables controller to all fermentables
@@ -40,14 +43,14 @@ export default Ember.Route.extend({
     save: function(model) {
       model.save().then(function() {
         // this.send('closeModal');
-        Ember.$('.modal').modal('hide');
+        $('.modal').modal('hide');
       }.bind(this));
       // Need to add catch/or promise reject handling code here
       // .catch(function(reason) {
       // });
     },
     closeModal: function() {
-      Ember.run.once(this, function() {
+      once(this, function() {
         this.disconnectOutlet({
           parentView: 'application',
           outlet: 'modal'

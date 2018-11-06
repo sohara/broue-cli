@@ -1,6 +1,5 @@
-import Ember from 'ember';
-const { computed, ObjectProxy } = Ember;
-const { oneWay } = computed;
+import { oneWay } from '@ember/object/computed';
+import ObjectProxy from '@ember/object/proxy';
 
 export default ObjectProxy.extend({
   fermentableType: oneWay('fermentable.fermentableType'),

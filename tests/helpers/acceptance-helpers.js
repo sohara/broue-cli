@@ -1,8 +1,8 @@
-import Ember from 'ember';
+import $ from 'jquery';
 
 export function fillSelectFromValue(selector, value) {
   let optionSelector = selector + ' option:contains("' + value + '")';
-  let optionValue = Ember.$(optionSelector).val();
+  let optionValue = $(optionSelector).val();
   if (!optionValue) {
     throw new Error("Option value not found");
   }

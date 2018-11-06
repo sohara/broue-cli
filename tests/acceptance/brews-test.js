@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import $ from 'jquery';
 import { test } from 'qunit';
 import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
 import startApp from '../helpers/start-app';
@@ -15,7 +16,7 @@ var nativeConfirm = window.confirm;
 
 function fillSelectFromValue(selector, value) {
   let optionSelector = selector + ' option:contains("' + value + '")';
-  let optionValue = Ember.$(optionSelector).val();
+  let optionValue = $(optionSelector).val();
   fillIn(selector, optionValue);
 }
 
@@ -81,12 +82,12 @@ moduleForAcceptance('Acceptance: Brews', {
     });
   },
   afterEach() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    Ember.run(App, 'destroy');
+    run(App, 'destroy');
     server.shutdown();
   }
 });

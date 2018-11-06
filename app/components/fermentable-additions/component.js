@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import EditTableView from '../../mixins/edit-table-view';
 
-export default Ember.Component.extend(EditTableView, {
+export default Component.extend(EditTableView, {
 
   weightGrams: function() {
     var weightGrams = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {

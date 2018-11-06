@@ -1,14 +1,14 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias } = computed;
+import { isBlank } from '@ember/utils';
+import Controller, { inject as controller } from '@ember/controller';
+import { alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  applicationController: inject.controller('application'),
+export default Controller.extend({
+  applicationController: controller('application'),
   measureSystem: alias('applicationController.measureSystem'),
   currentUser: alias('applicationController.user'),
 
   recordedPostBoilVolumePresent: function() {
-    return (!Ember.isBlank('recordedPostBoilVolumeLitres') || !Ember.isBlank('recordedPostBoilVolumeGallons'));
+    return !isBlank('recordedPostBoilVolumeLitres') || !isBlank('recordedPostBoilVolumeGallons');
   }.property('recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons'),
 
 
@@ -49,7 +49,7 @@ export default Ember.Controller.extend({
   apparentAttenuation: function() {
     var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
     var recordedFinalGravity = this.get('model.recordedFinalGravity');
-    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+    if (!isBlank(recordedOriginalGravity) && !isBlank(recordedFinalGravity)) {
       var aa = (recordedOriginalGravity - recordedFinalGravity) / (recordedOriginalGravity - 1);
       return (aa * 100).toFixed(1);
     } else {
@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
   alcoholByVolume: function() {
     var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
     var recordedFinalGravity = this.get('model.recordedFinalGravity');
-    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+    if (!isBlank(recordedOriginalGravity) && !isBlank(recordedFinalGravity)) {
       var abv = ((1.05 * (recordedOriginalGravity - recordedFinalGravity) / recordedFinalGravity) / 0.79);
       return (abv * 100).toFixed(1);
     } else {

@@ -1,10 +1,9 @@
-import Ember from 'ember';
-const { computed } = Ember;
-const { sort } = computed;
+import Controller from '@ember/controller';
+import { sort } from '@ember/object/computed';
 
 // Brews controller for brews on index page
 // Publcly viewable, not specific to current user
-export default Ember.Controller.extend({
+export default Controller.extend({
   brewSorting: ['createdAt:desc'],
   brews: sort('model', 'brewSorting'),
 

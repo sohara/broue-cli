@@ -1,9 +1,8 @@
-import Ember from 'ember';
-const { computed, ObjectProxy } = Ember;
-const { oneWay } = computed;
+import { oneWay, alias } from '@ember/object/computed';
+import ObjectProxy from '@ember/object/proxy';
 
 export default ObjectProxy.extend({
-  name: Ember.computed.alias('content.hop.name'),
+  name: alias('content.hop.name'),
   batchSizeLitres: oneWay('brew.batchSizeLitres'),
   gravityFactor: oneWay('brew.gravityFactor'),
 

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Controller, { inject as controller } from '@ember/controller';
+import { oneWay, alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
-const { computed, inject } = Ember;
-const { alias, oneWay } = computed;
 
 const CONVERSIONS = {
   weightLbs: {
@@ -14,9 +14,9 @@ const CONVERSIONS = {
   }
 };
 
-export default Ember.Controller.extend(WeightConversionMixin, {
-  applicationController: inject.controller('application'),
-  fermentablesController: inject.controller('fermentables'),
+export default Controller.extend(WeightConversionMixin, {
+  applicationController: controller('application'),
+  fermentablesController: controller('fermentables'),
 
   measureSystem: alias('applicationController.measureSystem'),
 

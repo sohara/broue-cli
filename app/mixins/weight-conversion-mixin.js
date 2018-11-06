@@ -1,9 +1,10 @@
-import Ember from 'ember';
+import { once } from '@ember/runloop';
+import Mixin from '@ember/object/mixin';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
 
   weightChanged: function(object, keyName) {
-    Ember.run.once(this, 'synchronizeUnits', keyName);
+    once(this, 'synchronizeUnits', keyName);
   }.observes('model.weightGrams', 'model.weightOz'),
 
   synchronizeUnits: function(keyName) {

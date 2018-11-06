@@ -1,8 +1,7 @@
-import Ember from 'ember';
-const { computed } = Ember;
-const { sort } = computed;
+import Controller from '@ember/controller';
+import { sort } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   userSorting: ['updatedAt:desc'],
   users: sort('model', 'userSorting'),
 

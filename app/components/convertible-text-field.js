@@ -1,6 +1,9 @@
+import { once } from '@ember/runloop';
+import { capitalize } from '@ember/string';
+import Component from '@ember/component';
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   types: {
     volume: {
@@ -56,12 +59,12 @@ export default Ember.Component.extend({
     return propertyString
       .decamelize()
       .split("_")
-      .map(Ember.String.capitalize)
+      .map(capitalize)
       .join(" ");
   }.property('convertibleProperty'),
 
   propertyDidChange: function() {
-    Ember.run.once(this, function() {
+    once(this, function() {
       let suffix = this.get('suffix');
       let propName = this.get('convertibleProperty');
       let fromPath = `object.${propName}${suffix}`;
