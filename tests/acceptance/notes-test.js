@@ -1,7 +1,8 @@
+import { click, fillIn, findAll, visit } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import $ from 'jquery';
 import { module, test } from 'qunit';
-import startApp from 'broue/tests/helpers/start-app';
+// import startApp from 'broue/tests/helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
 
@@ -13,8 +14,8 @@ var headers = {"Content-Type":"application/json"};
 
 var nativeConfirm = window.confirm;
 
-module('Acceptance: Notes', {
-  beforeEach: function() {
+module('Acceptance: Notes', function(hooks) {
+  hooks.beforeEach(function() {
     window.confirm = function() { return true; };
     application = startApp();
     Stubs = stubs();
@@ -53,8 +54,9 @@ module('Acceptance: Notes', {
         return [204, headers, ""];
       });
     });
-  },
-  afterEach: function() {
+  });
+
+  hooks.afterEach(function() {
     $('.modal').hide();
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
@@ -62,44 +64,28 @@ module('Acceptance: Notes', {
     window.localStorage.removeItem('user');
     run(application, 'destroy');
     server.shutdown();
-  }
-});
+  });
 
-test("Edit a brew's notes", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    click('div.panel:contains("Notes") a:contains("Edit")');
+  test("Edit a brew's notes", async function(assert) {
+    await visit('/brews/1/notes');
+    await click('div.panel:contains("Notes") a:contains("Edit")');
+    await fillIn("textarea", "I'm totally changing this note");
+    await click('button:contains("Save")');
+    assert.equal(findAll('li:contains("totally changing this note")').length, 1);
   });
-  andThen(function() {
-    fillIn("textarea", "I'm totally changing this note");
-    click('button:contains("Save")');
-  });
-  andThen(function() {
-    assert.equal(find('li:contains("totally changing this note")').length, 1);
-  });
-});
 
-test("Add a new note", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    click('div.panel:contains("Notes") a:contains("Add")') ;
+  test("Add a new note", async function(assert) {
+    await visit('/brews/1/notes');
+    await click('div.panel:contains("Notes") a:contains("Add")') ;
+    await fillIn("textarea", "Brand, spaking new note, yo!");
+    await click('button:contains("Save")');
+    assert.equal(findAll('li:contains("Brand, spaking")').length, 1);
   });
-  andThen(function() {
-    fillIn("textarea", "Brand, spaking new note, yo!");
-    click('button:contains("Save")');
-  });
-  andThen(function() {
-    assert.equal(find('li:contains("Brand, spaking")').length, 1);
-  });
-});
 
-test("Delete a new note", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
-    click('div.panel:contains("Notes") button:contains("Delete")') ;
-  });
-  andThen(function() {
-    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
+  test("Delete a new note", async function(assert) {
+    await visit('/brews/1/notes');
+    assert.equal(findAll('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
+    await click('div.panel:contains("Notes") button:contains("Delete")') ;
+    assert.equal(findAll('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
   });
 });

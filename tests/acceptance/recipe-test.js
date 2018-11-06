@@ -1,9 +1,10 @@
+import { click, fillIn, findAll, visit } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import $ from 'jquery';
-import { test } from 'qunit';
-import moduleForAcceptance from 'broue/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import Pretender from 'pretender';
-import startApp from '../helpers/start-app';
+// import startApp from '../helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
 import { fillSelectFromValue } from '../helpers/acceptance-helpers';
 
@@ -15,8 +16,10 @@ var headers = {"Content-Type":"application/json"};
 
 var nativeConfirm = window.confirm;
 
-moduleForAcceptance('Acceptance: Recipes', {
-  beforeEach() {
+module('Acceptance: Recipes', function(hooks) {
+  setupApplicationTest(hooks);
+
+  hooks.beforeEach(function() {
     window.confirm = function() { return true; };
     App = startApp();
     Stubs = stubs();
@@ -106,8 +109,9 @@ moduleForAcceptance('Acceptance: Recipes', {
         return [204, headers ];
       });
     });
-  },
-  afterEach() {
+  });
+
+  hooks.afterEach(function() {
     $('.modal').hide();
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
@@ -115,154 +119,96 @@ moduleForAcceptance('Acceptance: Recipes', {
     window.localStorage.removeItem('user');
     run(App, 'destroy');
     server.shutdown();
-  }
-});
+  });
 
-test("edit a brew's fermentable additions", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1,
+  test("edit a brew's fermentable additions", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1,
       "Starting O.G. is found");
-    click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
-  });
-  andThen(function() {
-    fillIn('div:contains("Weight") input', "48.5");
-    click('button:contains("Save Changes")');
-  });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1,
+    await click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
+    await fillIn('div:contains("Weight") input', "48.5");
+    await click('button:contains("Save Changes")');
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1,
       "Ending O.G. is found");
   });
-});
 
-test("add a new fermentable addition", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
-    click('a:contains("Add Fermentable")');
-  });
-  andThen(function() {
-    fillIn('div:contains("Weight") input', "48.5");
+  test("add a new fermentable addition", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
+    await click('a:contains("Add Fermentable")');
+    await fillIn('div:contains("Weight") input', "48.5");
     fillSelectFromValue('.fermentable select', 'Superior Pale Ale');
-    click('button:contains("Save Changes")');
+    await click('button:contains("Save Changes")');
+    await click("a:contains('Specs')");
+    await click("a:contains('Recipe')");
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.095")').length, 1);
   });
-  andThen(function() {
-    click("a:contains('Specs')");
-  });
-  andThen(function() {
-    click("a:contains('Recipe')");
-  });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.095")').length, 1);
-  });
-});
 
 
-test("edit a brew's hop additions", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
-    click('tr:contains("Warrior") a[title="Edit"]') ;
+  test("edit a brew's hop additions", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
+    await click('tr:contains("Warrior") a[title="Edit"]') ;
+    await fillIn('div.weight input', "4.5");
+    await fillIn('div.alpha-acids input', "16.2");
+    await click('button:contains("Save Changes")');
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("41.9")').length, 1);
   });
-  andThen(function() {
-    fillIn('div.weight input', "4.5");
-    fillIn('div.alpha-acids input', "16.2");
-    click('button:contains("Save Changes")');
-  });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("41.9")').length, 1);
-  });
-});
 
-test("add a new hop addition", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
-    click('a:contains("Add Hop")');
-  });
-  andThen(function() {
-    fillIn('.alpha-acids input', "15.2");
-    fillIn('.boil-time input', "30");
-    fillIn('div.weight input', "2");
+  test("add a new hop addition", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
+    await click('a:contains("Add Hop")');
+    await fillIn('.alpha-acids input', "15.2");
+    await fillIn('.boil-time input', "30");
+    await fillIn('div.weight input', "2");
     fillSelectFromValue('.hop select', 'Warrior');
     fillSelectFromValue('.form-group.form select', 'Whole');
     fillSelectFromValue('.form-group.use select', 'Boil');
-    click('button:contains("Save Changes")');
+    await click('button:contains("Save Changes")');
+    await click('a:contains("Specs")');
+    await click('a:contains("Recipe")');
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("43.9")').length, 1);
   });
-  andThen(function() {
-    click('a:contains("Specs")');
-  });
-  andThen(function() {
-    click('a:contains("Recipe")');
-  });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("43.9")').length, 1);
-  });
-});
 
-test("edit a brew's yeast additions", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    click('tr:contains("Belgian Saison") a[title="Edit"]') ;
-  });
-  andThen(function() {
-    fillIn('div.amount input', "75");
+  test("edit a brew's yeast additions", async function(assert) {
+    await visit('/brews/1');
+    await click('tr:contains("Belgian Saison") a[title="Edit"]') ;
+    await fillIn('div.amount input', "75");
     fillSelectFromValue('.unit select','vial(s) of liquid yeast');
-    click('button:contains("Save Changes")');
+    await click('button:contains("Save Changes")');
+    assert.equal(findAll('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
   });
-  andThen(function() {
-    assert.equal(find('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
-  });
-});
 
-test("add yeast additions", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
-  });
-  andThen(function() {
-    click('a:contains("Add Yeast")') ;
-  });
-  andThen(function() {
-    fillIn('div.amount input', "1");
+  test("add yeast additions", async function(assert) {
+    await visit('/brews/1');
+    await click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
+    await click('a:contains("Add Yeast")') ;
+    await fillIn('div.amount input', "1");
     fillSelectFromValue('.unit select','vial(s) of liquid yeast');
     fillSelectFromValue('.yeast select', 'Belgian Saison');
-    click('button:contains("Save Changes")');
+    await click('button:contains("Save Changes")');
+    assert.equal(findAll('tr:contains("vial(s) of liquid yeast") td:contains("1")').length, 1);
+    assert.equal(findAll('tr:contains("Belgian Saison") td:contains("1")').length, 1);
   });
-  andThen(function() {
-    assert.equal(find('tr:contains("vial(s) of liquid yeast") td:contains("1")').length, 1);
-    assert.equal(find('tr:contains("Belgian Saison") td:contains("1")').length, 1);
-  });
-});
 
-test("delete a brew's fermentable addition", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
-    click('tr:contains("Superior Pale Ale") button[title="Delete"]') ;
+  test("delete a brew's fermentable addition", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
+    await click('tr:contains("Superior Pale Ale") button[title="Delete"]') ;
+    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.000")').length, 1);
   });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Original Gravity") div:contains("1.000")').length, 1);
-  });
-});
 
-test("delete a brew's hop addition", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("30.6 IBU")').length, 1);
-    click('tr:contains("Warrior") button[title="Delete"]') ;
+  test("delete a brew's hop addition", async function(assert) {
+    await visit('/brews/1');
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6 IBU")').length, 1);
+    await click('tr:contains("Warrior") button[title="Delete"]') ;
+    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("0 IBU")').length, 1);
   });
-  andThen(function() {
-    assert.equal(find('div.slate-statbox:contains("Bitterness") div:contains("0 IBU")').length, 1);
-  });
-});
 
-test("delete a brew's yeast addition", function(assert) {
-  visit('/brews/1');
-  andThen(function() {
-    click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
-  });
-  andThen(function() {
-    assert.equal(find('tr:contains("Belgian Saison II")').length, 0);
+  test("delete a brew's yeast addition", async function(assert) {
+    await visit('/brews/1');
+    await click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
+    assert.equal(findAll('tr:contains("Belgian Saison II")').length, 0);
   });
 });
