@@ -171,11 +171,9 @@ test('edit brew day records', function(assert) {
   });
 });
 
-test('delete a brew', function(assert) {
-  visit('/brews/1');
-  andThen(function() { click('.brew-actions button:contains("Destroy")'); })
-  .then(function() {
-    assert.equal(currentPath(), 'index', "At the correct path");
-    assert.equal(find('h2:first').text(), 'Latest Brews', "Shows latest brews title");
-  });
+test('delete a brew', async function(assert) {
+  await visit('/brews/1');
+  await  click('.brew-actions button:contains("Destroy")');
+  assert.equal(currentPath(), 'index', "At the correct path");
+  assert.equal(find('h2:first').text(), 'Latest Brews', "Shows latest brews title");
 });
