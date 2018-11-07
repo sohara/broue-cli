@@ -12,7 +12,7 @@
     {{#each brews as |brew|}}
       <tr class="brew">
         <td>{{link-to brew.id "recipe" brew}}</td>
-        <td>{{link-to brew.name "recipe" brew}}</td>
+        <td>{{link-to brew.name "recipe" brew title=brew.name}}</td>
         <td>{{formatted-date brew.createdAt}}</td>
       </tr>
     {{/each}}

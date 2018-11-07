@@ -1,12 +1,11 @@
-import { click, fillIn, findAll, visit } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
+import { click, fillIn, visit } from '@ember/test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
-// import startApp from 'broue/tests/helpers/start-app';
+import { setupApplicationTest } from 'ember-qunit';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
 
-var application, server, Stubs;
+var server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -15,9 +14,9 @@ var headers = {"Content-Type":"application/json"};
 var nativeConfirm = window.confirm;
 
 module('Acceptance: Notes', function(hooks) {
+  setupApplicationTest(hooks);
   hooks.beforeEach(function() {
     window.confirm = function() { return true; };
-    application = startApp();
     Stubs = stubs();
     window.localStorage.setItem('user', toS(Stubs.userJSON));
 
@@ -62,30 +61,30 @@ module('Acceptance: Notes', function(hooks) {
     $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    run(application, 'destroy');
+    // run(application, 'destroy');
     server.shutdown();
   });
 
   test("Edit a brew's notes", async function(assert) {
     await visit('/brews/1/notes');
-    await click('div.panel:contains("Notes") a:contains("Edit")');
+    await click('.panel-body a[title="Edit"]');
     await fillIn("textarea", "I'm totally changing this note");
-    await click('button:contains("Save")');
-    assert.equal(findAll('li:contains("totally changing this note")').length, 1);
+    await click('button[type="submit"]');
+    assert.dom('li.well').includesText("totally changing this note");
   });
 
   test("Add a new note", async function(assert) {
     await visit('/brews/1/notes');
-    await click('div.panel:contains("Notes") a:contains("Add")') ;
+    await click('a[title="Add note"]') ;
     await fillIn("textarea", "Brand, spaking new note, yo!");
-    await click('button:contains("Save")');
-    assert.equal(findAll('li:contains("Brand, spaking")').length, 1);
+    await click('button[type="submit"]');
+    assert.dom('.panel-body').includesText("Brand, spaking");
   });
 
   test("Delete a new note", async function(assert) {
     await visit('/brews/1/notes');
-    assert.equal(findAll('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
-    await click('div.panel:contains("Notes") button:contains("Delete")') ;
-    assert.equal(findAll('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
+    assert.dom('li.well').includesText("Brew day 1: used 532g caramel 60 and");
+    await click('div.panel button[title="Delete"]') ;
+    assert.dom('li.well').doesNotExist();
   });
 });

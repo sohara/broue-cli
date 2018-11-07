@@ -1,14 +1,12 @@
-import { click, fillIn, findAll, visit } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
+import { click, fillIn, visit } from '@ember/test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import Pretender from 'pretender';
-// import startApp from '../helpers/start-app';
 import stubs from '../helpers/pretender-stubs';
-import { fillSelectFromValue } from '../helpers/acceptance-helpers';
+import { fillSelectFromValue, findByText } from '../helpers/acceptance-helpers';
 
-var App, server, Stubs;
+var server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -21,7 +19,7 @@ module('Acceptance: Recipes', function(hooks) {
 
   hooks.beforeEach(function() {
     window.confirm = function() { return true; };
-    App = startApp();
+    // App = startApp();
     Stubs = stubs();
     window.localStorage.setItem('user', toS(Stubs.userJSON));
 
@@ -117,98 +115,108 @@ module('Acceptance: Recipes', function(hooks) {
     $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    run(App, 'destroy');
     server.shutdown();
   });
 
+
   test("edit a brew's fermentable additions", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1,
-      "Starting O.G. is found");
-    await click('tr:contains("Superior Pale Ale") a[title="Edit"]') ;
-    await fillIn('div:contains("Weight") input', "48.5");
-    await click('button:contains("Save Changes")');
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.046")').length, 1,
-      "Ending O.G. is found");
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.049', 'Starting O.G. is found');
+    await click(findByText('tr', 'Superior Pale Ale', 'a[title="Edit"]'));
+    await fillIn(findByText('div', 'Weight', 'input'), '48.5');
+    await click(findByText('button', 'Save Changes'));
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.046', 'Ending O.G. is found');
   });
 
   test("add a new fermentable addition", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
-    await click('a:contains("Add Fermentable")');
-    await fillIn('div:contains("Weight") input', "48.5");
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.049', 'Starting O.G. is found');
+    await click(findByText('a', 'Add Fermentable'));
+    await fillIn(findByText('div', 'Weight', 'input'), "48.5");
     fillSelectFromValue('.fermentable select', 'Superior Pale Ale');
-    await click('button:contains("Save Changes")');
-    await click("a:contains('Specs')");
-    await click("a:contains('Recipe')");
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.095")').length, 1);
+    await click(findByText('button', 'Save Changes'));
+    await click(findByText('a', 'Specs'));
+    await click(findByText('a', 'Recipe'));
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.095', 'Ending O.G. is found');
   });
 
 
   test("edit a brew's hop additions", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
-    await click('tr:contains("Warrior") a[title="Edit"]') ;
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('30.6', 'Starting IBU is found');
+    await click(findByText('tr', 'Warrior', 'a[title="Edit"]'));
     await fillIn('div.weight input', "4.5");
     await fillIn('div.alpha-acids input', "16.2");
-    await click('button:contains("Save Changes")');
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("41.9")').length, 1);
+    await click(findByText('button', 'Save Changes'));
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('41.9', 'Starting IBU is found');
   });
 
   test("add a new hop addition", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6")').length, 1);
-    await click('a:contains("Add Hop")');
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('30.6', 'Starting IBU is found');
+    await click(findByText('a', 'Add Hop'));
     await fillIn('.alpha-acids input', "15.2");
     await fillIn('.boil-time input', "30");
     await fillIn('div.weight input', "2");
     fillSelectFromValue('.hop select', 'Warrior');
     fillSelectFromValue('.form-group.form select', 'Whole');
     fillSelectFromValue('.form-group.use select', 'Boil');
-    await click('button:contains("Save Changes")');
-    await click('a:contains("Specs")');
-    await click('a:contains("Recipe")');
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("43.9")').length, 1);
+    await click(findByText('button', 'Save Changes'));
+    await click(findByText('a', 'Specs'));
+    await click(findByText('a', 'Recipe'));
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('43.9', 'Ending IBU is found');
   });
 
   test("edit a brew's yeast additions", async function(assert) {
     await visit('/brews/1');
-    await click('tr:contains("Belgian Saison") a[title="Edit"]') ;
+    await click(findByText('tr', 'Belgian Saison', 'a[title="Edit"]'));
     await fillIn('div.amount input', "75");
     fillSelectFromValue('.unit select','vial(s) of liquid yeast');
-    await click('button:contains("Save Changes")');
-    assert.equal(findAll('tr:contains("vial(s) of liquid yeast") td:contains("75")').length, 1);
+    await click(findByText('button', 'Save Changes'));
+    assert.dom(findByText('tr', 'vial(s) of liquid yeast')).includesText('75');
   });
 
   test("add yeast additions", async function(assert) {
     await visit('/brews/1');
-    await click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
-    await click('a:contains("Add Yeast")') ;
+    await click(findByText('tr', 'Belgian Saison II', 'button[title="Delete"]'));
+    await click(findByText('a', 'Add Yeast'));
     await fillIn('div.amount input', "1");
     fillSelectFromValue('.unit select','vial(s) of liquid yeast');
     fillSelectFromValue('.yeast select', 'Belgian Saison');
-    await click('button:contains("Save Changes")');
-    assert.equal(findAll('tr:contains("vial(s) of liquid yeast") td:contains("1")').length, 1);
-    assert.equal(findAll('tr:contains("Belgian Saison") td:contains("1")').length, 1);
+    await click(findByText('button', 'Save Changes'));
+    assert.dom(findByText('tr', 'vial(s) of liquid yeast')).includesText('1');
+    assert.dom(findByText('tr', 'Belgian Saison')).includesText('1');
   });
 
   test("delete a brew's fermentable addition", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.049")').length, 1);
-    await click('tr:contains("Superior Pale Ale") button[title="Delete"]') ;
-    assert.equal(findAll('div.slate-statbox:contains("Original Gravity") div:contains("1.000")').length, 1);
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.049', 'Starting O.G. is found');
+    await click(findByText('tr', 'Superior Pale Ale', 'button[title="Delete"]'));
+    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+      .includesText('1.000', 'Ending O.G. is found');
   });
 
   test("delete a brew's hop addition", async function(assert) {
     await visit('/brews/1');
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("30.6 IBU")').length, 1);
-    await click('tr:contains("Warrior") button[title="Delete"]') ;
-    assert.equal(findAll('div.slate-statbox:contains("Bitterness") div:contains("0 IBU")').length, 1);
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('30.6', 'Starting IBU is found');
+    await click(findByText('tr', 'Warrior', 'button[title="Delete"]'));
+    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+      .includesText('0', 'Ending IBU is found');
   });
 
   test("delete a brew's yeast addition", async function(assert) {
     await visit('/brews/1');
-    await click('tr:contains("Belgian Saison II") button[title="Delete"]') ;
-    assert.equal(findAll('tr:contains("Belgian Saison II")').length, 0);
+    await click(findByText('tr', 'Belgian Saison II', 'button[title="Delete"]'));
+    assert.notOk(findByText('tr', 'Belgian Saison II'), 'Yeast successfully deleted');
   });
 });
