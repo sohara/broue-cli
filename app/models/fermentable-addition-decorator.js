@@ -22,6 +22,6 @@ export default ObjectProxy.extend({
     var extractUnits = this.extractUnits;
     var totalExtractUnits = this.get('brew.totalExtractUnits');
     var percentExtract = (extractUnits / totalExtractUnits);
-    return Math.round(percentExtract * 10000) / 100;
+    return Math.round(percentExtract * 10000) / 10;
   })
 });
