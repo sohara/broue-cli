@@ -9,7 +9,7 @@ export default Mixin.create({
   }),
 
   synchronizeUnits: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var weightGrams = parseFloat(this.get('model.weightGrams')) || 0;
       var weightOz = parseFloat(this.get('model.weightOz')) || 0;
       if (keyName === "model.weightGrams") {

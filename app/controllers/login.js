@@ -27,7 +27,7 @@ export default Controller.extend({
   }),
 
   verify: function(transition) {
-    if (!this.get('session')) {
+    if (!this.session) {
       var _this = this;
       this.set('previousTransition', transition);
       this.transitionToRoute('login').then(function() {
@@ -60,9 +60,9 @@ export default Controller.extend({
 
       let normalizedUserJSON = this.store.normalize('user', userJson.user);
       var user = this.store.push(normalizedUserJSON);
-      this.get('applicationController').set('user', user);
+      this.applicationController.set('user', user);
 
-      var previousTransition = this.get('previousTransition');
+      var previousTransition = this.previousTransition;
       if (previousTransition) {
         previousTransition.retry();
       } else {

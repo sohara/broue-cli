@@ -34,25 +34,25 @@ const APPEND_TEXTS = {
 
 export default Component.extend({
   appendText: computed('suffix', function() {
-    let suffix = this.get('suffix');
+    let suffix = this.suffix;
     let result = APPEND_TEXTS[suffix];
     if (typeof result !== 'undefined') {
       return result;
     } else {
-      return this.get('suffix');
+      return this.suffix;
     }
   }),
 
   suffix: computed('measureSystem', 'type', function() {
-    let type = this.get('type');
-    let measureSystem = this.get('measureSystem');
+    let type = this.type;
+    let measureSystem = this.measureSystem;
     let path = `${type}.${measureSystem}`;
     let suffix = get(TYPES, path);
     return suffix;
   }),
 
   label: computed('convertibleProperty', function() {
-    const propertyParts = this.get('convertibleProperty').split('.');
+    const propertyParts = this.convertibleProperty.split('.');
     const propertyString = propertyParts[propertyParts.length -1];
     return propertyString
       .decamelize()

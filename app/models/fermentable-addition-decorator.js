@@ -7,7 +7,7 @@ export default ObjectProxy.extend({
   color: oneWay('fermentable.color'),
 
   mashable: computed('fermentableType', function() {
-    var type = this.get('fermentableType');
+    var type = this.fermentableType;
     return (type === "Grain" || type === "Adjunct");
   }),
 
@@ -19,7 +19,7 @@ export default ObjectProxy.extend({
   }),
 
   percentExtract: computed('extractUnits', 'brew.totalExtractUnits', function() {
-    var extractUnits = this.get('extractUnits');
+    var extractUnits = this.extractUnits;
     var totalExtractUnits = this.get('brew.totalExtractUnits');
     var percentExtract = (extractUnits / totalExtractUnits);
     return Math.round(percentExtract * 10000) / 100;

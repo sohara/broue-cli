@@ -9,7 +9,7 @@ export default Controller.extend({
   currentUser: alias('applicationController.user'),
 
   isCurrentUser: computed('currentUser.content', 'model', function() {
-    return this.get('currentUser.content') === this.get('model');
+    return this.get('currentUser.content') === this.model;
   })
 
 });

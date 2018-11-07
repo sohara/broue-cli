@@ -18,13 +18,13 @@ export default Route.extend({
   },
 
   model: function(params) {
-    let parentResource = this.get('parentResource');
+    let parentResource = this.parentResource;
     return this.store.find(`${parentResource}-addition`, params.resource_id);
   },
 
   setupController: function(controller, model) {
     this._super(controller, model);
-    var parentResource = this.get('parentResource');
+    var parentResource = this.parentResource;
     var items = this.store.findAll(parentResource);
     var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
     this.controllerFor(inflector.pluralize(parentResource)).set('model', items);

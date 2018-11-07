@@ -14,7 +14,7 @@ module.exports = function(defaults) {
       enabled: true,
       options: {}
     },
-    babel: {
+    "ember-cli-babel": {
       includePolyfill: true
     }
   });

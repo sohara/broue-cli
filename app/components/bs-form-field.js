@@ -13,12 +13,12 @@ export default Component.extend({
 
   init () {
     this._super(...arguments);
-    let property = this.get('property');
+    let property = this.property;
     defineProperty(this, 'valueProperty', alias(`model.${property}`));
   },
 
   valuePropertyName: computed('property', function() {
-    const propertyName = this.get('property');
+    const propertyName = this.property;
     var splitPath = propertyName.split('.');
     return splitPath[splitPath.length -1];
   }),
@@ -26,10 +26,10 @@ export default Component.extend({
   // Extract the label text from property of parent view property
   // bound to 'value'
   labelText: computed('valuePropertyName', function() {
-    if (typeof(this.get('label')) !== "undefined") {
-      return this.get('label');
+    if (typeof(this.label) !== "undefined") {
+      return this.label;
     } else {
-      return this.get('valuePropertyName')
+      return this.valuePropertyName
         .decamelize()
         .split("_")
         .map(capitalize)
@@ -39,13 +39,13 @@ export default Component.extend({
   }),
 
   inputName: computed('valuePropertyName', function() {
-    return this.get('valuePropertyName') + "Input";
+    return this.valuePropertyName + "Input";
   }),
 
   // For acceptance tests... apply a classname to make it easy to
   // target input with a selector
   labelDasherized: computed('labelText', function() {
-    var text = this.get('labelText') || this.get('valuePropertyName');
+    var text = this.labelText || this.valuePropertyName;
     return text
       .decamelize()
       .split(" ")
@@ -55,7 +55,7 @@ export default Component.extend({
   didInsertElement: function() {
     this._super();
     run.later(this, () => {
-      this.set('inputElementId', this.get(this.get('inputName') + '.elementId'));
+      this.set('inputElementId', this.get(this.inputName + '.elementId'));
     });
   }
 });

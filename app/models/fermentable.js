@@ -10,6 +10,6 @@ export default DS.Model.extend({
   fermentableAdditions: DS.hasMany('fermentableAddition'),
 
   description: computed("name", "supplier", function() {
-    return `${this.get('name')} ${this.get('supplier')}`;
+    return `${this.name} ${this.supplier}`;
   })
 });

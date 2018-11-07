@@ -10,7 +10,7 @@ export default Controller.extend({
   brews: sort('model', 'brewSorting'),
 
   recentBrews: computed('brews.[]', function() {
-    return this.get('brews').splice(0, 10);
+    return this.brews.splice(0, 10);
   })
 
 });

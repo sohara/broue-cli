@@ -20,33 +20,33 @@ export default Component.extend({
   property: null,
 
   propertyName: computed('property', 'localizedUnit', function () {
-    let property = this.get('property');
-    let localizedUnit = this.get('localizedUnit');
+    let property = this.property;
+    let localizedUnit = this.localizedUnit;
     return property + localizedUnit;
   }),
 
   localizedUnit: computed('measureSystem', 'property', function() {
-    if (this.get('property') === 'waterGrainRatio') {
-      return this.get('measureSystem') === 'metric' ? 'Metric' : 'Us';
-    } else if (this.get('property').indexOf('Temp') > -1) {
-      return this.get('measureSystem') === 'metric' ? 'C' : 'F';
+    if (this.property === 'waterGrainRatio') {
+      return this.measureSystem === 'metric' ? 'Metric' : 'Us';
+    } else if (this.property.indexOf('Temp') > -1) {
+      return this.measureSystem === 'metric' ? 'C' : 'F';
     } else {
-      return this.get('measureSystem') === 'metric' ? 'Litres' : 'Gallons';
+      return this.measureSystem === 'metric' ? 'Litres' : 'Gallons';
     }
   }),
 
   displayVolume: computed('propertyName', 'model', 'localizedUnit', function() {
-    if ( this.get('propertyName') !== null ) {
-      let propertyName = this.get('propertyName');
+    if ( this.propertyName !== null ) {
+      let propertyName = this.propertyName;
       return this.roundedToTwo(this.get(`model.${propertyName}`));
     }
   }),
 
   displayUnit: computed('measureSystem', function() {
-    let measureSystem = this.get('measureSystem');
-    if (this.get('property') === 'waterGrainRatio') {
+    let measureSystem = this.measureSystem;
+    if (this.property === 'waterGrainRatio') {
       return get(UNITS, `ratio.${measureSystem}`);
-    } else if (this.get('property').indexOf('Temp') > -1) {
+    } else if (this.property.indexOf('Temp') > -1) {
       return get(UNITS, `temp.${measureSystem}`);
     } else {
       return get(UNITS, `volume.${measureSystem}`);

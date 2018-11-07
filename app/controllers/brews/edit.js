@@ -28,8 +28,8 @@ export default Controller.extend({
 
   synchronizeAll: observer('model', 'measureSystem', function() {
     if (this.get('model.isNew')) {
-      var defaults = this.get('defaults.' + this.get('measureSystem'));
-      this.get('model').setProperties(defaults);
+      var defaults = this.get('defaults.' + this.measureSystem);
+      this.model.setProperties(defaults);
     }
   }),
 
@@ -48,7 +48,7 @@ export default Controller.extend({
   }),
 
   synchronizeTemp: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var toStrip = keyName.charAt(keyName.length -1);
       var key = keyName.slice(0, keyName.length -1);
       var tempC = parseFloat(this.get(key + 'C')) || 0;
@@ -73,7 +73,7 @@ export default Controller.extend({
   }),
 
   synchronizeUnits: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var toStrip = (keyName.indexOf('Gallons') > 1) ? 'Gallons' : 'Litres';
       var key = keyName.replace(toStrip, '');
       var volumeGallons = parseFloat(this.get(keyName)) || 0;
@@ -94,7 +94,7 @@ export default Controller.extend({
   },
 
   synchronizeRatio: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var ratioMetric = parseFloat(this.get('model.waterGrainRatioMetric')) || 0;
       var ratioUs = parseFloat(this.get('model.waterGrainRatioUs')) || 0;
       if (keyName === 'model.waterGrainRatioMetric') {

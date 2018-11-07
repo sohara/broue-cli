@@ -18,25 +18,25 @@ export default Controller.extend({
   }),
 
   strikeWaterVolume: computed('model.{strikeWaterVolumeMetric,strikeWaterVolumeUs}', 'measureSystem', function() {
-    var measureSystemSuffix = this.get('measureSystem').capitalize();
+    var measureSystemSuffix = this.measureSystem.capitalize();
     return this.get(`model.strikeWaterVolume${measureSystemSuffix}`);
   }),
 
   unitOfMesure: computed('measureSystem', function() {
-    return this.get('measureSystem') === 'metric' ? 'litres' : 'gallons';
+    return this.measureSystem === 'metric' ? 'litres' : 'gallons';
   }),
 
   tempUnit: computed('measureSystem', function() {
-    return this.get('measureSystem') === 'metric' ? '°C' : '°F';
+    return this.measureSystem === 'metric' ? '°C' : '°F';
   }),
 
   strikeWaterTemp: computed('measureSystem', 'strikeWaterTempC', 'strikeWaterTempF', function() {
-    var suffix = this.get('measureSystem') === 'metric' ? 'C' : 'F';
+    var suffix = this.measureSystem === 'metric' ? 'C' : 'F';
     return this.get('strikeWaterTemp' + suffix);
   }),
 
   strikeWaterTempF: computed('strikeWaterTempC', function() {
-    return  Math.round(( (this.get('strikeWaterTempC') * (9/5)) + 32) * 100 ) / 100;
+    return Math.round(( (this.strikeWaterTempC * (9/5)) + 32) * 100 ) / 100;
   }),
 
   strikeWaterTempC: computed('model.{waterGrainRatioMetric,targetMashTempC,grainTempC}', function() {

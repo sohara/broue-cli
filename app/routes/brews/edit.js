@@ -19,7 +19,7 @@ export default Route.extend({
       });
     },
     cancel: function(model) {
-      this.transitionTo(this.get('returnRoute'), model);
+      this.transitionTo(this.returnRoute, model);
     }
   }
 });

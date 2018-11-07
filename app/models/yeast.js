@@ -16,8 +16,8 @@ export default DS.Model.extend({
 
 
   description: computed('productId', 'name', function() {
-    let productId = this.get('productId');
-    let name = this.get('name');
+    let productId = this.productId;
+    let name = this.name;
     return `${productId} - ${name}`;
   })
 });

@@ -8,6 +8,6 @@ export default Controller.extend({
   users: sort('model', 'userSorting'),
 
   activeUsers: computed('users.[]', function() {
-    return this.get('users').splice(0, 10);
+    return this.users.splice(0, 10);
   })
 });

@@ -8,9 +8,9 @@ export default ObjectProxy.extend({
   gravityFactor: oneWay('brew.gravityFactor'),
 
   ibus: computed('alphaAcidUnits', 'utilization', 'batchSizeLitres', function() {
-    var alphaAcidUnits = this.get("alphaAcidUnits");
-    var utilization = this.get("utilization");
-    var batchSizeLitres = this.get("batchSizeLitres");
+    var alphaAcidUnits = this.get('alphaAcidUnits');
+    var utilization = this.utilization;
+    var batchSizeLitres = this.get('batchSizeLitres');
     var ibus = ((alphaAcidUnits * utilization * 10) / batchSizeLitres);
     return Math.round(ibus * 100) / 100;
   }),
@@ -20,7 +20,7 @@ export default ObjectProxy.extend({
   }),
 
   utilization: computed('gravityFactor', 'timeFactor', function() {
-    return this.get("gravityFactor") * this.get("timeFactor");
+    return this.gravityFactor * this.timeFactor;
   }),
 
   timeFactor: computed('boilTime', function() {

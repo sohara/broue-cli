@@ -6,7 +6,7 @@ export default DS.Model.extend({
   subcategoryName: DS.attr('string'),
 
   fullName: computed('subcategoryId', 'subcategoryName', function() {
-    return `${this.get('subcategoryId')} - ${this.get('subcategoryName')}`;
+    return `${this.subcategoryId} - ${this.subcategoryName}`;
   })
 
 });

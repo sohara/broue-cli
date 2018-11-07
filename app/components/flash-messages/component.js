@@ -13,16 +13,16 @@ export default Component.extend({
 
   didInsertElement: function() {
     this._super(...arguments);
-    this.get('flash').on('show', this, this.show);
-    this.get('flash').on('hide', this, this.hide);
+    this.flash.on('show', this, this.show);
+    this.flash.on('hide', this, this.hide);
   },
 
   // This is probably not currently necessary since the view remains
   // active throughout the app life cycle, but is generally good practice
   willDestroyElement: function() {
     this._super(...arguments);
-    this.get('flash').off('show', this, this.show);
-    this.get('flash').off('hide', this, this.hide);
+    this.flash.off('show', this, this.show);
+    this.flash.off('hide', this, this.hide);
   },
 
   show: function() {

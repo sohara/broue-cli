@@ -16,26 +16,26 @@ export default Component.extend({
   magnitude: 'base',
 
   localizedUnit: computed('measureSystem', function() {
-    return this.get('measureSystem') === 'metric' ? 'Grams' : 'Oz';
+    return this.measureSystem === 'metric' ? 'Grams' : 'Oz';
   }),
 
   localizedWeight: computed('model.{weightGrams,weightOz}', 'localizedUnit', function() {
-    let localizedUnit = this.get('localizedUnit');
+    let localizedUnit = this.localizedUnit;
     return this.get(`model.weight${localizedUnit}`);
   }),
 
   localizedDivisor: computed('measureSystem', function() {
-    return this.get('measureSystem') === 'metric' ? 1000 : 16;
+    return this.measureSystem === 'metric' ? 1000 : 16;
   }),
 
   displayWeight: computed('localizedWeight', 'magnitude', function() {
-    var divisor = this.get('magnitude') === 'high' ? this.get('localizedDivisor') : 1;
-    return this.roundedToTwo(this.get('localizedWeight') / divisor);
+    var divisor = this.magnitude === 'high' ? this.localizedDivisor : 1;
+    return this.roundedToTwo(this.localizedWeight / divisor);
   }),
 
   displayUnit: computed('measureSystem', 'magnitude', function() {
-    let measureSystem = this.get('measureSystem');
-    let magnitude = this.get('magnitude');
+    let measureSystem = this.measureSystem;
+    let magnitude = this.magnitude;
     return get(UNITS, `${measureSystem}.${magnitude}`);
   }),
 

@@ -9,8 +9,8 @@ const Router = EmberRouter.extend({
     this._super(...arguments);
     if (typeof(window.ga) !== 'undefined') {
       return window.ga('send', 'pageview', {
-        'page': this.get('url'),
-        'title': this.get('url')
+        'page': this.url,
+        'title': this.url
       });
     }
   }
