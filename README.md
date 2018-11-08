@@ -1,7 +1,8 @@
 # Broue-cli
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+[![Build Status](https://travis-ci.com/sohara/broue-cli.svg?branch=master)](https://travis-ci.com/sohara/broue-cli)
+
+This is the client side application code for Broue.ci, a homebrewing recipe creation application. It is an Ember.js application.
 
 ## Prerequisites
 
