@@ -1,22 +1,46 @@
 {{#statbox-group}}
-  {{statbox-item property=model.originalGravity unitOfMesure="S.G."
-    propertyDescription="Original Gravity" colorClass="blue"}}
-  {{statbox-item property=model.preBoilGravity unitOfMesure="S.G."
-    propertyDescription="Preboil Gravity" colorClass="purple"}}
-  {{statbox-item property=model.colorSRM unitOfMesure="SRM" faIcon="fa-tint"
-    propertyDescription="Color" colorClass="yellow"}}
-  {{statbox-item property=model.totalIBUs unitOfMesure="IBU" faIcon="fa-leaf"
-    propertyDescription="Bitterness" colorClass="green"}}
+  {{statbox-item
+    property=model.originalGravity
+    unitOfMesure="S.G."
+    propertyDescription="Original Gravity"
+    colorClass="blue"
+  }}
+  {{statbox-item
+    property=model.preBoilGravity
+    unitOfMesure="S.G."
+    propertyDescription="Preboil Gravity"
+    colorClass="purple"
+  }}
+  {{statbox-item
+    property=model.colorSRM
+    unitOfMesure="SRM"
+    faIcon="fa-tint"
+    propertyDescription="Color"
+    colorClass="yellow"
+  }}
+  {{statbox-item
+    property=model.totalIBUs
+    unitOfMesure="IBU"
+    faIcon="fa-leaf"
+    propertyDescription="Bitterness"
+    colorClass="green"
+  }}
 {{/statbox-group}}
 
-{{fermentable-additions brew=model
+{{fermentable-additions
+  brew=model
   canEdit=canEdit
   measureSystem=measureSystem
-  remove="destroyRecord"}}
-{{hop-additions brew=model
+  remove=(action "destroyRecord")
+}}
+{{hop-additions
+  brew=model
   canEdit=canEdit
   measureSystem=measureSystem
-  remove="destroyRecord"}}
-{{yeast-additions additions=model.yeastAdditions
+  remove=(action "destroyRecord")
+}}
+{{yeast-additions
+  additions=model.yeastAdditions
   canEdit=canEdit
-  remove="destroyRecord"}}
+  remove=(action "destroyRecord")
+}}

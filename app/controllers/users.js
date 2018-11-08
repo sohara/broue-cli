@@ -1,12 +1,13 @@
-import Ember from 'ember';
-const { computed } = Ember;
-const { sort } = computed;
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { sort } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   userSorting: ['updatedAt:desc'],
   users: sort('model', 'userSorting'),
 
-  activeUsers: function() {
-    return this.get('users').splice(0, 10);
-  }.property('users.[]')
+  activeUsers: computed('users.[]', function() {
+    return this.users.splice(0, 10);
+  })
 });

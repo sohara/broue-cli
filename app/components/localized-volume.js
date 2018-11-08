@@ -1,57 +1,57 @@
-import Ember from 'ember';
-const { computed } = Ember;
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-export default Ember.Component.extend({
+const UNITS = {
+  volume: {
+    metric: 'litres',
+    us: 'gallons'
+  },
+  ratio: {
+    metric: 'litres/kg',
+    us: 'quarts/lb'
+  },
+  temp: {
+    metric: '°C',
+    us: '°F'
+  }
+};
+
+export default Component.extend({
   property: null,
 
-  units: {
-    volume: {
-      metric: 'litres',
-      us: 'gallons'
-    },
-    ratio: {
-      metric: 'litres/kg',
-      us: 'quarts/lb'
-    },
-    temp: {
-      metric: '°C',
-      us: '°F'
-    }
-  },
-
   propertyName: computed('property', 'localizedUnit', function () {
-    let property = this.get('property');
-    let localizedUnit = this.get('localizedUnit');
+    let property = this.property;
+    let localizedUnit = this.localizedUnit;
     return property + localizedUnit;
   }),
 
-  localizedUnit: function() {
-    if (this.get('property') === 'waterGrainRatio') {
-      return this.get('measureSystem') === 'metric' ? 'Metric' : 'Us';
-    } else if (this.get('property').indexOf('Temp') > -1) {
-      return this.get('measureSystem') === 'metric' ? 'C' : 'F';
+  localizedUnit: computed('measureSystem', 'property', function() {
+    if (this.property === 'waterGrainRatio') {
+      return this.measureSystem === 'metric' ? 'Metric' : 'Us';
+    } else if (this.property.indexOf('Temp') > -1) {
+      return this.measureSystem === 'metric' ? 'C' : 'F';
     } else {
-      return this.get('measureSystem') === 'metric' ? 'Litres' : 'Gallons';
+      return this.measureSystem === 'metric' ? 'Litres' : 'Gallons';
     }
-  }.property('measureSystem', 'property'),
+  }),
 
-  displayVolume: function() {
-    if ( this.get('propertyName') !== null ) {
-      let propertyName = this.get('propertyName');
+  displayVolume: computed('propertyName', 'model', 'localizedUnit', function() {
+    if ( this.propertyName !== null ) {
+      let propertyName = this.propertyName;
       return this.roundedToTwo(this.get(`model.${propertyName}`));
     }
-  }.property('propertyName', 'model', 'localizedUnit'),
+  }),
 
-  displayUnit: function() {
-    let measureSystem = this.get('measureSystem');
-    if (this.get('property') === 'waterGrainRatio') {
-      return this.get(`units.ratio.${measureSystem}`);
-    } else if (this.get('property').indexOf('Temp') > -1) {
-      return this.get(`units.temp.${measureSystem}`);
+  displayUnit: computed('measureSystem', function() {
+    let measureSystem = this.measureSystem;
+    if (this.property === 'waterGrainRatio') {
+      return get(UNITS, `ratio.${measureSystem}`);
+    } else if (this.property.indexOf('Temp') > -1) {
+      return get(UNITS, `temp.${measureSystem}`);
     } else {
-      return this.get(`units.volume.${measureSystem}`);
+      return get(UNITS, `volume.${measureSystem}`);
     }
-  }.property('measureSystem'),
+  }),
 
   roundedToTwo: function(value) {
     return Math.round((value) * 100) / 100;

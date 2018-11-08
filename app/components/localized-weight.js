@@ -1,42 +1,43 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-export default Ember.Component.extend({
+const UNITS = {
+  metric: {
+    base: 'g',
+    high: 'kg'
+  },
+  us: {
+    base: 'oz',
+    high: 'lbs'
+  }
+};
+
+export default Component.extend({
   magnitude: 'base',
 
-  units: {
-    metric: {
-      base: 'g',
-      high: 'kg'
-    },
-    us: {
-      base: 'oz',
-      high: 'lbs'
-    }
-  },
+  localizedUnit: computed('measureSystem', function() {
+    return this.measureSystem === 'metric' ? 'Grams' : 'Oz';
+  }),
 
-  localizedUnit: function() {
-    return this.get('measureSystem') === 'metric' ? 'Grams' : 'Oz';
-  }.property('measureSystem'),
-
-  localizedWeight: function() {
-    let localizedUnit = this.get('localizedUnit');
+  localizedWeight: computed('model.{weightGrams,weightOz}', 'localizedUnit', function() {
+    let localizedUnit = this.localizedUnit;
     return this.get(`model.weight${localizedUnit}`);
-  }.property('model.weightGrams', 'model.weightOz', 'localizedUnit'),
+  }),
 
-  localizedDivisor: function() {
-    return this.get('measureSystem') === 'metric' ? 1000 : 16;
-  }.property('measureSystem'),
+  localizedDivisor: computed('measureSystem', function() {
+    return this.measureSystem === 'metric' ? 1000 : 16;
+  }),
 
-  displayWeight: function() {
-    var divisor = this.get('magnitude') === 'high' ? this.get('localizedDivisor') : 1;
-    return this.roundedToTwo(this.get('localizedWeight') / divisor);
-  }.property('localizedWeight', 'magnitude'),
+  displayWeight: computed('localizedWeight', 'magnitude', function() {
+    var divisor = this.magnitude === 'high' ? this.localizedDivisor : 1;
+    return this.roundedToTwo(this.localizedWeight / divisor);
+  }),
 
-  displayUnit: function() {
-    let measureSystem = this.get('measureSystem');
-    let magnitude = this.get('magnitude');
-    return this.get(`units.${measureSystem}.${magnitude}`);
-  }.property('measureSystem', 'magnitude'),
+  displayUnit: computed('measureSystem', 'magnitude', function() {
+    let measureSystem = this.measureSystem;
+    let magnitude = this.magnitude;
+    return get(UNITS, `${measureSystem}.${magnitude}`);
+  }),
 
   roundedToTwo: function(value) {
     return Math.round((value) * 100) / 100;

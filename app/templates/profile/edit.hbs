@@ -5,7 +5,7 @@
   {{bs-textarea-field model=model property="bio" label="About Me" rows="3"}}
 
   <div class="col-md-10 col-md-offset-2">
-    <button class="btn btn-primary" type="submit" {{action 'save' this}}>Save</button>
-    <button class="btn btn-default" type="submit" {{action 'cancel' this}}>Cancel</button>
+    <button class="btn btn-primary" type="submit" {{action "save" model}}>Save</button>
+    <button class="btn btn-default" type="submit" {{action "cancel"}}>Cancel</button>
   </div>
 </form>

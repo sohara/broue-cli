@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -14,9 +15,9 @@ export default DS.Model.extend({
   yeastAdditions: DS.hasMany('YeastAddition'),
 
 
-  description: function() {
-    let productId = this.get('productId');
-    let name = this.get('name');
+  description: computed('productId', 'name', function() {
+    let productId = this.productId;
+    let name = this.name;
     return `${productId} - ${name}`;
-  }.property('productId', 'name')
+  })
 });

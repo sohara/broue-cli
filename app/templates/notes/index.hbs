@@ -2,13 +2,19 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     {{#if canEdit}}
-      {{#link-to 'notes.new' class="btn btn-default btn-xs pull-right"}}<i class="glyphicon glyphicon-plus-sign"></i> Add note{{/link-to}}
+      {{#link-to
+        "notes.new"
+        class="btn btn-default btn-xs pull-right"
+        title="Add note"
+      }}
+        <i class="glyphicon glyphicon-plus-sign"></i> Add note
+      {{/link-to}}
     {{/if}}
     <h2 class="panel-title">Notes</h2>
   </div>
   <div class="panel-body">
     <ul class="list-unstyled">
-      {{#each content as |note|}}
+      {{#each model as |note|}}
         <li class="well recede-background">
           {{simple-format note.text}}
           <div class="row">
@@ -17,10 +23,14 @@
             </div>
             <div class="col-md-4 text-right">
               {{#if canEdit}}
-                <button {{action 'destroyRecord' note}} class="btn btn-default btn-xs" title="Delete">
+                <button
+                  class="btn btn-default btn-xs"
+                  title="Delete"
+                  {{action "destroyRecord" note}}
+                >
                   <span class="glyphicon glyphicon-trash"></span> Delete
                 </button>
-                {{#link-to 'notes.edit' note class="btn btn-default btn-xs"}}
+                {{#link-to "notes.edit" note class="btn btn-default btn-xs" title="Edit"}}
                   <span class="glyphicon glyphicon-edit"></span> Edit
                 {{/link-to}}
               {{/if}}

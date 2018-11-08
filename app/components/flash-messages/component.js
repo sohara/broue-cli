@@ -1,8 +1,9 @@
-import Ember from 'ember';
-const { inject } = Ember;
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  flash: inject.service(),
+export default Component.extend({
+  flash: service(),
   classNames: 'alert',
   classNameBindings: ['alertSuccess', 'alertWarning', 'alertDanger'],
 
@@ -12,16 +13,16 @@ export default Ember.Component.extend({
 
   didInsertElement: function() {
     this._super(...arguments);
-    this.get('flash').on('show', this, this.show);
-    this.get('flash').on('hide', this, this.hide);
+    this.flash.on('show', this, this.show);
+    this.flash.on('hide', this, this.hide);
   },
 
   // This is probably not currently necessary since the view remains
   // active throughout the app life cycle, but is generally good practice
   willDestroyElement: function() {
     this._super(...arguments);
-    this.get('flash').off('show', this, this.show);
-    this.get('flash').off('hide', this, this.hide);
+    this.flash.off('show', this, this.show);
+    this.flash.off('hide', this, this.hide);
   },
 
   show: function() {
@@ -32,17 +33,17 @@ export default Ember.Component.extend({
     this.$().fadeOut(600);
   },
 
-  alertSuccess: function() {
+  alertSuccess: computed('flash.type', function() {
     return this.get('flash.type') === 'success';
-  }.property('flash.type'),
+  }),
 
-  alertWarning: function() {
+  alertWarning: computed('flash.type', function() {
     return this.get('flash.type') === 'warning';
-  }.property('flash.type'),
+  }),
 
-  alertDanger: function() {
+  alertDanger: computed('flash.type', function() {
     return this.get('flash.type') ==='danger';
-  }.property('flash.type'),
+  }),
 
   actions: {
     hide: function() {

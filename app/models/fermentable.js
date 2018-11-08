@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -8,8 +9,7 @@ export default DS.Model.extend({
   fermentableType: DS.attr('string'),
   fermentableAdditions: DS.hasMany('fermentableAddition'),
 
-
-  description: function() {
-    return `${this.get('name')} ${this.get('supplier')}`;
-  }.property("name", "supplier")
+  description: computed("name", "supplier", function() {
+    return `${this.name} ${this.supplier}`;
+  })
 });

@@ -1,10 +1,4 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import EditTableView from '../../mixins/edit-table-view';
 
-export default Ember.Component.extend(EditTableView, {
-  actions: {
-    remove (model) {
-      this.sendAction('remove', model);
-    }
-  }
-});
+export default Component.extend(EditTableView);

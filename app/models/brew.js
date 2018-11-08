@@ -1,6 +1,7 @@
+import { filter, filterBy } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
-import Ember from 'ember';
-const { computed } = Ember;
+import { getOwner } from '@ember/application';
 
 
 export default DS.Model.extend({
@@ -29,12 +30,12 @@ export default DS.Model.extend({
   notes: DS.hasMany('Note', {async: true}),
   user: DS.belongsTo('user', {async: true}),
 
-  recordedEfficiency: function() {
-    var recordedOriginalGravity = this.get('recordedOriginalGravity');
+  recordedEfficiency: computed("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres", function() {
+    var recordedOriginalGravity = this.recordedOriginalGravity;
     if (typeof(recordedOriginalGravity) !== "undefined") {
-      var totalExtractUnits = this.get('totalExtractUnits');
-      var batchSize = this.get("batchSizeLitres");
-      var recordedPostBoilVolume = this.get("recordedPostBoilVolumeLitres");
+      var totalExtractUnits = this.totalExtractUnits;
+      var batchSize = this.batchSizeLitres;
+      var recordedPostBoilVolume = this.recordedPostBoilVolumeLitres;
       var volume = recordedPostBoilVolume > 0 ? recordedPostBoilVolume : batchSize;
       var maximumOG = ((totalExtractUnits * 0.3865) / volume);
       var efficiency = ((recordedOriginalGravity - 1) / maximumOG) * 100;
@@ -43,58 +44,61 @@ export default DS.Model.extend({
     else {
       return "N/A";
     }
-  }.property("totalExtractUnits", "recordedOriginalGravity", "batchSizeLitres", "recordedPostBoilVolumeLitres"),
-  colorSRM: function() {
-    var batchSizeGallons = this.get("batchSizeGallons");
-    var maltColorUnits = this.get("maltColorUnits");
+  }),
+
+  colorSRM: computed("maltColorUnits", "batchSizeGallons", function() {
+    var batchSizeGallons = this.batchSizeGallons;
+    var maltColorUnits = this.maltColorUnits;
     var colorDensity = Math.round((maltColorUnits / batchSizeGallons) * 10000) / 10000;
     return Math.round(1.49 * (Math.pow(colorDensity, 0.69)) * 100) / 100;
-  }.property("maltColorUnits", "batchSizeGallons"),
+  }),
 
-  maltColorUnits: function() {
-    return this.get('positiveFermentableAdditions').reduce(function(accum, addition) {
+  maltColorUnits: computed('positiveFermentableAdditions.{@each.color,@each.weightGrams}', function() {
+    return this.positiveFermentableAdditions.reduce(function(accum, addition) {
       var weightLbs = addition.get('weightGrams') * 0.0022046226;
       var additionUnits = weightLbs * addition.get('color');
       return accum + additionUnits;
     }, 0);
-  }.property('positiveFermentableAdditions.@each.color', 'positiveFermentableAdditions.@each.weightGrams'),
+  }),
 
-  originalGravity: function() {
-    var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
-    var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
-    var efficiency = this.get("efficiency");
-    var batchSizeLitres = this.get("batchSizeLitres");
+  originalGravity: computed("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits", function() {
+    var totalMashedExtractUnits = this.totalMashedExtractUnits;
+    var totalUnmashedExtractUnits = this.totalUnmashedExtractUnits;
+    var efficiency = this.efficiency;
+    var batchSizeLitres = this.batchSizeLitres;
     var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / batchSizeLitres);
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / batchSizeLitres);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "batchSizeLitres", "totalMashedExtractUnits", "totalUnmashedExtractUnits"),
+  }),
 
-  gravityFactor: function() {
-    var preBoilGravity = this.get("preBoilGravity");
+  gravityFactor: computed("preBoilGravity", function() {
+    var preBoilGravity = this.preBoilGravity;
     return (1.65 * (Math.pow(0.000125, preBoilGravity - 1)));
-  }.property("preBoilGravity"),
+  }),
 
-  preBoilGravity: function() {
-    var totalMashedExtractUnits = this.get("totalMashedExtractUnits");
-    var totalUnmashedExtractUnits = this.get("totalUnmashedExtractUnits");
-    var efficiency = this.get("efficiency");
-    var boilVolume = this.get("boilVolume");
+  preBoilGravity: computed("efficiency", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits", function() {
+    var totalMashedExtractUnits = this.totalMashedExtractUnits;
+    var totalUnmashedExtractUnits = this.totalUnmashedExtractUnits;
+    var efficiency = this.efficiency;
+    var boilVolume = this.boilVolume;
     var mashed = ((totalMashedExtractUnits * 0.3865 * (efficiency / 100)) / boilVolume);
     var unmashed = ((totalUnmashedExtractUnits * 0.3865) / boilVolume);
     var og = 1 + mashed + unmashed;
     return og.toFixed(3);
-  }.property("efficiency", "totalMashedExtractUnits", "boilVolume", "totalUnmashedExtractUnits"),
+  }),
 
-  boilVolume: function() {
-    var boilVolume = parseFloat(this.get("batchSizeLitres")) + parseFloat(this.get("boilLossLitres"));
+  boilVolume: computed("batchSizeLitres", "boilLossLitres", function() {
+    var boilVolume = parseFloat(this.batchSizeLitres) + parseFloat(this.boilLossLitres);
     return Math.round(boilVolume * 100) / 100;
-  }.property("batchSizeLitres", "boilLossLitres"),
+  }),
 
   decoratedFermentableAdditions: computed('fermentableAdditions.[]', function () {
     const brew = this;
-    const fermentableAdditionDecoratorModel = this.store.modelFor('fermentable-addition-decorator');
-    return this.get('fermentableAdditions').map(addition => {
+    let owner = getOwner(this);
+
+    const fermentableAdditionDecoratorModel = owner.factoryFor('model:fermentable-addition-decorator');
+    return this.fermentableAdditions.map(addition => {
       return fermentableAdditionDecoratorModel.create({
         brew,
         content: addition,
@@ -104,8 +108,9 @@ export default DS.Model.extend({
 
   decoratedHopAdditions: computed('hopAdditions.[]', function () {
     const brew = this;
-    const hopAdditionDecoratorModel = this.store.modelFor('hop-addition-decorator');
-    return this.get('hopAdditions').map(addition => {
+    let owner = getOwner(this);
+    const hopAdditionDecoratorModel = owner.factoryFor('model:hop-addition-decorator');
+    return this.hopAdditions.map(addition => {
       return hopAdditionDecoratorModel.create({
         brew,
         content: addition,
@@ -113,54 +118,54 @@ export default DS.Model.extend({
     });
   }),
 
-  positiveFermentableAdditions: computed.filter('decoratedFermentableAdditions.@each.weightGrams', function(addition) {
+  positiveFermentableAdditions: filter('decoratedFermentableAdditions.@each.weightGrams', function(addition) {
     return addition.get('weightGrams') > 0;
   }),
-  mashable: computed.filterBy('positiveFermentableAdditions', 'mashable', true),
-  unmashable: computed.filterBy('positiveFermentableAdditions', 'mashable', false),
+  mashable: filterBy('positiveFermentableAdditions', 'mashable', true),
+  unmashable: filterBy('positiveFermentableAdditions', 'mashable', false),
 
-  positiveHopAdditions: computed.filter('decoratedHopAdditions.@each.weightGrams', function(addition) {
+  positiveHopAdditions: filter('decoratedHopAdditions.@each.weightGrams', function(addition) {
     return addition.get('weightGrams') > 0;
   }),
 
-  strikeWaterVolumeMetric: function() {
-    var totalMashedAdditionsWeightGrams = this.get('totalMashedAdditionsWeightGrams');
-    var waterGrainRatioMetric = this.get('waterGrainRatioMetric');
+  strikeWaterVolumeMetric: computed("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric", function() {
+    var totalMashedAdditionsWeightGrams = this.totalMashedAdditionsWeightGrams;
+    var waterGrainRatioMetric = this.waterGrainRatioMetric;
     return (totalMashedAdditionsWeightGrams * waterGrainRatioMetric) / 1000;
-  }.property("totalMashedAdditionsWeightGrams", "waterGrainRatioMetric"),
+  }),
 
-  strikeWaterVolumeUs: function() {
-    return ( this.get('strikeWaterVolumeMetric') / 3.7854118 ).toFixed(2);
-  }.property('strikeWaterVolumeMetric'),
+  strikeWaterVolumeUs: computed('strikeWaterVolumeMetric', function() {
+    return ( this.strikeWaterVolumeMetric / 3.7854118 ).toFixed(2);
+  }),
 
-  totalIBUs: function() {
-    var totalIBUs = this.get('positiveHopAdditions').reduce(function(accum, addition) {
+  totalIBUs: computed('positiveHopAdditions.@each.ibus', function() {
+    var totalIBUs = this.positiveHopAdditions.reduce(function(accum, addition) {
       return accum + addition.get('ibus');
     }, 0);
     return Math.round(totalIBUs * 10) / 10;
-  }.property('positiveHopAdditions.@each.ibus'),
+  }),
 
-  totalMashedAdditionsWeightGrams: function() {
-    var totalWeightGrams = this.get('mashable').reduce(function(accum, addition) {
+  totalMashedAdditionsWeightGrams: computed('mashable.@each.weightGrams', function() {
+    var totalWeightGrams = this.mashable.reduce(function(accum, addition) {
       return accum + parseFloat(addition.get('weightGrams'));
     }, 0);
     return totalWeightGrams;
-  }.property('mashable.@each.weightGrams'),
+  }),
 
-  totalMashedExtractUnits: function() {
-    return this.get('mashable').reduce(function(accum, addition) {
+  totalMashedExtractUnits: computed('mashable.@each.extractUnits', function() {
+    return this.mashable.reduce(function(accum, addition) {
       return accum + addition.get('extractUnits');
     }, 0);
-  }.property('mashable.@each.extractUnits'),
+  }),
 
-  totalUnmashedExtractUnits: function() {
-    return this.get('unmashable').reduce(function(accum, addition) {
+  totalUnmashedExtractUnits: computed('unmashable.@each.extractUnits', function() {
+    return this.unmashable.reduce(function(accum, addition) {
       return accum + addition.get('extractUnits');
     }, 0);
-  }.property('unmashable.@each.extractUnits'),
+  }),
 
-  totalExtractUnits: function() {
-    var sum = this.get('totalMashedExtractUnits') + this.get('totalUnmashedExtractUnits');
+  totalExtractUnits: computed('totalMashedExtractUnits', 'totalUnmashedExtractUnits', function() {
+    var sum = this.totalMashedExtractUnits + this.totalUnmashedExtractUnits;
     return Math.round(sum * 100) / 100;
-  }.property('totalMashedExtractUnits', 'totalUnmashedExtractUnits'),
+  })
 });

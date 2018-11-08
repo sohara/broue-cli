@@ -1,14 +1,18 @@
-import Ember from 'ember';
+import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
+import { run } from '@ember/runloop';
+import $ from 'jquery';
 import { module, test } from 'qunit';
-import startApp from 'broue/tests/helpers/start-app';
+import { setupApplicationTest } from 'ember-qunit';
 import stubs from '../helpers/pretender-stubs';
+import { findByText } from '../helpers/acceptance-helpers';
 import Pretender from 'pretender';
 
-var application, server, Stubs;
+var server, Stubs;
 
-module('Acceptance | Authentication', {
-  beforeEach: function() {
-    application = startApp();
+module('Acceptance | Authentication', function(hooks) {
+  setupApplicationTest(hooks);
+
+  hooks.beforeEach(function() {
     Stubs = stubs();
 
     window.localStorage.removeItem('user');
@@ -52,113 +56,88 @@ module('Acceptance | Authentication', {
         return response;
       });
     });
-  },
-  afterEach: function() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+  });
+
+  hooks.afterEach(function() {
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     server.shutdown();
-    Ember.run(application, 'destroy');
-  }
-});
+  });
 
-test('Allows a guest to sign in', function(assert) {
-  assert.expect(3);
-  visit('/').then(function() {
-    click("a:contains('Login')").then(function() {
-      assert.equal(find('h3').text(), 'Sign in', "The Sign in header is found");
-      fillIn("input#email", "jack@example.com");
-      fillIn("input#password", "password");
-      click("button[type='submit']");
+  test('Allows a guest to sign in', async function(assert) {
+    assert.expect(3);
+    await visit('/');
+    await click(findByText('a', 'Login'));
+    assert.dom('h3').hasText('Sign in', "The Sign in header is found");
+    await fillIn("input#email", "jack@example.com");
+    await fillIn("input#password", "password");
+    await click("button[type='submit']");
+
+    assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
+    assert.dom('h2').hasText('My Brews', "The brews heading is found");
+  });
+
+  test('Allows a guest to sign up for an account', async function(assert) {
+    assert.expect(3);
+    await visit('/');
+    assert.dom(find('h2')).hasText('Latest Brews', "The latest brews header is found");
+    await click(findByText('a', 'Sign Up'));
+    await fillIn("input#email", "jack@example.com");
+    await fillIn("input#password", "password");
+    await fillIn("input#passwordConfirmation", "password");
+    await fillIn("input#username", "sohara");
+    await click("button[type='submit']");
+    assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
+    assert.dom('h2').hasText('My Brews', "The brews heading is found");
+  });
+
+  test('Allows a user to view their profile', async function(assert) {
+    assert.expect(2);
+    run(function() {
+      window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
     });
+    await visit('/');
+    await click(findByText('a', 'View Profile'));
+    assert.ok(findByText('p', 'I like to brew. More than you.'), "Finds the user's bio");
+    assert.ok(findByText('h3', 'Awesome IPA'), "Finds user's recent brews listed");
+  });
 
-    andThen(function() {
-      assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
-      assert.equal(find('h2').text(), 'My Brews', "The brews heading is found");
+  test('A user can edit their profile', async function(assert) {
+    assert.expect(3);
+    run(function() {
+      window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
     });
+    await visit('/profile');
+    await click(findByText('a', 'Edit Profile'));
+    await fillIn(".email input", "different@example.com");
+    await fillIn(".username input", "notsohara");
+    await fillIn(".about-me textarea", "It's a new bio");
+    await click("button[type='submit']");
+    assert.ok(findByText('h1', 'notsohara'), "Finds the user's username");
+    assert.ok(findByText('p', "It's a new bio"), "Finds the user's bio");
+    assert.ok(findByText('h3', 'Awesome IPA'), "Finds user's recent brews listed");
   });
-});
 
-test('Allows a guest to sign up for an account', function(assert) {
-  assert.expect(3);
-  visit('/').then(function() {
-    assert.equal(find('h2:first').text(), 'Latest Brews', "The latest brews header is found");
-    click("a:contains('Sign Up')").then(function() {
-      fillIn("input#email", "jack@example.com");
-      fillIn("input#password", "password");
-      fillIn("input#passwordConfirmation", "password");
-      fillIn("input#username", "sohara");
-      click("button[type='submit']");
-    }).then(function() {
-      assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
-      assert.equal(find('h2').text(), 'My Brews', "The brews heading is found");
+  test('Allows a logged in user to log out', async function(assert) {
+    assert.expect(2);
+    run(function() {
+      window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
     });
+    await visit('/');
+    await click(findByText('a', 'Logout'));
+    assert.ok(findByText('li a', 'Login'), "Login link found");
+    assert.ok(findByText('.alert-success', 'Successfully logged out'), "Success flash rendered");
+  });
+
+  test('Displays login error when logging in with bad credentials', async function(assert) {
+    assert.expect(2);
+    await visit('/login');
+    await fillIn("input#email", "jack@example.com");
+    await fillIn("input#password", "notpassword");
+    await click("button[type='submit']");
+
+    assert.equal(currentURL(), "/login", "Remains on login page");
+    assert.dom('p.alert-danger').hasText('Your email or password was incorrect.', "Login error message displayed");
   });
 });
-
-test('Allows a user to view their profile', function(assert) {
-  assert.expect(2);
-  Ember.run(function() {
-    window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
-  });
-  visit('/');
-  // App.testHelpers.wait();
-  andThen(function() {
-    click('a:contains("View Profile")');
-  });
-  andThen(function() {
-    assert.equal(find('p:contains("I like to brew. More than you.")').length, 1, "Finds the user's bio");
-    assert.equal(find('h3:contains("Awesome IPA")').length, 1, "Finds user's recent brews listed");
-  });
-});
-
-test('A user can edit their profile', function(assert) {
-  assert.expect(3);
-  Ember.run(function() {
-    window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
-  });
-  visit('/profile');
-  andThen(function() {
-    click('a:contains("Edit Profile")');
-  });
-  andThen(function() {
-    fillIn(".email input", "different@example.com");
-    fillIn(".username input", "notsohara");
-    fillIn(".about-me textarea", "It's a new bio");
-    click("button[type='submit']").then(function() {
-    assert.equal(find('h1:contains("notsohara")').length, 1, "Finds the user's username");
-    assert.equal(find('p:contains("It\'s a new bio")').length, 1, "Finds the user's bio");
-    assert.equal(find('h3:contains("Awesome IPA")').length, 1, "Finds user's recent brews listed");
-    });
-  });
-});
-
-test('Allows a logged in user to log out', function(assert) {
-  assert.expect(2);
-  Ember.run(function() {
-    window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
-  });
-  visit('/');
-  andThen(function() {
-    click('a:contains("Logout")');
-  });
-  andThen(function() {
-    assert.equal(find('li a:contains("Login")').length, 1, "Login link found");
-    assert.equal(find('.alert-success:contains("Successfully logged out")').length, 1, "Success flash rendered");
-  });
-});
-
-test('Displays login error when logging in with bad credentials', function(assert) {
-  assert.expect(2);
-  visit('/login').then(function() {
-    fillIn("input#email", "jack@example.com");
-    fillIn("input#password", "notpassword");
-    click("button[type='submit']");
-
-    andThen(function() {
-      assert.equal(currentURL(), "/login", "Remains on login page");
-      assert.equal(find('p.alert-danger').text(), 'Your email or password was incorrect.', "Login error message displayed");
-    });
-  });
-});
-

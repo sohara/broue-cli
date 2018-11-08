@@ -1,15 +1,15 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias, oneWay } = computed;
+import Controller, { inject as controller } from '@ember/controller';
+import { computed } from '@ember/object';
+import { oneWay, alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  applicationController: inject.controller('application'),
-  brewIndexController: inject.controller('brews/index'),
+export default Controller.extend({
+  applicationController: controller('application'),
+  brewIndexController: controller('brews/index'),
   recentBrews: oneWay('brewIndexController.recentBrews'),
   currentUser: alias('applicationController.user'),
 
-  isCurrentUser: function() {
-    return this.get('currentUser.content') === this.get('model');
-  }.property('currentUser.content', 'model')
+  isCurrentUser: computed('currentUser.content', 'model', function() {
+    return this.get('currentUser.content') === this.model;
+  })
 
 });

@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   controllerName: 'brews/edit',
   returnRoute: 'recipe',
 
@@ -19,7 +19,7 @@ export default Ember.Route.extend({
       });
     },
     cancel: function(model) {
-      this.transitionTo(this.get('returnRoute'), model);
+      this.transitionTo(this.returnRoute, model);
     }
   }
 });

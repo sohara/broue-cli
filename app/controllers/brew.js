@@ -1,70 +1,83 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias } = computed;
+import { isBlank } from '@ember/utils';
+import Controller, { inject as controller } from '@ember/controller';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  applicationController: inject.controller('application'),
+export default Controller.extend({
+  applicationController: controller('application'),
   measureSystem: alias('applicationController.measureSystem'),
   currentUser: alias('applicationController.user'),
 
-  recordedPostBoilVolumePresent: function() {
-    return (!Ember.isBlank('recordedPostBoilVolumeLitres') || !Ember.isBlank('recordedPostBoilVolumeGallons'));
-  }.property('recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons'),
+  recordedPostBoilVolumePresent: computed('recordedPostBoilVolumeLitres', 'recordedPostBoilVolumeGallons', function() {
+    return !isBlank('recordedPostBoilVolumeLitres') || !isBlank('recordedPostBoilVolumeGallons');
+  }),
 
 
-  canEdit: function() {
+  canEdit: computed('currentUser.id', 'model.user.id', function() {
     return this.get('currentUser.id') === this.get('model.user.id');
-  }.property('currentUser.id', 'model.user.id'),
+  }),
 
-  strikeWaterVolume: function() {
-    var measureSystemSuffix = this.get('measureSystem').capitalize();
+  strikeWaterVolume: computed('model.{strikeWaterVolumeMetric,strikeWaterVolumeUs}', 'measureSystem', function() {
+    var measureSystemSuffix = this.measureSystem.capitalize();
     return this.get(`model.strikeWaterVolume${measureSystemSuffix}`);
-  }.property('model.strikeWaterVolumeMetric', 'model.strikeWaterVolumeUs', 'measureSystem'),
+  }),
 
-  unitOfMesure: function() {
-    return this.get('measureSystem') === 'metric' ? 'litres' : 'gallons';
-  }.property('measureSystem'),
+  unitOfMesure: computed('measureSystem', function() {
+    return this.measureSystem === 'metric' ? 'litres' : 'gallons';
+  }),
 
-  tempUnit: function() {
-    return this.get('measureSystem') === 'metric' ? '°C' : '°F';
-  }.property('measureSystem'),
+  tempUnit: computed('measureSystem', function() {
+    return this.measureSystem === 'metric' ? '°C' : '°F';
+  }),
 
-  strikeWaterTemp: function() {
-    var suffix = this.get('measureSystem') === 'metric' ? 'C' : 'F';
+  strikeWaterTemp: computed('measureSystem', 'strikeWaterTempC', 'strikeWaterTempF', function() {
+    var suffix = this.measureSystem === 'metric' ? 'C' : 'F';
     return this.get('strikeWaterTemp' + suffix);
-  }.property('measureSystem', 'strikeWaterTempC', 'strikeWaterTempF'),
+  }),
 
-  strikeWaterTempF: function() {
-    return  Math.round(( (this.get('strikeWaterTempC') * (9/5)) + 32) * 100 ) / 100;
-  }.property('strikeWaterTempC'),
+  strikeWaterTempF: computed('strikeWaterTempC', function() {
+    return Math.round(( (this.strikeWaterTempC * (9/5)) + 32) * 100 ) / 100;
+  }),
 
-  strikeWaterTempC: function() {
+  strikeWaterTempC: computed('model.{waterGrainRatioMetric,targetMashTempC,grainTempC}', function() {
     var waterGrainRatioMetric = parseFloat(this.get('model.waterGrainRatioMetric'));
     var grainTemp = parseFloat(this.get('model.grainTempC'));
     var targetMashTemp = parseFloat(this.get('model.targetMashTempC'));
     var strikeTemp = ((0.2 / (waterGrainRatioMetric / 2)) * (targetMashTemp - grainTemp)) + targetMashTemp;
     return Math.round(strikeTemp * 100) / 100;
-  }.property("model.waterGrainRatioMetric", "model.targetMashTempC", "model.grainTempC"),
+  }),
 
-  apparentAttenuation: function() {
+  apparentAttenuation: computed('model.{recordedOriginalGravity,recordedFinalGravity}', function() {
     var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
     var recordedFinalGravity = this.get('model.recordedFinalGravity');
-    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+    if (!isBlank(recordedOriginalGravity) && !isBlank(recordedFinalGravity)) {
       var aa = (recordedOriginalGravity - recordedFinalGravity) / (recordedOriginalGravity - 1);
       return (aa * 100).toFixed(1);
     } else {
       return "N/A";
     }
-  }.property("model.recordedOriginalGravity", "model.recordedFinalGravity"),
+  }),
 
-  alcoholByVolume: function() {
+  alcoholByVolume: computed('model.{recordedOriginalGravity,recordedFinalGravity}', function() {
     var recordedOriginalGravity = this.get('model.recordedOriginalGravity');
     var recordedFinalGravity = this.get('model.recordedFinalGravity');
-    if (!Ember.isBlank(recordedOriginalGravity) && !Ember.isBlank(recordedFinalGravity)) {
+    if (!isBlank(recordedOriginalGravity) && !isBlank(recordedFinalGravity)) {
       var abv = ((1.05 * (recordedOriginalGravity - recordedFinalGravity) / recordedFinalGravity) / 0.79);
       return (abv * 100).toFixed(1);
     } else {
       return "N/A";
     }
-  }.property("model.recordedOriginalGravity", "model.recordedFinalGravity")
+  }),
+
+  actions: {
+    destroyRecord: function(model) {
+      var _this = this;
+      var modelName = model.get('constructor.modelName').decamelize().replace("_", " ");
+      if (confirm(`Are you sure you want to delete this ${modelName}?`)) {
+        model.destroyRecord().then(function() {
+          _this.flash.render(`${modelName.capitalize()} successfully destroyed`);
+        });
+      }
+    }
+  }
 });

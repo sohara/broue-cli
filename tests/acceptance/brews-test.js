@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { click, fillIn, currentRouteName, find, visit } from '@ember/test-helpers';
+import $ from 'jquery';
 import { module, test } from 'qunit';
-import startApp from '../helpers/start-app';
+import { setupApplicationTest } from 'ember-qunit';
+import { fillSelectFromValue, findByText } from '../helpers/acceptance-helpers';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
 
-var App, server, Stubs;
+var server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -12,16 +14,17 @@ var headers = {"Content-Type":"application/json"};
 
 var nativeConfirm = window.confirm;
 
-function fillSelectFromValue(selector, value) {
-  let optionSelector = selector + ' option:contains("' + value + '")';
-  let optionValue = Ember.$(optionSelector).val();
-  fillIn(selector, optionValue);
-}
+// async function fillSelectFromValue(selector, value) {
+//   let optionSelector = selector + ' option:contains("' + value + '")';
+//   let optionValue = $(optionSelector).val();
+//   await fillIn(selector, optionValue);
+// }
 
-module('Acceptance: Brews', {
-  setup: function() {
+module('Acceptance: Brews', function(hooks) {
+  setupApplicationTest(hooks);
+
+  hooks.beforeEach(function() {
     window.confirm = function() { return true; };
-    App = startApp();
     Stubs = stubs();
     window.localStorage.setItem('user', toS(Stubs.userJSON));
 
@@ -78,103 +81,76 @@ module('Acceptance: Brews', {
         return response;
       });
     });
-  },
-  teardown: function() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+  });
+
+  hooks.afterEach(function() {
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    Ember.run(App, 'destroy');
     server.shutdown();
-  }
-});
-
-test('visiting /my-brews', function(assert) {
-  visit('/my-brews');
-
-  andThen(function() {
-    assert.equal(currentPath(), 'brews.index');
-    assert.equal(find('td:contains("Awesome IPA")').length, 1, "User's brew is found");
   });
-});
 
-test('create a new brew', function(assert) {
-  assert.expect(2);
-  visit('/my-brews');
-  andThen(function() {
-    click('a:contains("New Brew")');
+  test('visiting /my-brews', async function(assert) {
+    await visit('/my-brews');
+
+    assert.equal(currentRouteName(), 'brews.index');
+    assert.ok(findByText('td', 'Awesome IPA'), "User's brew is found");
   });
-  andThen(function() {
-    fillIn("div.name input", "Super stuff ale");
+
+  test('create a new brew', async function(assert) {
+    assert.expect(2);
+    await visit('/my-brews');
+    await click('a[href="/my-brews/new"]');
+    await fillIn("div.name input", "Super stuff ale");
     fillSelectFromValue('div.style select', '6A - Cream Ale');
-    click('button:contains("Save")');
+    await click('button.btn-primary');
+    assert.equal(currentRouteName(), 'recipe.index');
+    assert.dom('h2').includesText('Super stuff ale');
   });
-  andThen(function() {
-    assert.equal(currentPath(), 'brew.recipe.index');
-    assert.equal(find('h2:contains("Super stuff ale")').length, 1);
-  });
-});
 
-test('edit an existing brew', function(assert) {
-  assert.expect(3);
-  visit('/my-brews');
-  andThen(function() {
-    click('a:contains("Awesome IPA")');
-  });
-  andThen(function() {
-    click('a:contains("Edit")');
-  });
-  andThen(function() {
-    fillIn("div.name input", "Even Awesomer IPA");
+  test('edit an existing brew', async function(assert) {
+    assert.expect(3);
+    await visit('/my-brews');
+    await click('a[title="Awesome IPA"]');
+    await click('.brew-actions a');
+    await fillIn("div.name input", "Even Awesomer IPA");
     fillSelectFromValue('div.style select', '6A - Cream Ale');
-    click('button:contains("Save")');
+    await click('button.btn-primary');
+    assert.equal(currentRouteName(), 'recipe.index', 'Routes to correct path');
+    assert.dom('h2').includesText('Even Awesomer IPA');
+    assert.dom('h2').includesText('Cream Ale', 'Edits to style saved');
   });
-  andThen(function() {
-    assert.equal(currentPath(), 'brew.recipe.index', 'Routes to correct path');
-    assert.equal(find('h2:contains("Even Awesomer IPA")').length, 1, 'Edits to name saved');
-    assert.equal(find('h2:contains("Cream Ale")').length, 1, 'Edits to style saved');
+
+  test('edit brew specs', async function(assert) {
+    await visit('/brews/1');
+    await click('li[title="Specs"]');
+    await click('a[title="Edit Specs"]');
+    await fillIn('.batch-size input', '5');
+    await fillIn('.boil-loss input', '1.5');
+    await fillIn('.water-grain-ratio input', '1.5');
+    await click('button[type="submit"]');
+    assert.equal(currentRouteName(), 'specs.index', "Displays brew specs after save");
+    assert.dom('table').includesText('Batch Size 5 gallons', 'Brew volume correctly updated');
+    assert.dom('.slate-statboxes').includesText('19.01 gallons Strike Water');
   });
-});
 
-test('edit brew specs', function(assert) {
-  visit('/brews/1');
-  andThen(function() { click('a:contains("Specs")'); });
-  andThen(function() { click('a.edit-specs:contains("Edit")'); });
-  andThen(function() {
-
-    fillIn('.batch-size input', '5');
-    fillIn('.boil-loss input', '1.5');
-    fillIn('.water-grain-ratio input', '1.5');
-    click('button:contains("Save")');
-    andThen(function() {
-      assert.equal(currentPath(), 'brew.specs.index', "Displays brew specs after save");
-      assert.equal(find('table tr:first td:last').text().trim(), '5 gallons', "Brew volume correctly updated");
-      assert.equal(find('div.slate-statbox:contains("Strike Water") div:contains("19.01 gallons")').length, 1, "Strike water volume correctly calculated");
-    });
+  test('edit brew day records', async function(assert) {
+    await visit('/brews/1');
+    await click('li[title="Brew Day"]');
+    await click('a.edit-brew-day');
+    await fillIn('.brew-date input', '2014-06-25');
+    await fillIn('.recorded-original-gravity input', '1.048');
+    await click('button[type="submit"]');
+    assert.equal(currentRouteName(), 'brew_day.index');
+    assert.dom(find('table')).includesText('2014-06-25');
   });
-});
 
-test('edit brew day records', function(assert) {
-  visit('/brews/1');
-  andThen(function() { click('a:contains("Brew Day")'); });
-  andThen(function() { click('a.edit-specs:contains("Edit")'); });
-  andThen(function() {
-    fillIn('.brew-date input', '2014-06-25');
-    fillIn('.recorded-original-gravity input', '1.048');
-    click('button:contains("Save")');
-    andThen(function() {
-      assert.equal(currentPath(), 'brew.brew_day.index');
-      assert.equal(find('table tr:first td:last').text().trim(), '2014-06-25');
-    });
-  });
-});
-
-test('delete a brew', function(assert) {
-  visit('/brews/1');
-  andThen(function() { click('.brew-actions button:contains("Destroy")'); })
-  .then(function() {
-    assert.equal(currentPath(), 'index', "At the correct path");
-    assert.equal(find('h2:first').text(), 'Latest Brews', "Shows latest brews title");
+  test('delete a brew', async function(assert) {
+    await visit('/brews/1');
+    await click('.brew-actions button[title="Destroy"]');
+    assert.equal(currentRouteName(), 'index', "At the correct path");
+    assert.dom(find('h2')).hasText('Latest Brews', "Shows latest brews title");
   });
 });

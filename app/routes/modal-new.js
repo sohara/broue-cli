@@ -6,7 +6,7 @@ export default ModalEditRoute.extend({
 
   model: function() {
     let brew = this.modelFor('brew');
-    let parentResource = this.get('parentResource');
+    let parentResource = this.parentResource;
     let belongsTo = `${parentResource}Additions`;
     var child = this.store.createRecord(`${parentResource}Addition`);
     brew.get(belongsTo).pushObject(child);
@@ -14,7 +14,7 @@ export default ModalEditRoute.extend({
   },
 
   renderTemplate: function() {
-    let parentResource = this.get('parentResource');
+    let parentResource = this.parentResource;
     this.render(`${parentResource}s/edit`, {
       into: 'application',
       outlet: 'modal'

@@ -1,14 +1,15 @@
-import Ember from 'ember';
-const { computed } = Ember;
-const { sort } = computed;
+import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { sort } from '@ember/object/computed';
 
 // Brews controller for brews specific to current user
 // (so far)
-export default Ember.Controller.extend({
+export default Controller.extend({
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   brewSorting: ['createdAt:desc'],
   brews: sort('model', 'brewSorting'),
 
-  recentBrews: function() {
-    return this.get('brews').splice(0, 5);
-  }.property('brews.[]')
+  recentBrews: computed('brews.[]', function() {
+    return this.brews.splice(0, 5);
+  })
 });

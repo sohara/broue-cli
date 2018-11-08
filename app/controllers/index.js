@@ -1,10 +1,9 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias } = computed;
+import Controller, { inject as controller } from '@ember/controller';
+import { alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  brewsController: inject.controller('brews'),
-  usersController: inject.controller('users'),
+export default Controller.extend({
+  brewsController: controller('brews'),
+  usersController: controller('users'),
 
   recentBrews: alias('brewsController.recentBrews'),
   activeUsers: alias('usersController.activeUsers')

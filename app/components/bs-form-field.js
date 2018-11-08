@@ -1,7 +1,11 @@
-import Ember from 'ember';
-const { computed, defineProperty, run } = Ember;
+import { alias } from '@ember/object/computed';
+import { capitalize } from '@ember/string';
+import Component from '@ember/component';
+import { defineProperty } from '@ember/object';
+import { run } from '@ember/runloop';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['form-group'],
   classNameBindings: ['labelDasherized'],
   inputElementId: null,
@@ -9,48 +13,49 @@ export default Ember.Component.extend({
 
   init () {
     this._super(...arguments);
-    let property = this.get('property');
-    defineProperty(this, 'valueProperty', computed.alias(`model.${property}`));
+    let property = this.property;
+    defineProperty(this, 'valueProperty', alias(`model.${property}`));
   },
 
-  valuePropertyName: function() {
-    const propertyName = this.get('property');
+  valuePropertyName: computed('property', function() {
+    const propertyName = this.property;
     var splitPath = propertyName.split('.');
     return splitPath[splitPath.length -1];
-  }.property('property'),
+  }),
 
   // Extract the label text from property of parent view property
   // bound to 'value'
-  labelText: function() {
-    if (typeof(this.get('label')) !== "undefined") {
-      return this.get('label');
+  labelText: computed('valuePropertyName', function() {
+    if (typeof(this.label) !== "undefined") {
+      return this.label;
     } else {
-      return this.get('valuePropertyName')
+      return this.valuePropertyName
         .decamelize()
         .split("_")
-        .map(Ember.String.capitalize)
+        .map(capitalize)
         .join(" ");
     }
-  }.property('valuePropertyName'),
 
-  inputName: function() {
-    return this.get('valuePropertyName') + "Input";
-  }.property('valuePropertyName'),
+  }),
+
+  inputName: computed('valuePropertyName', function() {
+    return this.valuePropertyName + "Input";
+  }),
 
   // For acceptance tests... apply a classname to make it easy to
   // target input with a selector
-  labelDasherized: function() {
-    var text = this.get('labelText') || this.get('valuePropertyName');
+  labelDasherized: computed('labelText', function() {
+    var text = this.labelText || this.valuePropertyName;
     return text
       .decamelize()
       .split(" ")
       .join("-");
-  }.property('labelText'),
+  }),
 
   didInsertElement: function() {
     this._super();
     run.later(this, () => {
-      this.set('inputElementId', this.get(this.get('inputName') + '.elementId'));
+      this.set('inputElementId', this.get(this.inputName + '.elementId'));
     });
   }
 });

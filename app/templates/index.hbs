@@ -1,7 +1,14 @@
 <div class="jumbotron">
   <h1>Free Online Brewing Recipe Design</h1>
   <p>Broue.io let's you design, catalogue and share your homebrew recipes and memories.</p>
-  <p>{{link-to "Create a brew" 'brews.new' class="btn btn-primary btn-lg" role="button"}}</p>
+  <p>
+    {{link-to
+      "Create a brew"
+      "brews.new"
+      class="btn btn-primary btn-lg"
+      role="button"
+    }}
+  </p>
 </div>
 <div class="row">
   <div class="col-md-6">
@@ -17,7 +24,7 @@
     <h2>Active Brewers</h2>
     <ul class="brews-list list-unstyled">
       {{#each activeUsers as |user|}}
-        {{#link-to 'user' user tagName="li"}}
+        {{#link-to "user" user tagName="li"}}
           <div class="info">
             <h3>
               {{user.username}}

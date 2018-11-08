@@ -1,10 +1,12 @@
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+'use strict';
+
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var mergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 
+
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberApp(defaults, {
     fingerprint: {
       prepend: 'https://dbwwdwzhcqlk3.cloudfront.net/'
     },
@@ -12,7 +14,7 @@ module.exports = function(defaults) {
       enabled: true,
       options: {}
     },
-    babel: {
+    "ember-cli-babel": {
       includePolyfill: true
     }
   });
@@ -32,14 +34,14 @@ module.exports = function(defaults) {
       srcDir: '/',
       include: ["*.*"],
       // files: ['*|)}>#*'],
-      destDir: '/fonts'
+      destDir: 'public/fonts'
   });
 
   var faFonts = new Funnel('bower_components/fontawesome/fonts',{
       srcDir: '/',
       // files: ['*|)}>#*'],
       include: ["*.*"],
-      destDir: '/fonts'
+      destDir: 'public/fonts'
   });
 
   var fontAssets = mergeTrees([boostrapFonts, faFonts]);

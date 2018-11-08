@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { click, fillIn, visit } from '@ember/test-helpers';
+import $ from 'jquery';
 import { module, test } from 'qunit';
-import startApp from 'broue/tests/helpers/start-app';
+import { setupApplicationTest } from 'ember-qunit';
 import stubs from '../helpers/pretender-stubs';
 import Pretender from 'pretender';
 
-var application, server, Stubs;
+var server, Stubs;
 
 var toS = JSON.stringify;
 var headers = {"Content-Type":"application/json"};
@@ -12,10 +13,10 @@ var headers = {"Content-Type":"application/json"};
 
 var nativeConfirm = window.confirm;
 
-module('Acceptance: Notes', {
-  beforeEach: function() {
+module('Acceptance: Notes', function(hooks) {
+  setupApplicationTest(hooks);
+  hooks.beforeEach(function() {
     window.confirm = function() { return true; };
-    application = startApp();
     Stubs = stubs();
     window.localStorage.setItem('user', toS(Stubs.userJSON));
 
@@ -52,53 +53,38 @@ module('Acceptance: Notes', {
         return [204, headers, ""];
       });
     });
-  },
-  afterEach: function() {
-    Ember.$('.modal').hide();
-    Ember.$('.modal-backdrop').remove();
-    Ember.$('body').removeClass('modal-open');
+  });
+
+  hooks.afterEach(function() {
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
     window.confirm = nativeConfirm;
     window.localStorage.removeItem('user');
-    Ember.run(application, 'destroy');
+    // run(application, 'destroy');
     server.shutdown();
-  }
-});
+  });
 
-test("Edit a brew's notes", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    click('div.panel:contains("Notes") a:contains("Edit")');
+  test("Edit a brew's notes", async function(assert) {
+    await visit('/brews/1/notes');
+    await click('.panel-body a[title="Edit"]');
+    await fillIn("textarea", "I'm totally changing this note");
+    await click('button[type="submit"]');
+    assert.dom('li.well').includesText("totally changing this note");
   });
-  andThen(function() {
-    fillIn("textarea", "I'm totally changing this note");
-    click('button:contains("Save")');
-  });
-  andThen(function() {
-    assert.equal(find('li:contains("totally changing this note")').length, 1);
-  });
-});
 
-test("Add a new note", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    click('div.panel:contains("Notes") a:contains("Add")') ;
+  test("Add a new note", async function(assert) {
+    await visit('/brews/1/notes');
+    await click('a[title="Add note"]') ;
+    await fillIn("textarea", "Brand, spaking new note, yo!");
+    await click('button[type="submit"]');
+    assert.dom('.panel-body').includesText("Brand, spaking");
   });
-  andThen(function() {
-    fillIn("textarea", "Brand, spaking new note, yo!");
-    click('button:contains("Save")');
-  });
-  andThen(function() {
-    assert.equal(find('li:contains("Brand, spaking")').length, 1);
-  });
-});
 
-test("Delete a new note", function(assert) {
-  visit('/brews/1/notes');
-  andThen(function() {
-    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 1);
-    click('div.panel:contains("Notes") button:contains("Delete")') ;
-  });
-  andThen(function() {
-    assert.equal(find('div.panel:contains("Brew day 1: used 532g caramel 60 and")').length, 0);
+  test("Delete a new note", async function(assert) {
+    await visit('/brews/1/notes');
+    assert.dom('li.well').includesText("Brew day 1: used 532g caramel 60 and");
+    await click('div.panel button[title="Delete"]') ;
+    assert.dom('li.well').doesNotExist();
   });
 });

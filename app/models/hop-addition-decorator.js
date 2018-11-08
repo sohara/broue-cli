@@ -1,29 +1,29 @@
-import Ember from 'ember';
-const { computed, ObjectProxy } = Ember;
-const { oneWay } = computed;
+import { computed } from '@ember/object';
+import { oneWay, alias } from '@ember/object/computed';
+import ObjectProxy from '@ember/object/proxy';
 
 export default ObjectProxy.extend({
-  name: Ember.computed.alias('content.hop.name'),
+  name: alias('content.hop.name'),
   batchSizeLitres: oneWay('brew.batchSizeLitres'),
   gravityFactor: oneWay('brew.gravityFactor'),
 
-  ibus: function() {
-    var alphaAcidUnits = this.get("alphaAcidUnits");
-    var utilization = this.get("utilization");
-    var batchSizeLitres = this.get("batchSizeLitres");
+  ibus: computed('alphaAcidUnits', 'utilization', 'batchSizeLitres', function() {
+    var alphaAcidUnits = this.get('alphaAcidUnits');
+    var utilization = this.utilization;
+    var batchSizeLitres = this.get('batchSizeLitres');
     var ibus = ((alphaAcidUnits * utilization * 10) / batchSizeLitres);
     return Math.round(ibus * 100) / 100;
-  }.property('alphaAcidUnits', 'utilization', 'batchSizeLitres'),
+  }),
 
-  alphaAcidUnits: function() {
+  alphaAcidUnits: computed('alphaAcids', 'weightGrams', function() {
     return this.get('weightGrams') * this.get('alphaAcids');
-  }.property('alphaAcids', 'weightGrams'),
+  }),
 
-  utilization: function() {
-    return this.get("gravityFactor") * this.get("timeFactor");
-  }.property('gravityFactor', 'timeFactor'),
+  utilization: computed('gravityFactor', 'timeFactor', function() {
+    return this.gravityFactor * this.timeFactor;
+  }),
 
-  timeFactor: function() {
+  timeFactor: computed('boilTime', function() {
     return (1 - Math.exp(-0.04 * this.get('boilTime'))) / 4.15;
-  }.property('boilTime')
+  })
 });

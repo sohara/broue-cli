@@ -1,7 +1,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     {{#if canEdit}}
-      {{#link-to 'yeasts.new' class="btn btn-default btn-xs pull-right" title="New"}}
+      {{#link-to "yeasts.new" class="btn btn-default btn-xs pull-right" title="New"}}
         <span class="glyphicon glyphicon-plus-sign"></span>
         Add Yeast
       {{/link-to}}
@@ -28,12 +28,22 @@
           <td>{{addition.amount}} {{addition.unit}}</td>
           {{#if canEdit}}
             <td>
-              {{#link-to 'yeasts.edit' addition class='btn btn-default btn-xs' title='Edit' data-toggle="tooltip"}}
+              {{#link-to
+                "yeasts.edit"
+                addition
+                class="btn btn-default btn-xs"
+                title="Edit"
+                data-toggle="tooltip"
+              }}
                 <span class="glyphicon glyphicon-edit"></span>
               {{/link-to}}
             </td>
             <td>
-              <button {{action 'remove' addition}} class="btn btn-default btn-xs" title="Delete">
+              <button
+                class="btn btn-default btn-xs"
+                title="Delete"
+                {{action remove addition}}
+              >
                 <span class="glyphicon glyphicon-trash"></span>
               </button>
             </td>

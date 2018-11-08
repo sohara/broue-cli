@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/string';
 
 export function simpleFormat(params) {
   let string = params[0];
@@ -10,9 +11,9 @@ export function simpleFormat(params) {
     fstr = fstr.replace(simpleFormatRE1, "\n"); // \r\n and \r -> \n
     fstr = fstr.replace(simpleFormatRE2, "</p>\n\n<p>"); // 2+ newline  -> paragraph
     fstr = fstr.replace(simpleFormatRE3, "$1<br/>"); // 1 newline   -> br
-    fstr = new Ember.Handlebars.SafeString("<p>" + fstr + "</p>");
+    fstr = new htmlSafe("<p>" + fstr + "</p>");
     return fstr;
   }
 }
 
-export default Ember.Helper.helper(simpleFormat);
+export default buildHelper(simpleFormat);

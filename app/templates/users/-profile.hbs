@@ -6,7 +6,7 @@
         {{model.username}}
       </h1>
       {{#if model.image}}
-        <img src={{model.image}}>
+        <img src={{model.image}} alt={{model.username}}>
       {{/if}}
       {{#if model.bio}}
         <blockquote>
@@ -17,7 +17,7 @@
       {{#if isCurrentUser}}
         <p>Email: {{model.email}}</p>
 
-        {{#link-to 'profile.edit' class="btn btn-primary"}}
+        {{#link-to "profile.edit" class="btn btn-primary"}}
           <i class="glyphicon glyphicon-edit"></i> Edit Profile
         {{/link-to}}
       {{/if}}

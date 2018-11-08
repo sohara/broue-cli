@@ -1,9 +1,8 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { oneWay } = computed;
+import Controller, { inject as controller } from '@ember/controller';
+import { oneWay } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  brewController: inject.controller('brew'),
+export default Controller.extend({
+  brewController: controller('brew'),
 
   canEdit: oneWay('brewController.canEdit')
 });

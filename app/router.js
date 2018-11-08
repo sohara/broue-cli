@@ -1,9 +1,19 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
+
+  didTransition() {
+    this._super(...arguments);
+    if (typeof(window.ga) !== 'undefined') {
+      return window.ga('send', 'pageview', {
+        'page': this.url,
+        'title': this.url
+      });
+    }
+  }
 });
 
 Router.map(function() {
@@ -48,13 +58,4 @@ Router.map(function() {
   });
 });
 
-export default Router.reopen({
-  notifyGoogleAnalytics: function() {
-    if (typeof(window.ga) !== 'undefined') {
-      return window.ga('send', 'pageview', {
-        'page': this.get('url'),
-        'title': this.get('url')
-      });
-    }
-  }.on('didTransition')
-});
+export default Router;

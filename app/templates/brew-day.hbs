@@ -1,9 +1,27 @@
 {{#statbox-group}}
-  {{statbox-item property=model.recordedEfficiency unitOfMesure="%" glyphIcon="glyphicon-signal"
-    propertyDescription="Recorded Efficiency" colorClass="red" gridClass='col-md-4'}}
-  {{statbox-item property=apparentAttenuation unitOfMesure="%" glyphIcon="glyphicon-sort-by-attributes"
-    propertyDescription="Apparent Attenuation" colorClass="blue" gridClass='col-md-4'}}
-  {{statbox-item property=alcoholByVolume unitOfMesure="% ABV" faIcon="fa-glass"
-    propertyDescription="Alcohol by Volume" colorClass="yellow" gridClass='col-md-4'}}
+  {{statbox-item
+    property=model.recordedEfficiency
+    unitOfMesure="%"
+    glyphIcon="glyphicon-signal"
+    propertyDescription="Recorded Efficiency"
+    colorClass="red"
+    gridClass="col-md-4"
+  }}
+  {{statbox-item
+    property=apparentAttenuation
+    unitOfMesure="%"
+    glyphIcon="glyphicon-sort-by-attributes"
+    propertyDescription="Apparent Attenuation"
+    colorClass="blue"
+    gridClass="col-md-4"
+  }}
+  {{statbox-item
+    property=alcoholByVolume
+    unitOfMesure="% ABV"
+    faIcon="fa-glass"
+    propertyDescription="Alcohol by Volume"
+    colorClass="yellow"
+    gridClass="col-md-4"
+  }}
 {{/statbox-group}}
 {{outlet}}

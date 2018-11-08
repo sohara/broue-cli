@@ -1,78 +1,64 @@
-import Ember from 'ember';
+import { capitalize } from '@ember/string';
+import Component from '@ember/component';
+import { computed, get } from '@ember/object';
 
-export default Ember.Component.extend({
-
-  types: {
-    volume: {
-      us: 'Gallons',
-      metric: 'Litres'
-    },
-    weight: {
-      us: 'Oz',
-      metric: 'Grams'
-    },
-    weightScaled: {
-      us: "Lbs",
-      metric: "Kg"
-    },
-    ratio: {
-      us: 'Us',
-      metric: 'Metric'
-    },
-    temp: {
-      us: 'F',
-      metric: 'C'
-    }
+const TYPES = {
+  volume: {
+    us: 'Gallons',
+    metric: 'Litres'
   },
-
-  appendTexts: {
-    Us: 'quarts/lbs',
-    Metric: 'litres/kg',
-    C: '°C',
-    F: '°F'
+  weight: {
+    us: 'Oz',
+    metric: 'Grams'
   },
+  weightScaled: {
+    us: "Lbs",
+    metric: "Kg"
+  },
+  ratio: {
+    us: 'Us',
+    metric: 'Metric'
+  },
+  temp: {
+    us: 'F',
+    metric: 'C'
+  }
+};
 
-  appendText: function() {
-    let suffix = this.get('suffix');
-    let result = this.get('appendTexts')[suffix];
+const APPEND_TEXTS = {
+  Us: 'quarts/lbs',
+  Metric: 'litres/kg',
+  C: '°C',
+  F: '°F'
+};
+
+export default Component.extend({
+  appendText: computed('suffix', function() {
+    let suffix = this.suffix;
+    let result = APPEND_TEXTS[suffix];
     if (typeof result !== 'undefined') {
       return result;
     } else {
-      return this.get('suffix');
+      return this.suffix;
     }
-  }.property('suffix'),
+  }),
 
-  suffix: function() {
-    let type = this.get('type');
-    let measureSystem = this.get('measureSystem');
-    let path = `types.${type}.${measureSystem}`;
-    let suffix = this.get(path);
+  suffix: computed('measureSystem', 'type', function() {
+    let type = this.type;
+    let measureSystem = this.measureSystem;
+    let path = `${type}.${measureSystem}`;
+    let suffix = get(TYPES, path);
     return suffix;
-  }.property('measureSystem', 'type'),
+  }),
 
-  label: function() {
-    const propertyParts = this.get('convertibleProperty').split('.');
+  label: computed('convertibleProperty', function() {
+    const propertyParts = this.convertibleProperty.split('.');
     const propertyString = propertyParts[propertyParts.length -1];
     return propertyString
       .decamelize()
       .split("_")
-      .map(Ember.String.capitalize)
+      .map(capitalize)
       .join(" ");
-  }.property('convertibleProperty'),
-
-  propertyDidChange: function() {
-    Ember.run.once(this, function() {
-      let suffix = this.get('suffix');
-      let propName = this.get('convertibleProperty');
-      let fromPath = `object.${propName}${suffix}`;
-      if (typeof(this.myBinding) !== 'undefined' &&  this.myBinding._from !== fromPath ) {
-        this.myBinding.disconnect(this);
-      }
-      if (typeof(this.myBinding) === 'undefined' ||  this.myBinding._from !== fromPath ) {
-        this.myBinding = Ember.Binding.from(fromPath).to('valueProperty');
-        this.myBinding.connect(this);
-      }
-    });
-  }.observes('measureSystem', 'convertibleProperty').on('init'),
+  })
 
 });

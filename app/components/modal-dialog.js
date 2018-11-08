@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['modal', 'fade'],
   didInsertElement: function() {
     this._super(...arguments);
     var $modal = this.$().modal();
 
     $modal.on('hidden.bs.modal', function () {
-      if (Ember.$('#ember-testing-container').length === 0) {
-        this.sendAction('close');
+      if ($('#ember-testing-container').length === 0) {
+        this.close();
       }
     }.bind(this));
   },
@@ -16,9 +17,6 @@ export default Ember.Component.extend({
   actions: {
     cancel: function() {
       this.$().modal('hide');
-    },
-    save: function(param) {
-      this.sendAction('save', param);
-    },
+    }
   }
 });

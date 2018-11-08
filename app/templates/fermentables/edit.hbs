@@ -1,11 +1,25 @@
-{{#modal-dialog param=this.model title="Edit Fermentable" close='closeModal' cancel='cancel' save='save'}}
+{{#modal-dialog
+  param=this.model
+  title="Edit Fermentable"
+  close=(action "close")
+  cancel="cancel"
+  save=(action "saveModel")
+}}
   <div class="col-md-8">
     <form role="form" class="form-horizontal">
-      {{bs-select-field model=model property="fermentable"
+      {{bs-select-field
+        model=model
+        property="fermentable"
         optionsContent=fermentables
         optionLabelPath="description"
-        prompt="Please select a fermentable" }}
-      {{convertible-text-field object=this convertibleProperty='weight' type="weightScaled" measureSystem=measureSystem}}
+        prompt="Please select a fermentable"
+      }}
+      {{convertible-text-field
+        object=this
+        convertibleProperty="weight"
+        type="weightScaled"
+        measureSystem=measureSystem
+      }}
     </form>
   </div>
   <div class="col-md-4">
@@ -13,7 +27,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th colspan=2">
+            <th colspan="2">
               Fermentable Details
             </th>
           </tr>

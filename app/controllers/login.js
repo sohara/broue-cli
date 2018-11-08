@@ -1,9 +1,12 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
+import Controller, { inject as controller } from '@ember/controller';
+import { computed } from '@ember/object';
 
-export default Ember.Controller.extend({
-  applicationController: inject.controller('application'),
-  flash: inject.service(),
+export default Controller.extend({
+  applicationController: controller('application'),
+  flash: service(),
   email: null,
   password: null,
   passwordConfirmation: null,
@@ -24,7 +27,7 @@ export default Ember.Controller.extend({
   }),
 
   verify: function(transition) {
-    if (!this.get('session')) {
+    if (!this.session) {
       var _this = this;
       this.set('previousTransition', transition);
       this.transitionToRoute('login').then(function() {
@@ -47,7 +50,7 @@ export default Ember.Controller.extend({
     // Must wrap promise resolution in Ember.run for Ember testing
     // (doesn't like async stuff)
     // NOTE: Probably can remove this after upgrading to Ember 1.6
-    Ember.run(this, function() {
+    run(this, function() {
       this.setProperties({
         session: userJson,
         isProcessing: false,
@@ -57,9 +60,9 @@ export default Ember.Controller.extend({
 
       let normalizedUserJSON = this.store.normalize('user', userJson.user);
       var user = this.store.push(normalizedUserJSON);
-      this.get('applicationController').set('user', user);
+      this.applicationController.set('user', user);
 
-      var previousTransition = this.get('previousTransition');
+      var previousTransition = this.previousTransition;
       if (previousTransition) {
         previousTransition.retry();
       } else {
@@ -69,7 +72,7 @@ export default Ember.Controller.extend({
   },
 
   handleError: function(xhr) {
-    Ember.run(this, function() {
+    run(this, function() {
       this.setProperties({
         errorMessage: xhr.responseJSON.message,
         isProcessing: false
@@ -82,7 +85,7 @@ export default Ember.Controller.extend({
   actions: {
     signIn: function() {
       this.beginSubmission();
-      Ember.$.ajax("/users/sign_in.json", {
+      $.ajax("/users/sign_in.json", {
         type: "POST",
         data: JSON.stringify(this.getProperties('email', 'password'))
       }).then(function(userJson) {
@@ -94,7 +97,7 @@ export default Ember.Controller.extend({
 
     signUp: function() {
       this.beginSubmission();
-      Ember.$.ajax("/users.json", {
+      $.ajax("/users.json", {
         type: "POST",
         data: JSON.stringify(this.getProperties('email', 'password',
               'passwordConfirmation', 'username'))

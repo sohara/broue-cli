@@ -1,15 +1,22 @@
 <form role="form" class="form-horizontal">
-  {{bs-text-field model=model property="name"}}
-  {{bs-select-field model=model property="style"
+  {{bs-text-field
+    model=model
+    property="name"
+  }}
+
+  {{bs-select-field
+    model=model
+    property="style"
     optionsContent=styles
     optionLabelPath="fullName"
-    prompt="Pick a style:" }}
+    prompt="Pick a style:"
+  }}
 
   <div class="col-md-10 col-md-offset-2">
-    <button class="btn btn-primary" type="submit" {{action 'save' this}}>
+    <button class="btn btn-primary" type="submit" {{action "save" model}}>
       Save
     </button>
-    <button class="btn btn-default" type="submit" {{action 'cancel' this}}>
+    <button class="btn btn-default" type="submit" {{action "cancel"}}>
       Cancel
     </button>
   </div>

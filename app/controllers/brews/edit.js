@@ -1,13 +1,14 @@
-import Ember from 'ember';
-const { computed, inject } = Ember;
-const { alias } = computed;
+import Controller, { inject as controller } from '@ember/controller';
+import { observer } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
-export default Ember.Controller.extend({
-  applicationController: inject.controller('application'),
-  stylesController: inject.controller('styles'),
+export default Controller.extend({
+  applicationController: controller('application'),
+  stylesController: controller('styles'),
   measureSystem: alias('applicationController.measureSystem'),
   styles: alias('stylesController.model'),
 
+  /* eslint ember/avoid-leaking-state-in-ember-objects: "off" */
   defaults: {
     us: {
       batchSizeGallons: 5,
@@ -25,23 +26,29 @@ export default Ember.Controller.extend({
     }
   },
 
-  synchronizeAll: function() {
+  synchronizeAll: observer('model', 'measureSystem', function() {
     if (this.get('model.isNew')) {
-      var defaults = this.get('defaults.' + this.get('measureSystem'));
-      this.get('model').setProperties(defaults);
+      var defaults = this.get('defaults.' + this.measureSystem);
+      this.model.setProperties(defaults);
     }
-  }.observes('model', 'measureSystem'),
+  }),
 
-  volumeChanged: function(object, keyName) {
-    this.synchronizeUnits(keyName);
-  }.observes('model.batchSizeLitres', 'model.batchSizeGallons', 'model.boilLossLitres', 'model.boilLossGallons', 'model.recordedPostBoilVolumeLitres', 'model.recordedPostBoilVolumeGallons').on('init'),
+  volumeChanged: observer('model.batchSizeLitres',
+    'model.batchSizeGallons',
+    'model.boilLossLitres',
+    'model.boilLossGallons',
+    'model.recordedPostBoilVolumeLitres',
+    'model.recordedPostBoilVolumeGallons',
+    function(object, keyName) {
+      this.synchronizeUnits(keyName);
+    }),
 
-  tempChanged: function(object, keyName) {
+  tempChanged: observer('model.targetMashTempC', 'model.targetMashTempF', 'model.grainTempC', 'model.grainTempF', function(object, keyName) {
     this.synchronizeTemp(keyName);
-  }.observes('model.targetMashTempC', 'model.targetMashTempF', 'model.grainTempC', 'model.grainTempF'),
+  }),
 
   synchronizeTemp: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var toStrip = keyName.charAt(keyName.length -1);
       var key = keyName.slice(0, keyName.length -1);
       var tempC = parseFloat(this.get(key + 'C')) || 0;
@@ -61,12 +68,12 @@ export default Ember.Controller.extend({
     }
   },
 
-  mashRatioChanged: function(object, keyName) {
+  mashRatioChanged: observer('model.waterGrainRatioMetric', 'model.waterGrainRatioUs', function(object, keyName) {
     this.synchronizeRatio(keyName);
-  }.observes('model.waterGrainRatioMetric', 'model.waterGrainRatioUs'),
+  }),
 
   synchronizeUnits: function(keyName) {
-    if (this.get('content') !== null) {
+    if (this.model !== null) {
       var toStrip = (keyName.indexOf('Gallons') > 1) ? 'Gallons' : 'Litres';
       var key = keyName.replace(toStrip, '');
       var volumeGallons = parseFloat(this.get(keyName)) || 0;
@@ -87,7 +94,7 @@ export default Ember.Controller.extend({
   },
 
   synchronizeRatio: function(keyName) {
-    if (this.get('model') !== null) {
+    if (this.model !== null) {
       var ratioMetric = parseFloat(this.get('model.waterGrainRatioMetric')) || 0;
       var ratioUs = parseFloat(this.get('model.waterGrainRatioUs')) || 0;
       if (keyName === 'model.waterGrainRatioMetric') {
