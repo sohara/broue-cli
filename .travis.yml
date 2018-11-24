@@ -31,13 +31,14 @@ script:
   - npm run lint:js
   - npm test
 
-before_deploy:
-  - npm config set spin false
-  - npm install -g bower
-  - npm install
-  - bower install
+# before_deploy:
+#   - npm config set spin false
+#   - npm install -g bower
+#   - npm install
+#   - bower install
 
 deploy:
+  skip_cleanup: true
   provider: script
   script: npm run deploy
   on:
