@@ -1,7 +1,7 @@
 <br><br>
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#if canEdit}}
+    {{#if this.canEdit}}
       {{#link-to
         "notes.new"
         class="btn btn-default btn-xs pull-right"
@@ -22,7 +22,7 @@
               <p class="small text-muted">{{formatted-date note.createdAt}}</p>
             </div>
             <div class="col-md-4 text-right">
-              {{#if canEdit}}
+              {{#if this.canEdit}}
                 <button
                   class="btn btn-default btn-xs"
                   title="Delete"

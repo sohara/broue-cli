@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#if canEdit}}
+    {{#if this.canEdit}}
       {{#link-to
         "brew_day.edit"
         class="btn btn-default btn-xs pull-right edit-brew-day"
@@ -36,11 +36,11 @@
         <td>Recorded Post-Boil Volume</td>
         <td>
           {{#if recordedPostBoilVolumePresent}}
-            {{localized-volume
-              model=model
-              measureSystem=measureSystem
-              property="recordedPostBoilVolume"
-            }}
+            <LocalizedVolume
+              @model={{model}}
+              @measureSystem={{measureSystem}}
+              @property="recordedPostBoilVolume"
+            />
           {{else}}
             <span class="text-muted">—</span>
           {{/if}}

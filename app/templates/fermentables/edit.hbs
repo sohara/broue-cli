@@ -1,25 +1,25 @@
-{{#modal-dialog
-  param=this.model
-  title="Edit Fermentable"
-  close=(action "close")
-  cancel="cancel"
-  save=(action "saveModel")
-}}
+<ModalDialog
+  @param={{this.model}}
+  @title="Edit Fermentable"
+  @close={{action "close"}}
+  @cancel="cancel"
+  @save={{action "saveModel"}}
+>
   <div class="col-md-8">
     <form role="form" class="form-horizontal">
-      {{bs-select-field
-        model=model
-        property="fermentable"
-        optionsContent=fermentables
-        optionLabelPath="description"
-        prompt="Please select a fermentable"
-      }}
-      {{convertible-text-field
-        object=this
-        convertibleProperty="weight"
-        type="weightScaled"
-        measureSystem=measureSystem
-      }}
+      <BsSelectField
+        @model={{this.model}}
+        @property="fermentable"
+        @optionsContent={{fermentables}}
+        @optionLabelPath="description"
+        @prompt="Please select a fermentable"
+      />
+      <ConvertibleTextField
+        @object={{this}}
+        @convertibleProperty="weight"
+        @type="weightScaled"
+        @measureSystem={{measureSystem}}
+      />
     </form>
   </div>
   <div class="col-md-4">
@@ -36,26 +36,26 @@
         <tbody>
           <tr>
             <td>ID:</td>
-            <td>{{model.fermentable.id}}</td>
+            <td>{{this.model.fermentable.id}}</td>
           </tr>
           <tr>
             <td>Name:</td>
-            <td>{{model.fermentable.name}}</td>
+            <td>{{this.model.fermentable.name}}</td>
           </tr>
           <tr>
             <td>Supplier:</td>
-            <td>{{model.fermentable.supplier}}</td>
+            <td>{{this.model.fermentable.supplier}}</td>
           </tr>
           <tr>
             <td>Yield:</td>
-            <td>{{model.fermentable.totalYield}} %</td>
+            <td>{{this.model.fermentable.totalYield}} %</td>
           </tr>
           <tr>
             <td>Color:</td>
-            <td>{{model.fermentable.color}} °L</td>
+            <td>{{this.model.fermentable.color}} °L</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-{{/modal-dialog}}
+</ModalDialog>

@@ -1,24 +1,28 @@
 <form role="form" class="form-horizontal">
-  {{bs-text-field
-    model=model
-    property="brewDate"
-    appendText="litres"
-  }}
+  <BsTextField
+    @model={{model}}
+    @property="brewDate"
+    @appendText="litres"
+  />
 
-  {{bs-text-field
-    model=model
-    property="recordedOriginalGravity"
-    appendText="S.G."
-  }}
+  <BsTextField
+    @model={{model}}
+    @property="recordedOriginalGravity"
+    @appendText="S.G."
+  />
 
-  {{convertible-text-field
-    object=model
-    convertibleProperty="recordedPostBoilVolume"
-    type="volume"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="recordedPostBoilVolume"
+    @type="volume"
+    @measureSystem={{measureSystem}}
+  />
 
-  {{bs-text-field model=model property="recordedFinalGravity" appendText="S.G."}}
+  <BsTextField
+    @model={{model}}
+    @property="recordedFinalGravity"
+    @appendText="S.G."
+  />
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
