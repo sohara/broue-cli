@@ -9,7 +9,7 @@ module.exports = function(deployTarget) {
     build: {},
     redis: {
       allowOverwrite: true,
-      distDir: 'dist',
+      distDir: 'tmp/deploy-dist',
       keyPrefix: 'broue:index'
     },
     s3: {
