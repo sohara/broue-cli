@@ -13,7 +13,7 @@ module.exports = function(deployTarget) {
       keyPrefix: 'broue:index'
     },
     s3: {
-      prefix: 'assets'
+      prefix: ''
     }
   };
 
