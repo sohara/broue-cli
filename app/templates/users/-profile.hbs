@@ -14,7 +14,7 @@
         </blockquote>
       {{/if}}
 
-      {{#if isCurrentUser}}
+      {{#if this.isCurrentUser}}
         <p>Email: {{model.email}}</p>
 
         {{#link-to "profile.edit" class="btn btn-primary"}}
@@ -27,7 +27,7 @@
   <div class="col-md-8">
     <h2>{{model.username}}'s Recent Brews</h2>
     <ul class="brews-list list-unstyled">
-      {{#each recentBrews as |brew|}}
+      {{#each this.recentBrews as |brew|}}
         {{partial "brew/brew-card"}}
       {{/each}}
     </ul>

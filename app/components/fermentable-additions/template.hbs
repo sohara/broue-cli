@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#if canEdit}}
+    {{#if this.canEdit}}
       {{#link-to
         "fermentables.new"
         class="btn btn-default btn-xs pull-right"
@@ -19,17 +19,23 @@
         <th>Name</th>
         <th>Color</th>
         <th>% Extract</th>
-        <th colspan={{computedColspan}}>Weight</th>
+        <th colspan={{this.computedColspan}}>Weight</th>
       </tr>
     </thead>
     <tbody>
-      {{#each brew.decoratedFermentableAdditions as |addition|}}
+      {{#each @brew.decoratedFermentableAdditions as |addition|}}
         <tr>
           <td>{{addition.fermentable.name}}</td>
           <td>{{addition.fermentable.color}}</td>
           <td>{{addition.percentExtract}}</td>
-          <td>{{localized-weight model=addition measureSystem=measureSystem magnitude="high"}}</td>
-          {{#if canEdit}}
+          <td>
+            <LocalizedWeight
+              @model={{addition}}
+              @measureSystem={{measureSystem}}
+              @magnitude="high"
+            />
+          </td>
+          {{#if this.canEdit}}
             <td>
               {{#link-to
                 "fermentables.edit"
@@ -57,7 +63,13 @@
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td colspan={{computedColspan}}>{{localized-weight model=this measureSystem=measureSystem magnitude="high"}}</td>
+        <td colspan={{this.computedColspan}}>
+          <LocalizedWeight
+            @model={{this}}
+            @measureSystem={{measureSystem}}
+            @magnitude="high"
+          />
+        </td>
       </tr>
     </tfoot>
   </table>

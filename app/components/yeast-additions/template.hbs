@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#if canEdit}}
+    {{#if this.canEdit}}
       {{#link-to "yeasts.new" class="btn btn-default btn-xs pull-right" title="New"}}
         <span class="glyphicon glyphicon-plus-sign"></span>
         Add Yeast
@@ -15,7 +15,7 @@
         <th>Name</th>
         <th>Supplier</th>
         <th>Form</th>
-        <th colspan={{computedColspan}}>Amount</th>
+        <th colspan={{this.computedColspan}}>Amount</th>
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,7 @@
           <td>{{addition.supplier}}</td>
           <td>{{addition.form}}</td>
           <td>{{addition.amount}} {{addition.unit}}</td>
-          {{#if canEdit}}
+          {{#if this.canEdit}}
             <td>
               {{#link-to
                 "yeasts.edit"

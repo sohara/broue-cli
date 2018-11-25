@@ -1,26 +1,29 @@
-{{#statbox-group}}
-  {{statbox-item
-    property=model.originalGravity
-    unitOfMesure="S.G."
-    propertyDescription="Original Gravity"
-    colorClass="purple"
-    gridClass="col-md-4"
-  }}
-  {{statbox-item
-    property=strikeWaterVolume
-    unitOfMesure=unitOfMesure
-    faIcon="fa-bitbucket"
-    propertyDescription="Strike Water Volume"
-    colorClass="blue"
-    gridClass="col-md-4"
-  }}
-  {{statbox-item
-    property=strikeWaterTemp
-    unitOfMesure=tempUnit
-    faIcon="fa-fire"
-    propertyDescription="Strike Water Temperature"
-    colorClass="red"
-    gridClass="col-md-4"
-  }}
-{{/statbox-group}}
+<StatboxGroup>
+  <StatboxItem
+    @property={{model.originalGravity}}
+    @unitOfMesure="S.G."
+    @propertyDescription="Original Gravity"
+    @colorClass="purple"
+    @gridClass="col-md-4"
+  />
+
+  <StatboxItem
+    @property={{strikeWaterVolume}}
+    @unitOfMesure={{unitOfMesure}}
+    @faIcon="fa-bitbucket"
+    @propertyDescription="Strike Water Volume"
+    @colorClass="blue"
+    @gridClass="col-md-4"
+  />
+
+  <StatboxItem
+    @property={{strikeWaterTemp}}
+    @unitOfMesure={{tempUnit}}
+    @faIcon="fa-fire"
+    @propertyDescription="Strike Water Temperature"
+    @colorClass="red"
+    @gridClass="col-md-4"
+  />
+
+</StatboxGroup>
 {{outlet}}

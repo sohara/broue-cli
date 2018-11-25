@@ -1,50 +1,50 @@
 <form role="form" class="form-horizontal">
-  {{convertible-text-field
-    object=model
-    convertibleProperty="batchSize"
-    type="volume"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="batchSize"
+    @type="volume"
+    @measureSystem={{measureSystem}}
+  />
 
-  {{convertible-text-field
-    object=model
-    convertibleProperty="boilLoss"
-    type="volume"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="boilLoss"
+    @type="volume"
+    @measureSystem={{measureSystem}}
+  />
 
-  {{bs-text-field
-    model=model
-    property="efficiency"
-    appendText="%"
-  }}
+  <BsTextField
+    @model={{model}}
+    @property="efficiency"
+    @appendText="%"
+  />
 
-  {{convertible-text-field
-    object=model
-    convertibleProperty="targetMashTemp"
-    type="temp"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="targetMashTemp"
+    @type="temp"
+    @measureSystem={{measureSystem}}
+  />
 
-  {{bs-text-field
-    model=model
-    property="waterGrainRatioMetric"
-    appendText="litres/kg"
-  }}
+  <BsTextField
+    @model={{model}}
+    @property="waterGrainRatioMetric"
+    @appendText="litres/kg"
+  />
 
-  {{convertible-text-field
-    object=model
-    convertibleProperty="waterGrainRatio"
-    type="ratio"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="waterGrainRatio"
+    @type="ratio"
+    @measureSystem={{measureSystem}}
+  />
 
-  {{convertible-text-field
-    object=model
-    convertibleProperty="grainTemp"
-    type="temp"
-    measureSystem=measureSystem
-  }}
+  <ConvertibleTextField
+    @object={{model}}
+    @convertibleProperty="grainTemp"
+    @type="temp"
+    @measureSystem={{measureSystem}}
+  />
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

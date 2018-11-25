@@ -1,46 +1,46 @@
-{{#statbox-group}}
-  {{statbox-item
-    property=model.originalGravity
-    unitOfMesure="S.G."
-    propertyDescription="Original Gravity"
-    colorClass="blue"
-  }}
-  {{statbox-item
-    property=model.preBoilGravity
-    unitOfMesure="S.G."
-    propertyDescription="Preboil Gravity"
-    colorClass="purple"
-  }}
-  {{statbox-item
-    property=model.colorSRM
-    unitOfMesure="SRM"
-    faIcon="fa-tint"
-    propertyDescription="Color"
-    colorClass="yellow"
-  }}
-  {{statbox-item
-    property=model.totalIBUs
-    unitOfMesure="IBU"
-    faIcon="fa-leaf"
-    propertyDescription="Bitterness"
-    colorClass="green"
-  }}
-{{/statbox-group}}
+<StatboxGroup>
+  <StatboxItem
+    @property={{model.originalGravity}}
+    @unitOfMesure="S.G."
+    @propertyDescription="Original Gravity"
+    @colorClass="blue"
+  />
+  <StatboxItem
+    @property={{model.preBoilGravity}}
+    @unitOfMesure="S.G."
+    @propertyDescription="Preboil Gravity"
+    @colorClass="purple"
+  />
+  <StatboxItem
+    @property={{model.colorSRM}}
+    @unitOfMesure="SRM"
+    @faIcon="fa-tint"
+    @propertyDescription="Color"
+    @colorClass="yellow"
+  />
+  <StatboxItem
+    @property={{model.totalIBUs}}
+    @unitOfMesure="IBU"
+    @faIcon="fa-leaf"
+    @propertyDescription="Bitterness"
+    @colorClass="green"
+  />
+</StatboxGroup>
 
-{{fermentable-additions
-  brew=model
-  canEdit=canEdit
-  measureSystem=measureSystem
-  remove=(action "destroyRecord")
-}}
-{{hop-additions
-  brew=model
-  canEdit=canEdit
-  measureSystem=measureSystem
-  remove=(action "destroyRecord")
-}}
-{{yeast-additions
-  additions=model.yeastAdditions
-  canEdit=canEdit
-  remove=(action "destroyRecord")
-}}
+<FermentableAdditions
+  @brew={{model}}
+  @canEdit={{canEdit}}
+  @measureSystem={{measureSystem}}
+  @remove={{action "destroyRecord"}}
+/>
+<HopAdditions
+  @brew={{model}}
+  @canEdit={{canEdit}}
+  @measureSystem={{measureSystem}}
+  @remove={{action "destroyRecord"}}
+/>
+<YeastAdditions
+  @additions={{model.yeastAdditions}}
+  @canEdit={{canEdit}}
+  @remove={{action "destroyRecord"}}
+/>

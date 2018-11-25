@@ -1,6 +1,6 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
-    {{#if canEdit}}
+    {{#if this.canEdit}}
       {{#link-to "hops.new" class="btn btn-default btn-xs pull-right" title="New"}}
         <span class="glyphicon glyphicon-plus-sign"></span>
         Add Hop
@@ -21,7 +21,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each brew.decoratedHopAdditions as |addition|}}
+      {{#each @brew.decoratedHopAdditions as |addition|}}
         <tr>
           <td>{{addition.name}}</td>
           <td>{{addition.form}}</td>
@@ -30,7 +30,7 @@
           <td>{{addition.boilTime}}</td>
           <td>{{addition.alphaAcids}}</td>
           <td>{{addition.ibus}}</td>
-          {{#if canEdit}}
+          {{#if this.canEdit}}
             <td>
               {{#link-to
                 "hops.edit"
@@ -58,9 +58,14 @@
     <tfoot>
       <tr>
         <td colspan="3">Total</td>
-        <td>{{localized-weight model=this measureSystem=measureSystem}}</td>
+        <td>
+          <LocalizedWeight
+            @model={{this}}
+            @measureSystem={{measureSystem}}
+          />
+        </td>
         <td colspan="2"> </td>
-        <td colspan={{computedColspan}}>{{brew.totalIBUs}}</td>
+        <td colspan={{this.computedColspan}}>{{brew.totalIBUs}}</td>
       </tr>
     </tfoot>
   </table>

@@ -1,43 +1,53 @@
-{{#modal-dialog
-  param=this.model
-  title="Edit Hop"
-  close=(action "close")
-  cancel="cancel"
-  save=(action "saveModel")
-}}
+<ModalDialog
+  @param={{this.model}}
+  @title="Edit Hop"
+  @close={{action "close"}}
+  @cancel="cancel"
+  @save={{action "saveModel"}}
+>
   <div class="col-md-12">
     <form role="form" class="form-horizontal">
-      {{bs-select-field
-        model=model
-        property="hop"
-        optionsContent=hops
-        optionLabelPath="name"
-        prompt="Please select a hop"
-      }}
+      <BsSelectField
+        @model={{this.model}}
+        @property="hop"
+        @optionsContent={{this.hops}}
+        @optionLabelPath="name"
+        @prompt="Please select a hop"
+      />
 
-      {{bs-select-field
-        model=model
-        property="form"
-        optionsContent=forms
-        prompt="Please select a form"
-      }}
+      <BsSelectField
+        @model={{this.model}}
+        @property="form"
+        @optionsContent={{this.forms}}
+        @prompt="Please select a hop"
+      />
 
-      {{bs-select-field
-        model=model
-        property="use"
-        optionsContent=uses
-        prompt="Please select a use"
-      }}
+      <BsSelectField
+        @model={{this.model}}
+        @property="use"
+        @optionsContent={{this.uses}}
+        @prompt="Please select a hop"
+      />
 
-      {{convertible-text-field
-        object=this
-        convertibleProperty="model.weight"
-        type="weight"
-        measureSystem=measureSystem
-      }}
+      <ConvertibleTextField
+        @object={{this}}
+        @convertibleProperty="model.weight"
+        @type="weight"
+        @measureSystem={{measureSystem}}
+      />
 
-      {{bs-text-field model=model property="boilTime" appendText="minutes"}}
-      {{bs-text-field model=model property="alphaAcids" appendText="% AA"}}
+      <BsTextField
+        @model={{model}}
+        @property="boilTime"
+        @appendText="minutes"
+      />
+
+      <BsTextField
+        @model={{model}}
+        @property="alphaAcids"
+        @appendText="% AA"
+      />
+
     </form>
   </div>
-{{/modal-dialog}}
+</ModalDialog>

@@ -1,8 +1,19 @@
 <h1>Edit Your Profile</h1>
 <form role="form" class="form-horizontal">
-  {{bs-text-field model=model property="username"}}
-  {{bs-text-field model=model property="email"}}
-  {{bs-textarea-field model=model property="bio" label="About Me" rows="3"}}
+  <BsTextField
+    @model={{model}}
+    @property="username"
+  />
+  <BsTextField
+    @model={{model}}
+    @property="email"
+  />
+  <BsTextareaField
+    @model={{model}}
+    @property="bio"
+    @label="About Me"
+    rows="3"
+  />
 
   <div class="col-md-10 col-md-offset-2">
     <button class="btn btn-primary" type="submit" {{action "save" model}}>Save</button>
