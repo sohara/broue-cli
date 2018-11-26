@@ -1,13 +1,13 @@
 <form role="form" class="form-horizontal">
   <ConvertibleTextField
-    @object={{model}}
+    @object={{this}}
     @convertibleProperty="batchSize"
     @type="volume"
     @measureSystem={{measureSystem}}
   />
 
   <ConvertibleTextField
-    @object={{model}}
+    @object={{this}}
     @convertibleProperty="boilLoss"
     @type="volume"
     @measureSystem={{measureSystem}}
@@ -20,20 +20,14 @@
   />
 
   <ConvertibleTextField
-    @object={{model}}
+    @object={{this}}
     @convertibleProperty="targetMashTemp"
     @type="temp"
     @measureSystem={{measureSystem}}
   />
 
-  <BsTextField
-    @model={{model}}
-    @property="waterGrainRatioMetric"
-    @appendText="litres/kg"
-  />
-
   <ConvertibleTextField
-    @object={{model}}
+    @object={{this}}
     @convertibleProperty="waterGrainRatio"
     @type="ratio"
     @measureSystem={{measureSystem}}
