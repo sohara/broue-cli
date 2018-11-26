@@ -12,7 +12,7 @@ module('hopAdditionController', function(hooks) {
     run(function() {
       controller.set('measureSystem', 'metric');
       controller.set('model', model);
-      controller.set('model.weightGrams', 20);
+      controller.set('weightGrams', 20);
       assert.equal(controller.get('model.weightGrams'), 20);
     });
     assert.equal(controller.get('model.weightOz').toFixed(2), 0.71);
@@ -24,7 +24,7 @@ module('hopAdditionController', function(hooks) {
     run(function() {
       controller.set('measureSystem', 'us');
       controller.set('model', model);
-      controller.set('model.weightOz', 20);
+      controller.set('weightOz', 20);
       assert.equal(controller.get('model.weightOz'), 20);
     });
     assert.equal(controller.get('model.weightGrams').toFixed(2), 566.99);
