@@ -4,7 +4,7 @@
 <div class="col-md-10">
   {{#if appendText}}
     <div class="input-group">
-      {{input value=valueProperty class="form-control" viewName=inputName}}
+      {{input value=(get model property) class="form-control" viewName=inputName}}
       <span class="input-group-addon">{{appendText}}</span>
     </div>
   {{else}}

@@ -1,7 +1,7 @@
 import Controller, { inject as controller } from '@ember/controller';
 import { oneWay, alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
-import WeightConversionMixin from '../../mixins/weight-conversion-mixin';
+import convertedUnits from 'broue/lib/converted-units';
 
 const CONVERSIONS = {
   weightLbs: {
@@ -14,26 +14,26 @@ const CONVERSIONS = {
   }
 };
 
-export default Controller.extend(WeightConversionMixin, {
+export default Controller.extend({
   applicationController: controller('application'),
   fermentablesController: controller('fermentables'),
-
   measureSystem: alias('applicationController.measureSystem'),
-
   fermentables: oneWay('fermentablesController.model'),
+  weightOz: convertedUnits('weight', 'weight', 'US'),
+  weightGrams: convertedUnits('weight', 'weight', 'Metric'),
 
   weightConversion: function(key, value) {
     var convertedProperty = CONVERSIONS[key]['property'];
     var conversionFactor = CONVERSIONS[key]['factor'];
     if (typeof(value) !== 'undefined') {
       var converted = parseFloat(value) * conversionFactor;
-      this.set(`model.${convertedProperty}`, converted);
+      this.set(convertedProperty, converted);
       return value;
     }
-    if (isNaN(parseFloat(this.get(`model.${convertedProperty}`)))) {
+    if (isNaN(parseFloat(this.get(convertedProperty)))) {
       return undefined;
     } else {
-      let converted = this.get(`model.${convertedProperty}`) / conversionFactor;
+      let converted = this.get(convertedProperty) / conversionFactor;
       return this.roundedToTwo(converted);
     }
   },
@@ -55,6 +55,10 @@ export default Controller.extend(WeightConversionMixin, {
       return this.weightConversion(key, value);
     }
   }),
+
+  roundedToTwo: function(value) {
+    return Math.round((value + 0.00001) * 100) / 100;
+  },
 
   actions: {
     close() {
