@@ -1,7 +1,7 @@
 import { once } from '@ember/runloop';
 import $ from 'jquery';
 import Route from '@ember/routing/route';
-import Ember from 'ember';
+import { pluralize } from 'ember-inflector';
 
 export default Route.extend({
   // Reusable route for editing additions, e.g. a parentResource
@@ -26,8 +26,7 @@ export default Route.extend({
     this._super(controller, model);
     var parentResource = this.parentResource;
     var items = this.store.findAll(parentResource);
-    var inflector = new Ember.Inflector(Ember.Inflector.defaultRules);
-    this.controllerFor(inflector.pluralize(parentResource)).set('model', items);
+    this.controllerFor(pluralize(parentResource)).set('model', items);
   },
 
   deactivate: function() {
