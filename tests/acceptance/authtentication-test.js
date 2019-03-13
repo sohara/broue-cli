@@ -55,6 +55,10 @@ module('Acceptance | Authentication', function(hooks) {
         var response =  [200, headers, toS({styles: Stubs.styles})];
         return response;
       });
+      this.get('/api/v1/styles/:id', function(req) {
+        let style = Stubs.styles.find(stub => stub.id === req.params.id);
+        return [200, headers, toS({ style })];
+      });
     });
   });
 
