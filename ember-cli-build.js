@@ -34,14 +34,14 @@ module.exports = function(defaults) {
       srcDir: '/',
       include: ["*.*"],
       // files: ['*|)}>#*'],
-      destDir: 'public/fonts'
+      destDir: '/fonts'
   });
 
   var faFonts = new Funnel('bower_components/fontawesome/fonts',{
       srcDir: '/',
       // files: ['*|)}>#*'],
       include: ["*.*"],
-      destDir: 'public/fonts'
+      destDir: '/fonts'
   });
 
   var fontAssets = mergeTrees([boostrapFonts, faFonts]);
