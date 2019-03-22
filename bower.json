@@ -1,7 +1,6 @@
 {
   "name": "broue",
   "dependencies": {
-    "bootstrap": "3.1.1",
     "fontawesome": "~4.1.0",
     "jquery": "1.11.2",
     "moment": "~2.7.0",

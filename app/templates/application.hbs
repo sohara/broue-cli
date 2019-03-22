@@ -1,45 +1,40 @@
-<nav class="navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button
-        type="button"
-        class="navbar-toggle"
-        data-toggle="collapse"
-        data-target="#bs-example-navbar-collapse-1"
-      >
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      {{#link-to "index" class="navbar-brand"}}Broue.io{{/link-to}}
-    </div>
+<div class="bg-grey-lightest min-h-screen text-grey-darkest flex flex-col">
+  <nav role="navigation" class="bg-grey-light p-4 flex justify-between">
+    <div class="flex items-center">
+      {{#link-to
+        "index"
+        class="font-hairline no-underline text-2xl text-grey-darker mr-6"
+      }}Broue.io
+      {{/link-to}}
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      {{#link-to "brews.new" class="btn btn-default navbar-btn" }}
+      {{#link-to
+        "brews.new"
+        class="bg-grey-lightest hover:bg-white px-4 py-2 rounded text-grey-darkest no-underline mr-6"
+      }}
         <span class="glyphicon glyphicon-plus-sign"></span> New Brew
       {{/link-to}}
-      <div class="btn-group">
-        <button
-          type="button"
-          class="btn btn-default {{if isUS "active"}}"
-          {{action "setMeasureSystem" "us"}}
-        >
-          U.S.
-        </button>
-        <button
-          type="button"
-          class="btn btn-default {{if isMetric "active"}}"
-          {{action "setMeasureSystem" "metric"}}
-        >
-          Metric
-        </button>
-      </div>
+      <button
+        type="button"
+        class="hover:bg-white px-4 py-2 text-grey-darkest no-underline rounded-l {{if isUS "bg-grey-lighter" "bg-grey-lightest"}}"
+        {{action "setMeasureSystem" "us"}}
+      >
+        U.S.
+      </button>
+      <button
+        type="button"
+        class="hover:bg-white px-4 py-2 text-grey-darkest no-underline rounded-r {{if isMetric "bg-grey-lighter" "bg-grey-lightest"}}"
+        {{action "setMeasureSystem" "metric"}}
+      >
+        Metric
+      </button>
 
-      <ul class="nav navbar-nav navbar-right">
+    </div>
+
+    <div class="flex items-center">
+      <ul class="list-reset flex">
         {{#if user.username}}
           {{#link-to "brews" tagName="li"}}<a>My Brews</a>{{/link-to}}
-          <li class="dropdown">
+          <li>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li>{{link-to "View Profile" "profile.show"}}</li>
@@ -48,22 +43,32 @@
             </ul>
           </li>
         {{else}}
-          {{#link-to "login" tagName="li"}}<a>Login</a>{{/link-to}}
-          {{#link-to "signup" tagName="li"}}<a>Sign Up</a>{{/link-to}}
+          <li class="ml-6">
+            {{#link-to
+              "login"
+              class="hover:text-grey-darkest text-grey-darker no-underline"
+            }}Login
+            {{/link-to}}
+          </li>
+          <li class="ml-6">
+            {{#link-to
+              "signup"
+              class="hover:text-grey-darkest text-grey-darker no-underline"
+            }}Sign Up
+            {{/link-to}}
+          </li>
         {{/if}}
       </ul>
-
     </div>
-  </div>
-</nav>
 
-<div class="container">
-  {{flash-messages}}
-  {{outlet}}
-</div>
-{{outlet "modal"}}
-<div class="footer">
-  <div class="container">
-    <p>Questions? Comments? Email <a href="mailto:sohara@sohara.com">sohara@sohara.com</a>.</p>
+  </nav>
+
+  <div class="container mx-auto pt-8 flex-1">
+    {{flash-messages}}
+    {{outlet}}
   </div>
+  {{outlet "modal"}}
+  <footer class="bg-grey-lighter pin-b py-4 text-center">
+    <p>Questions? Comments? Email <a href="mailto:sohara@sohara.com">sohara@sohara.com</a>.</p>
+  </footer>
 </div>

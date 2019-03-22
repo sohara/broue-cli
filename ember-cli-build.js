@@ -19,8 +19,6 @@ module.exports = function(defaults) {
     }
   });
 
-  app.import('bower_components/bootstrap/dist/js/bootstrap.js');
-  app.import('bower_components/bootstrap/dist/css/bootstrap.css');
   app.import('bower_components/fontawesome/less/font-awesome.less');
   app.import('bower_components/moment/moment.js');
 
@@ -30,13 +28,6 @@ module.exports = function(defaults) {
     app.import('bower_components/pretender/pretender.js');
   }
 
-  var boostrapFonts = new Funnel('bower_components/bootstrap/dist/fonts',{
-      srcDir: '/',
-      include: ["*.*"],
-      // files: ['*|)}>#*'],
-      destDir: '/fonts'
-  });
-
   var faFonts = new Funnel('bower_components/fontawesome/fonts',{
       srcDir: '/',
       // files: ['*|)}>#*'],
@@ -44,7 +35,7 @@ module.exports = function(defaults) {
       destDir: '/fonts'
   });
 
-  var fontAssets = mergeTrees([boostrapFonts, faFonts]);
+  var fontAssets = mergeTrees([faFonts]);
 
   return app.toTree(fontAssets);
 };
