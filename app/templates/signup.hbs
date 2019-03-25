@@ -1,69 +1,20 @@
-<div class="container outer">
-  <div class="col-md-6 col-md-offset-3">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title"><strong>Sign up for an account</strong></h3></div>
-      <div class="panel-body">
-        <form role="form" oninput={{action "resetErrorMessage"}}>
-          <div class="form-group">
-            <label for="email"> Email</label>
-            {{input
-              type="email"
-              value=email
-              class="form-control"
-              style="border-radius:0px"
-              id="email"
-              placeholder="Enter email"
-            }}
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            {{input
-              type="password"
-              value=password
-              class="form-control"
-              style="border-radius:0px"
-              id="password"
-              placeholder="Password"
-            }}
-          </div>
-
-          <div class="form-group">
-            <label for="passwordConfirmation">Password Confirmation</label>
-            {{input
-              type="password"
-              value=passwordConfirmation
-              class="form-control"
-              style="border-radius:0px"
-              id="passwordConfirmation"
-              placeholder="Password Confirmation"
-            }}
-          </div>
-
-          <div class="form-group">
-            <label for="username">Username</label>
-            {{input
-              value=username
-              class="form-control"
-              style="border-radius:0px"
-              id="username"
-              placeholder="Enter username"
-            }}
-          </div>
-
-          {{#if errorMessage}}
-            <p class="alert alert-danger">{{errorMessage}}</p>
-          {{/if}}
-
-          <button
-            disabled={{isProcessing}}
-            type="submit"
-            class="btn btn-sm btn-default"
-            {{action "signUp"}}
-          >
-            Sign Up
-          </button>
-        </form>
-      </div>
-    </div>
+<div class="flex justify-center">
+  <div class="max-w-sm w-full">
+    <Form @model={{this}} @oninput={{action "resetErrorMessage"}} as |F|>
+      <h3 class="mb-6">Sign up for an account</h3>
+      <F.TextField @field="email" @type="email" />
+      <F.TextField @field="password" @type="password" />
+      <F.TextField @field="passwordConfirmation" @type="password" />
+      <F.TextField @field="username" />
+      {{#if errorMessage}}
+        <p class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
+      {{/if}}
+      <F.Submit
+        @action={{action "signIn"}}
+        disabled={{isProcessing}}
+      >
+        Sign Up
+      </F.Submit>
+    </Form>
   </div>
 </div>

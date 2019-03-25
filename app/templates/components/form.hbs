@@ -1,0 +1,13 @@
+<form
+  role="form"
+  oninput={{action @oninput}}
+  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+  ...attributes
+>
+  {{yield
+    (hash
+      TextField=(component "text-field" model=model)
+      Submit=(component "button" type="submit")
+    )
+  }}
+</form>

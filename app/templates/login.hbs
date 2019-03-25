@@ -1,45 +1,16 @@
 <div class="flex justify-center">
   <div class="max-w-xs w-full">
-    <form
-      role="form"
-      oninput={{action "resetErrorMessage"}}
-      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-    >
+    <Form @model={{this}} @oninput={{action "resetErrorMessage"}} as |F|>
       <h3 class="mb-6">Sign in</h3>
-      <div class="mb-6">
-        <label for="email" class="block text-grey-darker text-sm font-bold mb-2">Email</label>
-        {{input
-          type="email"
-          value=email
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-          style="border-radius:0px"
-          id="email"
-          placeholder="Enter email"
-        }}
-
-      </div>
-      <div class="mb-6">
-        <label for="password" class="block text-grey-darker text-sm font-bold mb-2">Password</label>
-        {{input
-          type="password"
-          value=email
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline"
-          style="border-radius:0px"
-          id="password"
-          placeholder="Enter password"
-        }}
-      </div>
+      <F.TextField @field="email" @type="email" />
+      <F.TextField @field="password" @type="password" />
       {{#if errorMessage}}
         <p class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
       {{/if}}
-      <button
-        class="hover:bg-grey-lighter px-4 py-2 text-grey-darkest no-underline rounded border"
-        type="button"
-        {{action "signIn"}}
-      >
+      <F.Submit @action={{action "signIn"}}>
         Sign in
-      </button>
-    </form>
+      </F.Submit>
+    </Form>
     <p class="text-sm">Don't have any acount? {{link-to "Sign up here." "signup" class="text-grey-darker no-underline"}}</p>
   </div>
 </div>

@@ -1,40 +1,40 @@
-<div class="jumbotron">
-  <h1>Free Online Brewing Recipe Design</h1>
-  <p>Broue.io let's you design, catalogue and share your homebrew recipes and memories.</p>
+<div class="bg-grey-light p-16 rounded-full mb-10">
+  <h1 class="font-hairline mb-8 text-5xl">Free Online Brewing Recipe Design</h1>
+  <p class="font-hairline mb-8 text-xl">Broue.io let's you design, catalogue and share your homebrew recipes and memories.</p>
   <p>
     {{link-to
       "Create a brew"
       "brews.new"
-      class="btn btn-primary btn-lg"
+      class="bg-grey-lightest hover:bg-white px-4 py-2 rounded text-grey-darkest no-underline mr-6"
       role="button"
     }}
   </p>
 </div>
-<div class="row">
-  <div class="col-md-6">
-    <h2>Latest Brews</h2>
-    <ul class="brews-list list-unstyled">
+<div class="flex -mx-4">
+  <div class="w-1/2 px-4">
+    <h2 class="font-thin mb-8 text-3xl">Latest Brews</h2>
+    <ul class="list-reset">
       {{#each recentBrews as |brew|}}
         {{partial "brew/brew-card"}}
       {{/each}}
     </ul>
   </div>
 
-  <div class="col-md-6">
-    <h2>Active Brewers</h2>
-    <ul class="brews-list list-unstyled">
+  <div class="w-1/2 px-4">
+    <h2 class="font-thin mb-8 text-3xl">Active Brewers</h2>
+    <ul class="list-reset">
       {{#each activeUsers as |user|}}
-        {{#link-to "user" user tagName="li"}}
-          <div class="info">
-            <h3>
+        {{#link-to "user" user tagName="li" class="border p-4 rounded mb-4 flex"}}
+          <div class="w-1/2">
+            <h3 class="font-normal mb-2 text-3xl">
               {{user.username}}
             </h3>
-            <p class="text-muted">
+            <p class="text-grey-darker text-sm">
               Last active {{time-from-now user.updatedAt}}
             </p>
-            <div class="brew-count">
-              {{user.brewCount}} <span class="text-muted">brews</span>
-            </div>
+          </div>
+          <div class="text-5xl w-1/2 text-right font-hairline">
+            {{user.brewCount}} <span class="text-grey">brews</span>
           </div>
         {{/link-to}}
       {{/each}}

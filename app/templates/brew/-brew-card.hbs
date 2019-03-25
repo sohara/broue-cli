@@ -1,17 +1,18 @@
-{{#link-to "recipe" brew tagName="li"}}
+{{#link-to "recipe" brew tagName="li" class="border p-4 rounded mb-4"}}
   <div class="info">
-    <h3>
-      {{brew.name}}
-    </h3>
-    <p class="text-muted">
+    <p class="mb-2 text-grey-dark text-sm">
       {{brew.style.subcategoryName}}
     </p>
-    <div class="brewer">
-      <span class="text-muted small">brewed by:</span><br>
-      {{brew.user.username}}
+    <h3 class="mb-2 text-2xl font-normal">
+      {{brew.name}}
+    </h3>
+    <div>
+      <span class="text-sm">
+        <span class="text-grey-dark">Brewed by</span> {{brew.user.username}}
+      </span>
     </div>
-    <div class="date small">
-      <span class="text-muted">Created:</span> {{formatted-date brew.createdAt}}
+    <div class="text-sm text-grey-dark">
+      Created {{formatted-date brew.createdAt}}
     </div>
   </div>
 {{/link-to}}
