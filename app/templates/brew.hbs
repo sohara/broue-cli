@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-8">
-    <h2>{{model.name}} <small>{{model.style.subcategoryName}}</small></h2>
-    <h3>by {{model.user.username}}</h3>
+    <h2 class="font-hairline mb-2 text-4xl">{{model.name}} <small class="text-grey-dark">{{model.style.subcategoryName}}</small></h2>
+    <h3 class="mb-6 text-2xl">by {{model.user.username}}</h3>
   </div>
   <div class="col-md-4 text-right brew-actions">
     {{#if canEdit}}
@@ -11,11 +11,48 @@
   </div>
 </div>
 
-<ul class="nav nav-tabs nav-justified">
-  {{#link-to "recipe" tagName="li" title="Recipe"}}<a>Recipe</a>{{/link-to}}
-  {{#link-to "specs" tagName="li" title="Specs"}}<a>Specs</a>{{/link-to}}
-  {{#link-to "brew_day" tagName="li" title="Brew Day"}}<a>Brew Day</a>{{/link-to}}
-  {{#link-to "notes" tagName="li" title="Notes"}}<a>Notes</a>{{/link-to}}
+<ul class="list-reset flex border-b mb-6">
+
+  <li class="-mb-px mr-1">
+    {{#link-to
+      "recipe"
+      title="Recipe"
+      activeClass="border-l border-r border-t"
+      class="bg-grey-lightest hover:text-black inline-block no-underline px-4 py-2 rounded-t text-grey-darker"
+    }}
+      Recipe
+    {{/link-to}}
+  </li>
+  <li class="-mb-px mr-1">
+    {{#link-to
+      "specs"
+      title="Specs"
+      activeClass="border-l border-r border-t"
+      class="bg-grey-lightest hover:text-black inline-block no-underline px-4 py-2 rounded-t text-grey-darker"
+    }}
+      Specs
+    {{/link-to}}
+  </li>
+  <li class="-mb-px mr-1">
+    {{#link-to
+      "brew_day"
+      title="Brew Day"
+      activeClass="border-l border-r border-t"
+      class="bg-grey-lightest hover:text-black inline-block no-underline px-4 py-2 rounded-t text-grey-darker"
+    }}
+      Brew Day
+    {{/link-to}}
+  </li>
+  <li class="-mb-px mr-1">
+    {{#link-to
+      "notes"
+      title="Notes"
+      activeClass="border-l border-r border-t"
+      class="bg-grey-lightest hover:text-black inline-block no-underline px-4 py-2 rounded-t text-grey-darker"
+    }}
+      Notes
+    {{/link-to}}
+  </li>
 </ul>
 
 {{outlet}}

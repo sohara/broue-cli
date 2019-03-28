@@ -1,0 +1,12 @@
+<table class="border-collapse w-full mb-10">
+  {{yield
+    (hash
+      Body=(component "table/body")
+      Cell=(component "table/cell")
+      Foot=(component "table/foot")
+      Head=(component "table/head")
+      Header=(component "table/header")
+      Row=(component "table/row")
+    )
+  }}
+</table>

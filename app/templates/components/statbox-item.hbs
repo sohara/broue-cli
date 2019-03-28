@@ -1,7 +1,9 @@
-{{#if @glyphIcon}}
-  <span class="glyphicon slate-statbox-icon {{@glyphIcon}}"></span>
-{{else}}
-  <i class="fa slate-statbox-icon {{@faIcon}}"></i>
-{{/if}}
-<div class="slate-statbox-title">{{@property}} <span class="text-muted small">{{unitOfMesure}}</span></div>
-<div class="slate-statbox-value">{{@propertyDescription}}</div>
+<div class="border flex-1 p-4 rounded" ...attributes>
+  {{#if @glyphIcon}}
+    <span class="glyphicon slate-statbox-icon {{@glyphIcon}}"></span>
+  {{else}}
+    <i class="fa slate-statbox-icon {{@faIcon}}"></i>
+  {{/if}}
+  <div class="text-2xl">{{@property}} <span class="text-base text-grey-dark">{{unitOfMesure}}</span></div>
+  <div class="text-grey-dark">{{@propertyDescription}}</div>
+</div>

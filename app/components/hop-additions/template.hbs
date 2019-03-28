@@ -1,72 +1,71 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{#if this.canEdit}}
-      {{#link-to "hops.new" class="btn btn-default btn-xs pull-right" title="New"}}
-        <span class="glyphicon glyphicon-plus-sign"></span>
-        Add Hop
-      {{/link-to}}
-    {{/if}}
-    <h2 class="panel-title">Hop Additions</h2>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Variety</th>
-        <th>Form</th>
-        <th>Use</th>
-        <th>Weight</th>
-        <th>Boil Time</th>
-        <th>AA %</th>
-        <th colspan={{computedColspan}}>IBUs</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each @brew.decoratedHopAdditions as |addition|}}
-        <tr>
-          <td>{{addition.name}}</td>
-          <td>{{addition.form}}</td>
-          <td>{{addition.use}}</td>
-          <td>{{localized-weight model=addition measureSystem=measureSystem}}</td>
-          <td>{{addition.boilTime}}</td>
-          <td>{{addition.alphaAcids}}</td>
-          <td>{{addition.ibus}}</td>
-          {{#if this.canEdit}}
-            <td>
-              {{#link-to
-                "hops.edit"
-                addition.content
-                class="btn btn-default btn-xs"
-                title="Edit"
-                data-toggle="tooltip"
-              }}
-                <span class="glyphicon glyphicon-edit"></span>
-              {{/link-to}}
-            </td>
-            <td>
-              <button
-                class="btn btn-default btn-xs"
-                title="Delete"
-                {{action remove addition.content}}
-              >
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </td>
-          {{/if}}
-        </tr>
-      {{/each}}
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="3">Total</td>
-        <td>
-          <LocalizedWeight
-            @model={{this}}
-            @measureSystem={{measureSystem}}
-          />
-        </td>
-        <td colspan="2"> </td>
-        <td colspan={{this.computedColspan}}>{{brew.totalIBUs}}</td>
-      </tr>
-    </tfoot>
-  </table>
-</div>
+{{#if this.canEdit}}
+  {{#link-to
+    "hops.new"
+    class="border ember-view float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm" title="New"}}
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add Hop
+  {{/link-to}}
+{{/if}}
+<h2 class="border-b font-normal mb-6">Hop Additions</h2>
+
+<Table as |T|>
+  <T.Head>
+    <T.Row>
+      <T.Header>Variety</T.Header>
+      <T.Header>Form</T.Header>
+      <T.Header>Use</T.Header>
+      <T.Header>Weight</T.Header>
+      <T.Header>Boil Time</T.Header>
+      <T.Header>AA %</T.Header>
+      <T.Header colspan={{computedColspan}}>IBUs</T.Header>
+    </T.Row>
+  </T.Head>
+  <T.Body>
+    {{#each @brew.decoratedHopAdditions as |addition|}}
+      <T.Row>
+        <T.Cell>{{addition.name}}</T.Cell>
+        <T.Cell>{{addition.form}}</T.Cell>
+        <T.Cell>{{addition.use}}</T.Cell>
+        <T.Cell>{{localized-weight model=addition measureSystem=measureSystem}}</T.Cell>
+        <T.Cell>{{addition.boilTime}}</T.Cell>
+        <T.Cell>{{addition.alphaAcids}}</T.Cell>
+        <T.Cell>{{addition.ibus}}</T.Cell>
+        {{#if this.canEdit}}
+          <T.Cell>
+            {{#link-to
+              "hops.edit"
+              addition.content
+              class="btn btn-default btn-xs"
+              title="Edit"
+              data-toggle="tooltip"
+            }}
+              <span class="glyphicon glyphicon-edit"></span>Edit
+            {{/link-to}}
+          </T.Cell>
+          <T.Cell>
+            <button
+              class="btn btn-default btn-xs"
+              title="Delete"
+              {{action remove addition.content}}
+            >
+              <span class="glyphicon glyphicon-trash"></span>Delete
+            </button>
+          </T.Cell>
+        {{/if}}
+      </T.Row>
+    {{/each}}
+  </T.Body>
+  <T.Foot>
+    <T.Row>
+      <T.Cell colspan="3">Total</T.Cell>
+      <T.Cell>
+        <LocalizedWeight
+          @model={{this}}
+          @measureSystem={{measureSystem}}
+        />
+      </T.Cell>
+      <T.Cell colspan="2"> </T.Cell>
+      <T.Cell colspan={{this.computedColspan}}>{{brew.totalIBUs}}</T.Cell>
+    </T.Row>
+  </T.Foot>
+</Table>

@@ -1,58 +1,55 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{#if this.canEdit}}
-      {{#link-to "yeasts.new" class="btn btn-default btn-xs pull-right" title="New"}}
-        <span class="glyphicon glyphicon-plus-sign"></span>
-        Add Yeast
-      {{/link-to}}
-    {{/if}}
-    <h2 class="panel-title">Yeast Additions</h2>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Product ID</th>
-        <th>Name</th>
-        <th>Supplier</th>
-        <th>Form</th>
-        <th colspan={{this.computedColspan}}>Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each additions as |addition|}}
-        <tr>
-          <td>{{addition.productId}}</td>
-          <td>{{addition.name}}</td>
-          <td>{{addition.supplier}}</td>
-          <td>{{addition.form}}</td>
-          <td>{{addition.amount}} {{addition.unit}}</td>
-          {{#if this.canEdit}}
-            <td>
-              {{#link-to
-                "yeasts.edit"
-                addition
-                class="btn btn-default btn-xs"
-                title="Edit"
-                data-toggle="tooltip"
-              }}
-                <span class="glyphicon glyphicon-edit"></span>
-              {{/link-to}}
-            </td>
-            <td>
-              <button
-                class="btn btn-default btn-xs"
-                title="Delete"
-                {{action remove addition}}
-              >
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </td>
-          {{/if}}
-        </tr>
-      {{/each}}
-    </tbody>
-    <tfoot>
-      <tr><td colspan="7"></td></tr>
-    </tfoot>
-  </table>
-</div>
+{{#if this.canEdit}}
+  {{#link-to
+    "yeasts.new"
+    class="border ember-view float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm"
+    title="New"
+  }}
+    <span class="glyphicon glyphicon-plus-sign"></span>
+    Add Yeast
+  {{/link-to}}
+{{/if}}
+<h2 class="border-b font-normal mb-6">Yeast Additions</h2>
+<Table as |T|>
+  <T.Head>
+    <T.Row>
+      <T.Header>Product ID</T.Header>
+      <T.Header>Name</T.Header>
+      <T.Header>Supplier</T.Header>
+      <T.Header>Form</T.Header>
+      <T.Header colspan={{T.Headeris.computedColspan}}>Amount</T.Header>
+    </T.Row>
+  </T.Head>
+  <T.Body>
+    {{#each additions as |addition|}}
+      <T.Row>
+        <T.Cell>{{addition.productId}}</T.Cell>
+        <T.Cell>{{addition.name}}</T.Cell>
+        <T.Cell>{{addition.supplier}}</T.Cell>
+        <T.Cell>{{addition.form}}</T.Cell>
+        <T.Cell>{{addition.amount}} {{addition.unit}}</T.Cell>
+        {{#if this.canEdit}}
+          <T.Cell>
+            {{#link-to
+              "yeasts.edit"
+              addition
+              class="btn btn-default btn-xs"
+              title="Edit"
+              data-toggle="tooltip"
+            }}
+              <span class="glyphicon glyphicon-edit"></span>
+            {{/link-to}}
+          </T.Cell>
+          <T.Cell>
+            <button
+              class="btn btn-default btn-xs"
+              title="Delete"
+              {{action remove addition}}
+            >
+              <span class="glyphicon glyphicon-trash"></span>
+            </button>
+          </T.Cell>
+        {{/if}}
+      </T.Row>
+    {{/each}}
+  </T.Body>
+</Table>
