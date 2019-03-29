@@ -33,14 +33,36 @@
     <div class="flex items-center">
       <ul class="list-reset flex">
         {{#if user.username}}
-          {{#link-to "brews" tagName="li"}}<a>My Brews</a>{{/link-to}}
+          <li class="mr-6">
+            {{#link-to
+              "brews"
+              class="hover:text-grey-darkest no-underline text-grey-darker"}}My Brews{{/link-to}}
+          </li>
           <li>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.username}} <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li>{{link-to "View Profile" "profile.show"}}</li>
-              <li class="divider"></li>
-              <li><a href {{action "logout"}}>Logout</a></li>
-            </ul>
+            {{#basic-dropdown as |dd|}}
+              {{#dd.trigger class="border p-2 -m-2 border-grey rounded outline-none"}}{{user.username}}{{/dd.trigger}}
+
+              {{#dd.content class="p-2 bg-grey-lighter shadow rounded"}}
+                <ul class="list-reset" role="menu">
+                  <li class="p-2 border-b">
+                    {{link-to
+                      "View Profile"
+                      "profile.show"
+                      class="hover:text-grey-darkest no-underline text-grey-darker"
+                    }}
+                  </li>
+                  <li class="p-2">
+                    <a
+                      href
+                      class="hover:text-grey-darkest no-underline text-grey-darker"
+                      {{action "logout"}}
+                    >
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              {{/dd.content}}
+            {{/basic-dropdown}}
           </li>
         {{else}}
           <li class="ml-6">
