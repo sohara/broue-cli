@@ -1,0 +1,25 @@
+<div class="mb-6">
+  <label
+    for={{this.inputId}}
+    class="block text-grey-darker text-sm font-bold mb-2"
+  > {{label-text @field}}
+  </label>
+  <select
+    id={{this.inputId}}
+    onchange={{action "selectValue" value="target.value"}}
+    class="bg-white border h-10 w-full text-grey-darkest"
+  >
+    {{#unless hidePrompt}}
+      <option value>{{prompt}}</option>
+    {{/unless}}
+    {{#each optionsContent as |choice index|}}
+      <option
+        value={{index}}
+        selected={{is-equal choice (get model field)}}
+      >
+        {{get choice optionLabelPath}}
+      </option>
+
+    {{/each}}
+  </select>
+</div>

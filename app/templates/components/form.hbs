@@ -7,7 +7,9 @@
   {{yield
     (hash
       TextField=(component "text-field" model=model)
-      Submit=(component "button" type="submit")
+      Select=(component "select-field" model=model)
+      Submit=(component "button" type="submit" class="bg-grey-darkest hover:bg-grey-darker text-white")
+      Cancel=(component "button" type="button" class="hover:bg-grey-lightest")
     )
   }}
 </form>

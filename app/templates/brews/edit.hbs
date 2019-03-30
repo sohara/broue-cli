@@ -1,3 +1,8 @@
-<h3>Edit</h3>
-
-{{partial "brews/form"}}
+<BrewForm
+  @title="Edit Brew"
+  @model={{this.model}}
+  @styles={{this.styles}}
+  @sendSave={{action "sendSave" this.model}}
+  @sendCancel={{action "sendCancel" this.model}}
+  @resetErrorMessage={{action "resetErrorMessage"}}
+/>

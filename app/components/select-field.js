@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { guidFor } from '@ember/object/internals';
-import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: '',
@@ -11,9 +10,13 @@ export default Component.extend({
     let type = this.type || "text";
     this.inputType = type;
   },
-
-  // label: computed('field', function() {
-  //   let field = this.field || '';
-  //   return field.capitalize();
-  // })
+  actions: {
+    selectValue (value) {
+      let optionsContent = this.optionsContent.toArray();
+      let selection = optionsContent[value];
+      let model = this.model;
+      let field = this.field;
+      model.set(field, selection);
+    }
+  }
 });

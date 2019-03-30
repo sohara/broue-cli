@@ -1,0 +1,30 @@
+<div class="flex justify-center">
+  <div class="max-w-sm w-full">
+    <Form @model={{model}} @oninput={{@resetErrorMessage}} as |F|>
+      <h3 class="mb-6">{{@title}}</h3>
+      <F.TextField @field="name" />
+      <F.Select
+        @field="style"
+        @optionsContent={{styles}}
+        @optionLabelPath="fullName"
+        @optionValuePath="id"
+        @prompt="Pick a style:"
+      />
+      {{#if errorMessage}}
+        <p class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
+      {{/if}}
+      <F.Submit
+        @action={{@sendSave}}
+        class="mr-6"
+        disabled={{isProcessing}}
+      >
+        Save
+      </F.Submit>
+      <F.Cancel
+        @action={{@sendCancel}}
+      >
+        Cancel
+      </F.Cancel>
+    </Form>
+  </div>
+</div>

@@ -1,20 +1,26 @@
-<h2>My Brews</h2>
+<h2 class="border-b font-normal mb-6">My Brews</h2>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>Name</th>
-      <th>Created</th>
-    </tr>
-  </thead>
-  <tbody>
+<Table as |T|>
+  <T.Head>
+    <T.Row>
+      <T.Header>Name</T.Header>
+      <T.Header>Created</T.Header>
+    </T.Row>
+  </T.Head>
+  <T.Body>
     {{#each brews as |brew|}}
-      <tr class="brew">
-        <td>{{link-to brew.id "recipe" brew}}</td>
-        <td>{{link-to brew.name "recipe" brew title=brew.name}}</td>
-        <td>{{formatted-date brew.createdAt}}</td>
-      </tr>
+      <T.Row>
+        <T.Cell>
+          {{link-to
+            brew.name
+            "recipe"
+            brew
+            title=brew.name
+            class="hover:text-black no-underline text-grey-darkest"
+          }}
+        </T.Cell>
+        <T.Cell>{{formatted-date brew.createdAt}}</T.Cell>
+      </T.Row>
     {{/each}}
-  </tbody>
-</table>
+  </T.Body>
+</Table>

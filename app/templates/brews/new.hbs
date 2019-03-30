@@ -1,3 +1,8 @@
-<h3>New</h3>
-
-{{partial "brews/form"}}
+<BrewForm
+  @title="New Brew"
+  @model={{this.model}}
+  @styles={{this.styles}}
+  @sendSave={{action "sendSave" this.model}}
+  @sendCancel={{action "sendCancel"}}
+  @resetErrorMessage={{action "resetErrorMessage"}}
+/>

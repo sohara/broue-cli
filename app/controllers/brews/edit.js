@@ -17,6 +17,19 @@ export default Controller.extend({
   recordedPostBoilVolumeLitres: convertedUnits('recordedPostBoilVolume', 'liquidVolume', 'Metric'),
   recordedPostBoilVolumeGallons: convertedUnits('recordedPostBoilVolume', 'liquidVolume', 'US'),
   targetMashTempC: convertedUnits('targetMashTemp', 'temperature', 'Metric'),
-  targetMashTempF: convertedUnits('targetMashTemp', 'temperature', 'US')
+  targetMashTempF: convertedUnits('targetMashTemp', 'temperature', 'US'),
+
+  actions: {
+    resetErrorMessage() {
+      //noop
+      return false;
+    },
+    sendSave(model) {
+      this.send('save', model);
+    },
+    sendCancel(model) {
+      this.send('cancel', model);
+    }
+  }
 
 });
