@@ -9,9 +9,9 @@ export function simpleFormat(params) {
     var simpleFormatRE3 = /([^\n]\n)(?=[^\n])/g;
     var fstr = string;
     fstr = fstr.replace(simpleFormatRE1, "\n"); // \r\n and \r -> \n
-    fstr = fstr.replace(simpleFormatRE2, "</p>\n\n<p>"); // 2+ newline  -> paragraph
+    fstr = fstr.replace(simpleFormatRE2, `</p>\n\n<p class="mb-4">`); // 2+ newline  -> paragraph
     fstr = fstr.replace(simpleFormatRE3, "$1<br/>"); // 1 newline   -> br
-    fstr = new htmlSafe("<p>" + fstr + "</p>");
+    fstr = new htmlSafe(`<p class="mb-4">${fstr}</p>`);
     return fstr;
   }
 }

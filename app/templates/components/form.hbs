@@ -1,15 +1,16 @@
 <form
   role="form"
-  oninput={{action @oninput}}
+  oninput={{if @oninput @oninput}}
   class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
   ...attributes
 >
   {{yield
     (hash
+      Cancel=(component "button" type="button" class="hover:bg-grey-lightest")
+      ConvertibleTextField=(component "convertible-text-field" model=model)
       TextField=(component "text-field" model=model)
       Select=(component "select-field" model=model)
       Submit=(component "button" type="submit" class="bg-grey-darkest hover:bg-grey-darker text-white")
-      Cancel=(component "button" type="button" class="hover:bg-grey-lightest")
     )
   }}
 </form>

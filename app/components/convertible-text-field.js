@@ -1,6 +1,8 @@
 import { capitalize } from '@ember/string';
 import Component from '@ember/component';
 import { computed, get } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 const TYPES = {
   volume: {
@@ -33,6 +35,8 @@ const APPEND_TEXTS = {
 };
 
 export default Component.extend({
+  measureSystemService: service('measureSystem'),
+  measureSystem: reads('measureSystemService.system'),
   appendText: computed('suffix', function() {
     let suffix = this.suffix;
     let result = APPEND_TEXTS[suffix];
@@ -52,7 +56,7 @@ export default Component.extend({
   }),
 
   label: computed('convertibleProperty', function() {
-    const propertyParts = this.convertibleProperty.split('.');
+    const propertyParts = this.field.split('.');
     const propertyString = propertyParts[propertyParts.length -1];
     return propertyString
       .decamelize()

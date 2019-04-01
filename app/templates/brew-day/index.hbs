@@ -1,61 +1,57 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{#if this.canEdit}}
-      {{#link-to
-        "brew_day.edit"
-        class="btn btn-default btn-xs pull-right edit-brew-day"
-      }}
-        <i class="glyphicon glyphicon-edit"></i> Edit
-      {{/link-to}}
-    {{/if}}
-    <h2 class="panel-title">Brew Day</h2>
-  </div>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <td>Brew Date</td>
-        <td>
-          {{#if model.brewDate}}
-            {{model.brewDate}}
-          {{else}}
-            <span class="text-muted">—</span>
-          {{/if}}
-        </td>
-      </tr>
-      <tr>
-        <td>Recorded Original Gravity</td>
-        <td>
-          {{#if model.recordedOriginalGravity}}
-            {{model.recordedOriginalGravity}}
-          {{else}}
-            <span class="text-muted">—</span>
-          {{/if}}
-        </td>
-      </tr>
-      <tr>
-        <td>Recorded Post-Boil Volume</td>
-        <td>
-          {{#if recordedPostBoilVolumePresent}}
-            <LocalizedVolume
-              @model={{model}}
-              @measureSystem={{measureSystem}}
-              @property="recordedPostBoilVolume"
-            />
-          {{else}}
-            <span class="text-muted">—</span>
-          {{/if}}
-        </td>
-      </tr>
-      <tr>
-        <td>Recorded Final Gravity</td>
-        <td>
-          {{#if model.recordedFinalGravity}}
-            {{model.recordedFinalGravity}} litres
-          {{else}}
-            <span class="text-muted">—</span>
-          {{/if}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+{{#if this.canEdit}}
+  {{#link-to
+    "brew_day.edit"
+    class="border float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm"
+  }}
+    <i class="glyphicon glyphicon-edit"></i> Edit
+  {{/link-to}}
+{{/if}}
+<h2 class="border-b font-normal mb-6">Brew Day</h2>
+<Table as |T|>
+  <T.Body>
+    <T.Row>
+      <T.Cell>Brew Date</T.Cell>
+      <T.Cell>
+        {{#if model.brewDate}}
+          {{model.brewDate}}
+        {{else}}
+          <span class="text-muted">—</span>
+        {{/if}}
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Recorded Original Gravity</T.Cell>
+      <T.Cell>
+        {{#if model.recordedOriginalGravity}}
+          {{model.recordedOriginalGravity}}
+        {{else}}
+          <span class="text-muted">—</span>
+        {{/if}}
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Recorded Post-Boil Volume</T.Cell>
+      <T.Cell>
+        {{#if recordedPostBoilVolumePresent}}
+          <LocalizedVolume
+            @model={{model}}
+            @measureSystem={{measureSystem}}
+            @property="recordedPostBoilVolume"
+          />
+        {{else}}
+          <span class="text-muted">—</span>
+        {{/if}}
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Recorded Final Gravity</T.Cell>
+      <T.Cell>
+        {{#if model.recordedFinalGravity}}
+          {{model.recordedFinalGravity}}
+        {{else}}
+          <span class="text-muted">—</span>
+        {{/if}}
+      </T.Cell>
+    </T.Row>
+  </T.Body>
+</Table>

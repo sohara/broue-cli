@@ -1,33 +1,32 @@
-<form role="form" class="form-horizontal">
-  <BsTextField
-    @model={{model}}
-    @property="brewDate"
-    @appendText="litres"
+<Form @model={{this}} as |F|>
+  <F.TextField
+    @model={{this.model}}
+    @field="brewDate"
   />
-
-  <BsTextField
+  <F.TextField
     @model={{model}}
-    @property="recordedOriginalGravity"
+    @field="recordedOriginalGravity"
     @appendText="S.G."
   />
-
-  <ConvertibleTextField
-    @object={{this}}
-    @convertibleProperty="recordedPostBoilVolume"
+  <F.ConvertibleTextField
+    @field="recordedPostBoilVolume"
     @type="volume"
-    @measureSystem={{measureSystem}}
   />
-
-  <BsTextField
+  <F.TextField
     @model={{model}}
-    @property="recordedFinalGravity"
+    @field="recordedFinalGravity"
     @appendText="S.G."
   />
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button class="btn btn-primary" type="submit" {{action "save" model}}>Save</button>
-      <button class="btn btn-default" type="submit" {{action "cancel"}}>Cancel</button>
-    </div>
-  </div>
-</form>
+  <F.Submit
+    @action={{action "sendSave" model}}
+    class="mr-6"
+    disabled={{isProcessing}}
+  >
+    Save
+  </F.Submit>
+  <F.Cancel
+    @action={{action "sendCancel" model}}
+  >
+    Cancel
+  </F.Cancel>
+</Form>

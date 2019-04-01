@@ -18,6 +18,8 @@ export default Controller.extend({
   recordedPostBoilVolumeGallons: convertedUnits('recordedPostBoilVolume', 'liquidVolume', 'US'),
   targetMashTempC: convertedUnits('targetMashTemp', 'temperature', 'Metric'),
   targetMashTempF: convertedUnits('targetMashTemp', 'temperature', 'US'),
+  grainTempC: convertedUnits('grainTemp', 'temperature', 'Metric'),
+  grainTempF: convertedUnits('grainTemp', 'temperature', 'US'),
 
   actions: {
     resetErrorMessage() {

@@ -1,6 +1,6 @@
-{{bs-text-field
-  model=object
-  property=(concat convertibleProperty suffix)
-  appendText=appendText
-  label=label
-}}
+<TextField
+  @model={{model}}
+  @field={{concat @field this.suffix}}
+  @appendText={{this.appendText}}
+  @label={{label}}
+/>

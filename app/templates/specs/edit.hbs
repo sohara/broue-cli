@@ -1,49 +1,39 @@
-<form role="form" class="form-horizontal">
-  <ConvertibleTextField
-    @object={{this}}
-    @convertibleProperty="batchSize"
+<Form @model={{this}} as |F|>
+  <F.ConvertibleTextField
+    @field="batchSize"
     @type="volume"
-    @measureSystem={{measureSystem}}
   />
-
-  <ConvertibleTextField
-    @object={{this}}
-    @convertibleProperty="boilLoss"
+  <F.ConvertibleTextField
+    @field="boilLoss"
     @type="volume"
-    @measureSystem={{measureSystem}}
   />
-
-  <BsTextField
-    @model={{model}}
-    @property="efficiency"
+  <F.TextField
+    @model={{this.model}}
+    @field="efficiency"
     @appendText="%"
   />
-
-  <ConvertibleTextField
-    @object={{this}}
-    @convertibleProperty="targetMashTemp"
+  <F.ConvertibleTextField
+    @field="targetMashTemp"
     @type="temp"
-    @measureSystem={{measureSystem}}
   />
-
-  <ConvertibleTextField
-    @object={{this}}
-    @convertibleProperty="waterGrainRatio"
+  <F.ConvertibleTextField
+    @field="waterGrainRatio"
     @type="ratio"
-    @measureSystem={{measureSystem}}
   />
-
-  <ConvertibleTextField
-    @object={{model}}
-    @convertibleProperty="grainTemp"
+  <F.ConvertibleTextField
+    @field="grainTemp"
     @type="temp"
-    @measureSystem={{measureSystem}}
   />
-
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button class="btn btn-primary" type="submit" {{action "save" model}}>Save</button>
-      <button class="btn btn-default" type="submit" {{action "cancel"}}>Cancel</button>
-    </div>
-  </div>
-</form>
+  <F.Submit
+    @action={{action "sendSave" model}}
+    class="mr-6"
+    disabled={{isProcessing}}
+  >
+    Save
+  </F.Submit>
+  <F.Cancel
+    @action={{action "sendCancel" model}}
+  >
+    Cancel
+  </F.Cancel>
+</Form>

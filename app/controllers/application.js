@@ -1,12 +1,14 @@
 import { next } from '@ember/runloop';
 import Controller, { inject as controller } from '@ember/controller';
-import { alias } from '@ember/object/computed';
+import { alias, reads } from '@ember/object/computed';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
   loginController: controller('login'),
   session: alias('loginController.session'),
-  measureSystem: 'us',
+  measureSystemService: service('measure-system'),
+  measureSystem: reads('measureSystemService.system'),
 
   isMetric: computed('measureSystem', function() {
     return this.measureSystem === 'metric';
@@ -47,7 +49,7 @@ export default Controller.extend({
       });
     },
     setMeasureSystem: function(measureSystem) {
-      this.set('measureSystem', measureSystem);
+      this.measureSystemService.setSystem(measureSystem);
     }
   }
 });

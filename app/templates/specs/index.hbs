@@ -1,72 +1,68 @@
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    {{#if this.canEdit}}
-      {{#link-to
-        "specs.edit"
-        class="btn btn-default btn-xs pull-right edit-specs"
-        title="Edit Specs"
-      }}
-        <i class="glyphicon glyphicon-edit"></i> Edit
-      {{/link-to}}
-    {{/if}}
-    <h2 class="panel-title">Specs</h2>
-  </div>
-  <table class="table table-striped">
-    <tbody>
-      <tr>
-        <td>Batch Size</td>
-        <td>
-          <LocalizedVolume
-            @model={{model}}
-            @measureSystem={{measureSystem}}
-            @property="batchSize"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>Boil Loss</td>
-        <td>
-          <LocalizedVolume
-            @model={{model}}
-            @measureSystem={{measureSystem}}
-            @property="boilLoss"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>Efficiency</td>
-        <td>{{model.efficiency}} %</td>
-      </tr>
-      <tr>
-        <td>Target Mash Temperature</td>
-        <td>
-          <LocalizedVolume
-            @model={{model}}
-            @measureSystem={{measureSystem}}
-            @property="targetMashTemp"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>Water/Grain Ratio</td>
-        <td>
-          <LocalizedVolume
-            @model={{model}}
-            @measureSystem={{measureSystem}}
-            @property="waterGrainRatio"
-          />
-        </td>
-      </tr>
-      <tr>
-        <td>Grain Temperature</td>
-        <td>
-          <LocalizedVolume
-            @model={{model}}
-            @measureSystem={{measureSystem}}
-            @property="grainTemp"
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+{{#if this.canEdit}}
+  {{#link-to
+    "specs.edit"
+    class="border float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm"
+    title="Edit Specs"
+  }}
+    <i class="glyphicon glyphicon-edit"></i> Edit
+  {{/link-to}}
+{{/if}}
+<h2 class="border-b font-normal mb-6">Specs</h2>
+<Table as |T|>
+  <T.Body>
+    <T.Row>
+      <T.Cell>Batch Size</T.Cell>
+      <T.Cell>
+        <LocalizedVolume
+          @model={{model}}
+          @measureSystem={{measureSystem}}
+          @property="batchSize"
+        />
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Boil Loss</T.Cell>
+      <T.Cell>
+        <LocalizedVolume
+          @model={{model}}
+          @measureSystem={{measureSystem}}
+          @property="boilLoss"
+        />
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Efficiency</T.Cell>
+      <T.Cell>{{model.efficiency}} %</T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Target Mash Temperature</T.Cell>
+      <T.Cell>
+        <LocalizedVolume
+          @model={{model}}
+          @measureSystem={{measureSystem}}
+          @property="targetMashTemp"
+        />
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Water/Grain Ratio</T.Cell>
+      <T.Cell>
+        <LocalizedVolume
+          @model={{model}}
+          @measureSystem={{measureSystem}}
+          @property="waterGrainRatio"
+        />
+      </T.Cell>
+    </T.Row>
+    <T.Row>
+      <T.Cell>Grain Temperature</T.Cell>
+      <T.Cell>
+        <LocalizedVolume
+          @model={{model}}
+          @measureSystem={{measureSystem}}
+          @property="grainTemp"
+        />
+      </T.Cell>
+    </T.Row>
+  </T.Body>
+</Table>
