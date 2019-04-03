@@ -1,7 +1,7 @@
-{{#if this.canEdit}}
+{{#if @canEdit}}
   {{#link-to
     "yeasts.new"
-    class="border ember-view float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm"
+    class="btn-primary btn-small float-right"
     title="New"
   }}
     <span class="glyphicon glyphicon-plus-sign"></span>
@@ -16,7 +16,10 @@
       <T.Header>Name</T.Header>
       <T.Header>Supplier</T.Header>
       <T.Header>Form</T.Header>
-      <T.Header colspan={{T.Headeris.computedColspan}}>Amount</T.Header>
+      <T.Header>Amount</T.Header>
+      {{#if @canEdit}}
+        <T.Header colspan="2"></T.Header>
+      {{/if}}
     </T.Row>
   </T.Head>
   <T.Body>
@@ -32,20 +35,20 @@
             {{#link-to
               "yeasts.edit"
               addition
-              class="btn btn-default btn-xs"
+              class="btn-primary btn-small"
               title="Edit"
               data-toggle="tooltip"
             }}
-              <span class="glyphicon glyphicon-edit"></span>
+              <span class="glyphicon glyphicon-edit"></span>Edit
             {{/link-to}}
           </T.Cell>
           <T.Cell>
             <button
-              class="btn btn-default btn-xs"
+              class="btn-secondary btn-small"
               title="Delete"
               {{action remove addition}}
             >
-              <span class="glyphicon glyphicon-trash"></span>
+              <span class="glyphicon glyphicon-trash"></span>Delete
             </button>
           </T.Cell>
         {{/if}}

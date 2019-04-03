@@ -1,61 +1,55 @@
-<ModalDialog
-  @param={{this.model}}
+<ModalEditor
   @title="Edit Fermentable"
-  @close={{action "close"}}
-  @cancel="cancel"
-  @save={{action "saveModel"}}
+  @onClose={{action "close"}}
+  @save={{action "saveModel" this.model}}
 >
-  <div class="col-md-8">
-    <form role="form" class="form-horizontal">
-      <BsSelectField
+  <div class="flex">
+    <Form
+      @model={{this}}
+      class="w-1/2 mr-6" as |F|
+    >
+      <F.Select
         @model={{this.model}}
-        @property="fermentable"
+        @field="fermentable"
         @optionsContent={{fermentables}}
         @optionLabelPath="description"
         @prompt="Please select a fermentable"
       />
-      <ConvertibleTextField
-        @object={{this}}
-        @convertibleProperty="weight"
+      <F.ConvertibleTextField
+        @field="weight"
         @type="weightScaled"
-        @measureSystem={{measureSystem}}
       />
-    </form>
-  </div>
-  <div class="col-md-4">
-    <div class="well">
-      <table class="table">
-        <thead>
-          <tr>
-            <th colspan="2">
-              Fermentable Details
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr>
-            <td>ID:</td>
-            <td>{{this.model.fermentable.id}}</td>
-          </tr>
-          <tr>
-            <td>Name:</td>
-            <td>{{this.model.fermentable.name}}</td>
-          </tr>
-          <tr>
-            <td>Supplier:</td>
-            <td>{{this.model.fermentable.supplier}}</td>
-          </tr>
-          <tr>
-            <td>Yield:</td>
-            <td>{{this.model.fermentable.totalYield}} %</td>
-          </tr>
-          <tr>
-            <td>Color:</td>
-            <td>{{this.model.fermentable.color}} °L</td>
-          </tr>
-        </tbody>
-      </table>
+    </Form>
+    <div class="w-1/2">
+      <Table as |T|>
+        <T.Head>
+          <T.Header colspan="2">
+            Fermentable Details
+          </T.Header>
+        </T.Head>
+        <T.Body>
+          <T.Row>
+            <T.Cell>ID:</T.Cell>
+            <T.Cell>{{this.model.fermentable.id}}</T.Cell>
+          </T.Row>
+          <T.Row>
+            <T.Cell>Name:</T.Cell>
+            <T.Cell>{{this.model.fermentable.name}}</T.Cell>
+          </T.Row>
+          <T.Row>
+            <T.Cell>Supplier:</T.Cell>
+            <T.Cell>{{this.model.fermentable.supplier}}</T.Cell>
+          </T.Row>
+          <T.Row>
+            <T.Cell>Yield:</T.Cell>
+            <T.Cell>{{this.model.fermentable.totalYield}} %</T.Cell>
+          </T.Row>
+          <T.Row>
+            <T.Cell>Color:</T.Cell>
+            <T.Cell>{{this.model.fermentable.color}} °L</T.Cell>
+          </T.Row>
+        </T.Body>
+      </Table>
     </div>
   </div>
-</ModalDialog>
+</ModalEditor>

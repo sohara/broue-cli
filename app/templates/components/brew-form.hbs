@@ -15,13 +15,14 @@
       {{/if}}
       <F.Submit
         @action={{@sendSave}}
-        class="mr-6"
+        class="btn-primary mr-6"
         disabled={{isProcessing}}
       >
         Save
       </F.Submit>
       <F.Cancel
         @action={{@sendCancel}}
+        class="btn-secondary"
       >
         Cancel
       </F.Cancel>

@@ -6,11 +6,11 @@
 >
   {{yield
     (hash
-      Cancel=(component "button" type="button" class="hover:bg-grey-lightest")
+      Cancel=(component "button" type="button" class="btn-secondary")
       ConvertibleTextField=(component "convertible-text-field" model=model)
       TextField=(component "text-field" model=model)
       Select=(component "select-field" model=model)
-      Submit=(component "button" type="submit" class="bg-grey-darkest hover:bg-grey-darker text-white")
+      Submit=(component "button" type="submit" class="btn-primary")
     )
   }}
 </form>

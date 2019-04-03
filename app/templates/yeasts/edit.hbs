@@ -1,30 +1,26 @@
-<ModalDialog
-  @param={{this.model}}
+<ModalEditor
   @title="Edit Yeast"
-  @close={{action "close"}}
-  @cancel="cancel"
-  @save={{action "saveModel"}}
+  @onClose={{action "close"}}
+  @save={{action "saveModel" this.model}}
 >
-  <div class="col-md-8">
-    <form role="form" class="form-horizontal">
-      <BsSelectField
-        @model={{this.model}}
-        @property="yeast"
-        @optionsContent={{yeasts}}
-        @optionLabelPath="description"
-        @prompt="Please select a yeast"
-      />
-      <BsSelectField
-        @model={{this.model}}
-        @property="unit"
-        @optionsContent={{this.units}}
-        @prompt="Please select a unit"
-      />
-      <BsTextField
-        @model={{model}}
-        @property="amount"
-        @appendText="unit"
-      />
-    </form>
-  </div>
-</ModalDialog>
+  <Form
+    @model={{this.model}}
+    class="mr-6" as |F|
+  >
+    <F.Select
+      @field="yeast"
+      @optionsContent={{yeasts}}
+      @optionLabelPath="description"
+      @prompt="Please select a yeast"
+    />
+    <F.Select
+      @field="unit"
+      @optionsContent={{this.units}}
+      @prompt="Please select a unit"
+    />
+    <F.Select
+      @field="amount"
+      @appendText="unit"
+    />
+  </Form>
+</ModalEditor>

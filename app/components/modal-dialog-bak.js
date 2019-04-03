@@ -5,13 +5,13 @@ export default Component.extend({
   classNames: ['modal', 'fade'],
   didInsertElement: function() {
     this._super(...arguments);
-    var $modal = this.$().modal();
+    // var $modal = this.$().modal();
 
-    $modal.on('hidden.bs.modal', function () {
-      if ($('#ember-testing-container').length === 0) {
-        this.close();
-      }
-    }.bind(this));
+    // $modal.on('hidden.bs.modal', function () {
+    //   if ($('#ember-testing-container').length === 0) {
+    //     this.close();
+    //   }
+    // }.bind(this));
   },
 
   actions: {

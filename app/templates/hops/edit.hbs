@@ -1,53 +1,54 @@
-<ModalDialog
-  @param={{this.model}}
+<ModalEditor
   @title="Edit Hop"
-  @close={{action "close"}}
-  @cancel="cancel"
-  @save={{action "saveModel"}}
+  @onClose={{action "close"}}
+  @save={{action "saveModel" this.model}}
 >
-  <div class="col-md-12">
-    <form role="form" class="form-horizontal">
-      <BsSelectField
-        @model={{this.model}}
-        @property="hop"
-        @optionsContent={{this.hops}}
-        @optionLabelPath="name"
-        @prompt="Please select a hop"
-      />
 
-      <BsSelectField
-        @model={{this.model}}
-        @property="form"
-        @optionsContent={{this.forms}}
-        @prompt="Please select a hop"
-      />
+  <Form
+    @model={{this}}
+    class="mr-6" as |F|
+  >
+    <F.Select
+      @model={{this.model}}
+      @field="hop"
+      @optionsContent={{this.hops}}
+      @optionLabelPath="name"
+      @prompt="Please select a hop"
+    />
 
-      <BsSelectField
-        @model={{this.model}}
-        @property="use"
-        @optionsContent={{this.uses}}
-        @prompt="Please select a hop"
-      />
+    <F.Select
+      @model={{this.model}}
+      @field="form"
+      @optionsContent={{this.forms}}
+      @optionLabelPath="name"
+      @prompt="Please select a form"
+    />
 
-      <ConvertibleTextField
-        @object={{this}}
-        @convertibleProperty="weight"
-        @type="weight"
-        @measureSystem={{measureSystem}}
-      />
+    <F.Select
+      @model={{this.model}}
+      @field="use"
+      @optionsContent={{this.uses}}
+      @optionLabelPath="name"
+      @prompt="Please select a hop"
+    />
 
-      <BsTextField
-        @model={{model}}
-        @property="boilTime"
-        @appendText="minutes"
-      />
+    <F.ConvertibleTextField
+      @field="weight"
+      @type="weight"
+      @measureSystem={{measureSystem}}
+    />
 
-      <BsTextField
-        @model={{model}}
-        @property="alphaAcids"
-        @appendText="% AA"
-      />
+    <F.TextField
+      @model={{this.model}}
+      @field="boilTime"
+      @appendText="minutes"
+    />
 
-    </form>
-  </div>
-</ModalDialog>
+    <F.TextField
+      @model={{this.model}}
+      @field="alphaAcids"
+      @appendText="% AA"
+    />
+
+  </Form>
+</ModalEditor>

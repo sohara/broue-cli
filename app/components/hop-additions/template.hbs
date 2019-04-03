@@ -1,7 +1,9 @@
-{{#if this.canEdit}}
+{{#if @canEdit}}
   {{#link-to
     "hops.new"
-    class="border ember-view float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm" title="New"}}
+    class="btn-primary btn-small float-right"
+    title="Add Hop"
+  }}
     <span class="glyphicon glyphicon-plus-sign"></span>
     Add Hop
   {{/link-to}}
@@ -17,7 +19,10 @@
       <T.Header>Weight</T.Header>
       <T.Header>Boil Time</T.Header>
       <T.Header>AA %</T.Header>
-      <T.Header colspan={{computedColspan}}>IBUs</T.Header>
+      <T.Header>IBUs</T.Header>
+      {{#if @canEdit}}
+        <T.Header colspan="2"></T.Header>
+      {{/if}}
     </T.Row>
   </T.Head>
   <T.Body>
@@ -30,12 +35,12 @@
         <T.Cell>{{addition.boilTime}}</T.Cell>
         <T.Cell>{{addition.alphaAcids}}</T.Cell>
         <T.Cell>{{addition.ibus}}</T.Cell>
-        {{#if this.canEdit}}
+        {{#if @canEdit}}
           <T.Cell>
             {{#link-to
               "hops.edit"
               addition.content
-              class="btn btn-default btn-xs"
+              class="btn-primary btn-small"
               title="Edit"
               data-toggle="tooltip"
             }}
@@ -44,7 +49,7 @@
           </T.Cell>
           <T.Cell>
             <button
-              class="btn btn-default btn-xs"
+              class="btn-secondary btn-small"
               title="Delete"
               {{action remove addition.content}}
             >
@@ -65,7 +70,11 @@
         />
       </T.Cell>
       <T.Cell colspan="2"> </T.Cell>
-      <T.Cell colspan={{this.computedColspan}}>{{brew.totalIBUs}}</T.Cell>
+      <T.Cell>{{brew.totalIBUs}}</T.Cell>
+      {{#if this.canEdit}}
+        <T.Cell colspan="2"> </T.Cell>
+      {{/if}}
+
     </T.Row>
   </T.Foot>
 </Table>

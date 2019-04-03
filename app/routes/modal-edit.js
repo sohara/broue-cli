@@ -1,5 +1,4 @@
 import { once } from '@ember/runloop';
-import $ from 'jquery';
 import Route from '@ember/routing/route';
 import { pluralize } from 'ember-inflector';
 
@@ -41,8 +40,7 @@ export default Route.extend({
   actions: {
     save: function(model) {
       model.save().then(function() {
-        // this.send('closeModal');
-        $('.modal').modal('hide');
+        this.send('closeModal');
       }.bind(this));
       // Need to add catch/or promise reject handling code here
       // .catch(function(reason) {

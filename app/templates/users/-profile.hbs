@@ -1,21 +1,25 @@
-<div class="row">
+<div class="flex">
 
-  <div class="col-md-4">
+  <div class="bg-grey-light mr-6 p-4 rounded w-1/3">
     <div class="well recede-background">
-      <h1>
+      <h1 class="font-hairline mb-2">
         {{model.username}}
       </h1>
       {{#if model.image}}
-        <img src={{model.image}} alt={{model.username}}>
+        <img
+          src={{model.image}}
+          alt={{model.username}}
+          class="mb-6"
+        >
       {{/if}}
       {{#if model.bio}}
-        <blockquote>
+        <blockquote class="border-grey-dark border-l-4 font-hairline mb-6 pl-4 text-xl">
           <p>{{model.bio}}</p>
         </blockquote>
       {{/if}}
 
       {{#if this.isCurrentUser}}
-        <p>Email: {{model.email}}</p>
+        <p class="mb-6">Email: {{model.email}}</p>
 
         {{#link-to "profile.edit" class="btn btn-primary"}}
           <i class="glyphicon glyphicon-edit"></i> Edit Profile
@@ -24,9 +28,9 @@
     </div>
   </div>
 
-  <div class="col-md-8">
-    <h2>{{model.username}}'s Recent Brews</h2>
-    <ul class="brews-list list-unstyled">
+  <div class="flex-1">
+    <h2 class="font-hairline leading-normal mb-6 text-2xl">{{model.username}}'s Recent Brews</h2>
+    <ul class="list-reset">
       {{#each this.recentBrews as |brew|}}
         {{partial "brew/brew-card"}}
       {{/each}}

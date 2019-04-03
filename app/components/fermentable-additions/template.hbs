@@ -1,7 +1,7 @@
-{{#if this.canEdit}}
+{{#if @canEdit}}
   {{#link-to
     "fermentables.new"
-    class="border ember-view float-right hover:bg-grey-lighter no-underline px-2 px-4 py-1 rounded text-grey-darkest text-sm"
+    class="btn-primary btn-small float-right"
     title="New"
   }}
     <span class="glyphicon glyphicon-plus-sign"></span>
@@ -16,7 +16,10 @@
       <T.Header>Name</T.Header>
       <T.Header>Color</T.Header>
       <T.Header>% Extract</T.Header>
-      <T.Header colspan={{this.computedColspan}}>Weight</T.Header>
+      <T.Header>Weight</T.Header>
+      {{#if @canEdit}}
+        <T.Header colspan="2"></T.Header>
+      {{/if}}
     </T.Row>
   </T.Head>
   <T.Body>
@@ -38,7 +41,7 @@
             @magnitude="high"
           />
         </T.Cell>
-        {{#if this.canEdit}}
+        {{#if @canEdit}}
           <T.Cell>
             {{#link-to
               "fermentables.edit"
@@ -66,13 +69,16 @@
   <T.Foot>
     <T.Row>
       <T.Cell colspan="3">Total</T.Cell>
-      <T.Cell colspan={{this.computedColspan}}>
+      <T.Cell>
         <LocalizedWeight
           @model={{this}}
           @measureSystem={{measureSystem}}
           @magnitude="high"
         />
       </T.Cell>
+      {{#if @canEdit}}
+        <T.Cell colspan="2"></T.Cell>
+      {{/if}}
     </T.Row>
   </T.Foot>
 </Table>

@@ -7,7 +7,10 @@
       {{#if errorMessage}}
         <p class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
       {{/if}}
-      <F.Submit @action={{action "signIn"}}>
+      <F.Submit
+        class="btn-primary"
+        @action={{action "signIn"}}
+      >
         Sign in
       </F.Submit>
     </Form>

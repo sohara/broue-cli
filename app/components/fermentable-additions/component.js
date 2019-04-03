@@ -1,8 +1,7 @@
 import Component from '@ember/component';
-import EditTableView from '../../mixins/edit-table-view';
 import { computed } from '@ember/object';
 
-export default Component.extend(EditTableView, {
+export default Component.extend({
 
   weightGrams: computed('brew.positiveFermentableAdditions.@each.weightGrams', function() {
     var weightGrams = this.get('brew.positiveFermentableAdditions').reduce(function(accum, addition) {

@@ -1,0 +1,28 @@
+/**
+ * You can create Tailwind components using @apply here.
+ *
+ * Feel free to rename this file, define multiple components here, or make
+ * any other files in this directory.
+
+ * Here's an example:
+**/
+
+.btn-primary {
+ @apply inline-block bg-grey-darkest .text-white .no-underline .px-4 .py-3 .rounded .shadow-md
+}
+
+.btn-primary:hover {
+  @apply .bg-grey-darker;
+}
+
+.btn-secondary {
+  @apply inline-block no-underline px-4 py-3 rounded shadow-md bg-grey-lighter
+}
+
+.btn-secondary:hover {
+  @apply bg-grey-lightest
+}
+
+.btn-small {
+  @apply text-sm py-1 px-3;
+}

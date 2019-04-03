@@ -1,0 +1,23 @@
+<ModalDialog
+  @translucentOverlay={{true}}
+  @onClose={{@onClose}}
+  @containerClass="lg:w-1/2 md:w-4/5 w-full bg-grey-lighter p-4"
+>
+  <h3 class="border-b font-normal mb-6 pt-2">{{title}}</h3>
+  {{yield}}
+  <div class="border-t pt-4 text-right">
+    <Button
+      type="submit"
+      class="btn-primary mr-4"
+      @action={{@save}}
+    >
+      Save
+    </Button>
+    <Button
+      class="btn-secondary"
+      @action={{@onClose}}
+    >
+      Cancel
+    </Button>
+  </div>
+</ModalDialog>
