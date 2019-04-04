@@ -8,6 +8,7 @@
     id={{this.inputId}}
     onchange={{action "selectValue" value="target.value"}}
     class="bg-white border h-10 w-full text-grey-darkest"
+    data-test-selector={{test-selector @model @field}}
   >
     {{#unless hidePrompt}}
       <option value>{{prompt}}</option>

@@ -4,7 +4,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import Pretender from 'pretender';
 import stubs from '../helpers/pretender-stubs';
-import { fillSelectFromValue, findByText } from '../helpers/acceptance-helpers';
+import { fillSelect, findByText, testSelector } from '../helpers/acceptance-helpers';
 
 var server, Stubs;
 
@@ -121,66 +121,66 @@ module('Acceptance: Recipes', function(hooks) {
 
   test("edit a brew's fermentable additions", async function(assert) {
     await visit('/brews/1');
-    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+    assert.dom(findByText('.statbox-group > div', "Original Gravity"))
       .includesText('1.049', 'Starting O.G. is found');
     await click(findByText('tr', 'Superior Pale Ale', 'a[title="Edit"]'));
-    await fillIn(findByText('div', 'Weight', 'input'), '48.5');
-    await click(findByText('button', 'Save Changes'));
+    await fillIn(testSelector('fermentables/edit-weightLbs'), '48.5');
+    await click(findByText('button', 'Save'));
     assert.dom(findByText('div.slate-statbox', "Original Gravity"))
       .includesText('1.046', 'Ending O.G. is found');
   });
 
   test("add a new fermentable addition", async function(assert) {
     await visit('/brews/1');
-    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+    assert.dom(findByText('.statbox-group > div', "Original Gravity"))
       .includesText('1.049', 'Starting O.G. is found');
     await click(findByText('a', 'Add Fermentable'));
-    await fillIn(findByText('div', 'Weight', 'input'), "48.5");
-    fillSelectFromValue('.fermentable select', 'Superior Pale Ale');
-    await click(findByText('button', 'Save Changes'));
+    await fillIn(testSelector('fermentables/edit-weightLbs'), "48.5");
+    await fillSelect('fermentable-addition-fermentable', 'Superior Pale Ale');
+    await click(findByText('button', 'Save'));
     await click(findByText('a', 'Specs'));
     await click(findByText('a', 'Recipe'));
-    assert.dom(findByText('div.slate-statbox', "Original Gravity"))
+    assert.dom(findByText('.statbox-group > div', "Original Gravity"))
       .includesText('1.095', 'Ending O.G. is found');
   });
 
 
   test("edit a brew's hop additions", async function(assert) {
     await visit('/brews/1');
-    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+    assert.dom(findByText('.statbox-group > div', "Bitterness"))
       .includesText('30.6', 'Starting IBU is found');
     await click(findByText('tr', 'Warrior', 'a[title="Edit"]'));
-    await fillIn('div.weight input', "4.5");
-    await fillIn('div.alpha-acids input', "16.2");
-    await click(findByText('button', 'Save Changes'));
-    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+    await fillIn(testSelector('hops/edit-weightOz'), "4.5");
+    await fillIn(testSelector('hop-addition-alphaAcids'), "16.2");
+    await click(findByText('button', 'Save'));
+    assert.dom(findByText('.statbox-group > div', "Bitterness"))
       .includesText('41.9', 'Starting IBU is found');
   });
 
   test("add a new hop addition", async function(assert) {
     await visit('/brews/1');
-    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+    assert.dom(findByText('.statbox-group > div', "Bitterness"))
       .includesText('30.6', 'Starting IBU is found');
     await click(findByText('a', 'Add Hop'));
-    await fillIn('.alpha-acids input', "15.2");
-    await fillIn('.boil-time input', "30");
-    await fillIn('div.weight input', "2");
-    fillSelectFromValue('.hop select', 'Warrior');
-    fillSelectFromValue('.form-group.form select', 'Whole');
-    fillSelectFromValue('.form-group.use select', 'Boil');
-    await click(findByText('button', 'Save Changes'));
+    await fillIn(testSelector('hop-addition-alphaAcids'), "15.2");
+    await fillIn(testSelector('hop-addition-boilTime'), "30");
+    await fillIn(testSelector('hops/edit-weightOz'), "2");
+    await fillSelect('hop-addition-hop', 'Warrior');
+    await fillSelect('hop-addition-form', 'Whole');
+    await fillSelect('hop-addition-use', 'Boil');
+    await click(findByText('button', 'Save'));
     await click(findByText('a', 'Specs'));
     await click(findByText('a', 'Recipe'));
-    assert.dom(findByText('div.slate-statbox', "Bitterness"))
+    assert.dom(findByText('.statbox-group > div', "Bitterness"))
       .includesText('43.9', 'Ending IBU is found');
   });
 
   test("edit a brew's yeast additions", async function(assert) {
     await visit('/brews/1');
     await click(findByText('tr', 'Belgian Saison', 'a[title="Edit"]'));
-    await fillIn('div.amount input', "75");
-    fillSelectFromValue('.unit select','vial(s) of liquid yeast');
-    await click(findByText('button', 'Save Changes'));
+    await fillIn(testSelector('yeast-addition-amount'), "75");
+    await fillSelect('yeast-addition-unit', 'vial(s) of liquid yeast');
+    await click(findByText('button', 'Save'));
     assert.dom(findByText('tr', 'vial(s) of liquid yeast')).includesText('75');
   });
 
@@ -188,10 +188,10 @@ module('Acceptance: Recipes', function(hooks) {
     await visit('/brews/1');
     await click(findByText('tr', 'Belgian Saison II', 'button[title="Delete"]'));
     await click(findByText('a', 'Add Yeast'));
-    await fillIn('div.amount input', "1");
-    fillSelectFromValue('.unit select','vial(s) of liquid yeast');
-    fillSelectFromValue('.yeast select', 'Belgian Saison');
-    await click(findByText('button', 'Save Changes'));
+    await fillIn(testSelector('yeast-addition-amount'), "1");
+    await fillSelect('yeast-addition-unit', 'vial(s) of liquid yeast');
+    await fillSelect('yeast-addition-yeast', 'Belgian Saison');
+    await click(findByText('button', 'Save'));
     assert.dom(findByText('tr', 'vial(s) of liquid yeast')).includesText('1');
     assert.dom(findByText('tr', 'Belgian Saison')).includesText('1');
   });

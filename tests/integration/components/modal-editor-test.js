@@ -1,26 +1,25 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { getRootElement, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | modal-editor', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
-
-    await render(hbs`{{modal-editor}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
+    this.set('noOp', () => {});
 
     // Template block usage:
     await render(hbs`
-      {{#modal-editor}}
+      <ModalEditor
+        @title="Edit Fermentable"
+        @onClose={{action this.noOp}}
+        @save={{action this.noOp}}
+      >
         template block text
-      {{/modal-editor}}
+      </ModalEditor>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.ok(getRootElement().textContent.trim().includes('template block text'));
   });
 });

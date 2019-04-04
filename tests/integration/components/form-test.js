@@ -7,20 +7,15 @@ module('Integration | Component | form', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
-
-    await render(hbs`{{form}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
+    this.toString = () => { return 'broue@controller:thing/blah/blah'}
 
     // Template block usage:
     await render(hbs`
-      {{#form}}
-        template block text
-      {{/form}}
+      <Form @model={{this}} as |F|>
+        <F.TextField @field="blah" />
+      </Form>
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'Blah');
   });
 });

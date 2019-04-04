@@ -4,7 +4,8 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import stubs from '../helpers/pretender-stubs';
-import { findByText } from '../helpers/acceptance-helpers';
+import { findByText, testSelector } from '../helpers/acceptance-helpers';
+import { clickTrigger } from 'ember-basic-dropdown/test-support/helpers';
 import Pretender from 'pretender';
 
 var server, Stubs;
@@ -74,8 +75,8 @@ module('Acceptance | Authentication', function(hooks) {
     await visit('/');
     await click(findByText('a', 'Login'));
     assert.dom('h3').hasText('Sign in', "The Sign in header is found");
-    await fillIn("input#email", "jack@example.com");
-    await fillIn("input#password", "password");
+    await fillIn(testSelector('login-email'), "jack@example.com");
+    await fillIn(testSelector('login-password'), "password");
     await click("button[type='submit']");
 
     assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
@@ -87,10 +88,10 @@ module('Acceptance | Authentication', function(hooks) {
     await visit('/');
     assert.dom(find('h2')).hasText('Latest Brews', "The latest brews header is found");
     await click(findByText('a', 'Sign Up'));
-    await fillIn("input#email", "jack@example.com");
-    await fillIn("input#password", "password");
-    await fillIn("input#passwordConfirmation", "password");
-    await fillIn("input#username", "sohara");
+    await fillIn(testSelector('login-email'), "jack@example.com");
+    await fillIn(testSelector('login-password'), "password");
+    await fillIn(testSelector('login-passwordConfirmation'), "password");
+    await fillIn(testSelector('login-username'), "sohara");
     await click("button[type='submit']");
     assert.equal(currentURL(), "/my-brews", "Successful login redirects to /brews");
     assert.dom('h2').hasText('My Brews', "The brews heading is found");
@@ -102,6 +103,7 @@ module('Acceptance | Authentication', function(hooks) {
       window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
     });
     await visit('/');
+    await clickTrigger();
     await click(findByText('a', 'View Profile'));
     assert.ok(findByText('p', 'I like to brew. More than you.'), "Finds the user's bio");
     assert.ok(findByText('h3', 'Awesome IPA'), "Finds user's recent brews listed");
@@ -129,6 +131,7 @@ module('Acceptance | Authentication', function(hooks) {
       window.localStorage.setItem('user', JSON.stringify(Stubs.userJSON));
     });
     await visit('/');
+    await clickTrigger();
     await click(findByText('a', 'Logout'));
     assert.ok(findByText('li a', 'Login'), "Login link found");
     assert.ok(findByText('.alert-success', 'Successfully logged out'), "Success flash rendered");
@@ -137,11 +140,11 @@ module('Acceptance | Authentication', function(hooks) {
   test('Displays login error when logging in with bad credentials', async function(assert) {
     assert.expect(2);
     await visit('/login');
-    await fillIn("input#email", "jack@example.com");
-    await fillIn("input#password", "notpassword");
+    await fillIn(testSelector("login-email"), "jack@example.com");
+    await fillIn(testSelector("login-password"), "notpassword");
     await click("button[type='submit']");
 
     assert.equal(currentURL(), "/login", "Remains on login page");
-    assert.dom('p.alert-danger').hasText('Your email or password was incorrect.', "Login error message displayed");
+    assert.dom('p[data-test-selector="alert"]').hasText('Your email or password was incorrect.', "Login error message displayed");
   });
 });

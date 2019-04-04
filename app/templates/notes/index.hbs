@@ -8,7 +8,7 @@
   {{/link-to}}
 {{/if}}
 <h2 class="border-b font-normal mb-6">Notes</h2>
-<ul class="list-reset">
+<ul class="list-reset notes">
   {{#each model as |note|}}
     <li class="leading-normal">
       {{simple-format note.text}}
@@ -18,16 +18,16 @@
         </div>
         <div class="col-md-4 text-right">
           {{#if this.canEdit}}
+            {{#link-to "notes.edit" note class="btn-primary btn-small" title="Edit"}}
+              <span class="glyphicon glyphicon-edit"></span> Edit
+            {{/link-to}}
             <button
-              class="btn btn-default btn-xs"
+              class="btn-secondary btn-small"
               title="Delete"
               {{action "destroyRecord" note}}
             >
               <span class="glyphicon glyphicon-trash"></span> Delete
             </button>
-            {{#link-to "notes.edit" note class="btn btn-default btn-xs" title="Edit"}}
-              <span class="glyphicon glyphicon-edit"></span> Edit
-            {{/link-to}}
           {{/if}}
         </div>
       </div>

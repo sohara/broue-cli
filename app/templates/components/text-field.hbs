@@ -16,11 +16,13 @@
         id={{this.inputId}}
         type={{this.inputType}}
         placeholder={{concat "Enter " (label-text @field)}}
+        data-test-selector={{test-selector @model @field}}
       >
     {{/let}}
     {{#if @appendText}}
       <span
-        class="bg-grey-light block border border-grey hello px-2 py-2 rounded-r shadow">
+        class="bg-grey-light block border border-grey hello px-2 py-2 rounded-r shadow"
+      >
         {{@appendText}}
       </span>
     {{/if}}

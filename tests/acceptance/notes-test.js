@@ -67,10 +67,10 @@ module('Acceptance: Notes', function(hooks) {
 
   test("Edit a brew's notes", async function(assert) {
     await visit('/brews/1/notes');
-    await click('.panel-body a[title="Edit"]');
+    await click('.notes a[title="Edit"]');
     await fillIn("textarea", "I'm totally changing this note");
     await click('button[type="submit"]');
-    assert.dom('li.well').includesText("totally changing this note");
+    assert.dom('.notes li').includesText("totally changing this note");
   });
 
   test("Add a new note", async function(assert) {
@@ -78,13 +78,13 @@ module('Acceptance: Notes', function(hooks) {
     await click('a[title="Add note"]') ;
     await fillIn("textarea", "Brand, spaking new note, yo!");
     await click('button[type="submit"]');
-    assert.dom('.panel-body').includesText("Brand, spaking");
+    assert.dom('.notes').includesText("Brand, spaking");
   });
 
   test("Delete a new note", async function(assert) {
     await visit('/brews/1/notes');
-    assert.dom('li.well').includesText("Brew day 1: used 532g caramel 60 and");
-    await click('div.panel button[title="Delete"]') ;
-    assert.dom('li.well').doesNotExist();
+    assert.dom('.notes li').includesText("Brew day 1: used 532g caramel 60 and");
+    await click('.notes li button[title="Delete"]') ;
+    assert.dom('.notes li').doesNotExist();
   });
 });

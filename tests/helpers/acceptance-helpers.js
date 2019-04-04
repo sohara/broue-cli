@@ -1,13 +1,11 @@
-import $ from 'jquery';
-import { fillIn, findAll } from '@ember/test-helpers';
+import { fillIn, find, findAll } from '@ember/test-helpers';
 
-export function fillSelectFromValue(selector, value) {
-  let optionSelector = selector + ' option:contains("' + value + '")';
-  let optionValue = $(optionSelector).val();
-  if (!optionValue) {
-    throw new Error("Option value not found");
-  }
-  fillIn(selector, optionValue);
+export function fillSelect(identifier, content) {
+  let selectSelector = testSelector(identifier);
+  let selectElement = find(selectSelector);
+  let options = [...selectElement.options];
+  let option = options.find(opt => opt.textContent.includes(content));
+  fillIn(selectElement, option.value);
 }
 
 export function findByText(selector, text, subselector) {
@@ -17,4 +15,8 @@ export function findByText(selector, text, subselector) {
     return element.querySelector(subselector);
   }
   return element;
+}
+
+export function testSelector(identifier) {
+  return `[data-test-selector="${identifier}"]`;
 }

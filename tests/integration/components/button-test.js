@@ -10,15 +10,14 @@ module('Integration | Component | button', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{button}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    this.set('myAction', () => {});
 
     // Template block usage:
     await render(hbs`
-      {{#button}}
+      <Button @action={{this.myAction}}>
         template block text
-      {{/button}}
+      </Button>
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

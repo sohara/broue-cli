@@ -5,7 +5,7 @@
       <F.TextField @field="email" @type="email" />
       <F.TextField @field="password" @type="password" />
       {{#if errorMessage}}
-        <p class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
+        <p data-test-selector="alert" class="bg-grey-lighter border mb-6 p-4 rounded">{{errorMessage}}</p>
       {{/if}}
       <F.Submit
         class="btn-primary"

@@ -4,10 +4,12 @@ import { helper as buildHelper } from '@ember/component/helper';
 // (e.g. belongTo) returning a Proxy from the `get`
 // helper
 function conentFromParam(param) {
-  if (typeof param.content === 'undefined') {
-    return param;
+  if (param) {
+    if (typeof param.content === 'undefined') {
+      return param;
+    }
+    return param.content;
   }
-  return param.content;
 }
 
 export default buildHelper(function isEqual(params) {
